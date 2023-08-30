@@ -12,8 +12,7 @@
 2. [Pitch](#pitch)
 3. [Problem](#problem)
     1. [Problem Statement](#problem-statement)
-    2. [Problem for Health Insurance Providers](###problem-for-health-insurance-providers)
-    3. [Problem for Physicians](###problem-for-physicians)
+    2. [Problem for Health Insurance Providers](###problem-for-health-insurance-providers) 3. [Problem for Physicians](###problem-for-physicians)
 4. [Solution](##solution)
     1. [Solution Statement](###solution-statement)
     2. [Solution for Health Insurance Providers](###solution-for-health-insurance-providers)
@@ -547,5 +546,25 @@ Shrank WH, Rogstad TL, Parekh N. Waste in the US Health Care System: Estimated C
 
 [food labeling](https://www.nal.usda.gov/legacy/aglaw/food-labeling)
 
-
 [Waste in the US Health Care System: Estimated Costs and Potential for Savings](https://pubmed.ncbi.nlm.nih.gov/31589283/#affiliation-2)
+
+###  using the XRPL to track food
+
+The primary goal is to creating a wallet application that acts as a mobile XRPL client which allows users to see the deatils of their transactions, including invoices and allow JSON object export of the data.
+
+1.  XRPL is an open source blockchain protocol, understanding it and how to interact with it using its api's is essential.
+
+2.  Decide on a language and framework possibly emulate Xumm App [https://xumm.app/](https://xumm.app/), open source is available [https://github.com/XRPL-Labs/XUMM-App](https://github.com/XRPL-Labs/XUMM-App)
+
+3.  Set up wallet management, this includes generating wallet addresses, managing secret keys, and performing transactions.  
+
+4.  Develop a backend for invoice management.  When a user makes a transaction, they would send transaction details, like item description, seller ID, price, etc to your backend server, which would create an invoice and return an invoice ID.  This ID could then be included in the transaction memo when the transaction is made on the Ledger.
+
+A vendor might provide an API that the wallet application can call to create a new invoice. The API call might include parameters like the item being purchased, the quantity, the price, etc.  Once that API call is made, the vendor's system would generate a new invoice, assign it a unique ID, and store it in a database.  The invocie ID would then be returned as a response to the API call.  The wallet application could then include this invoice ID in the memo field of the XRP transaction.
+
+5.  Implement transaction tracking.  To do this, you would need to create a websocket connection to the XRPL, and listen for transactions that include the invoice ID in the memo field.  When a transaction is made, you would then be able to retrieve the invoice details from your backend server, and display them to the user.  This could invoice again periodically querying the XRP Ledger for transactions involving the user's wallet address, and checking the memo field for invoice IDs.
+
+6.  Implement UI/UX.  Design a user interface that allows users to easily view and manage their wallet, make transactions, and view their transaction history and invoices.
+
+7.  Security.  Implement security measures like encryption, 2FA, etc to protect user data and user accounts.
+
