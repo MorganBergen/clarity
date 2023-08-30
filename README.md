@@ -94,7 +94,6 @@ The United States has a voluntary private employer-based and individual-based sy
 JAMA vol. 322,15 (2019): 1501-1509. doi:10.1001/jama.2019.13978
 
 
-
 ### Problem for Physicians
 
 “There may be no such thing as dying from old age. From a study of more than forty-two thousand consecutive autopsies, centenarians—those who live past one hundred—were found to have succumbed to diseases in 100 percent of the cases examined. Though most were perceived, even by their physicians, to have been healthy just prior to death, not one “died of old age.”  Until recently, advanced age had been considered to be a disease itself,2 but people don’t die as a consequence of maturing. They die from disease, most commonly heart attacks.  Most deaths in the United States are preventable, and they are related to what we eat. Our diet is the number-one cause of premature death and the number-one cause of disability.
@@ -104,7 +103,7 @@ Greger, Michael, MD
 
 ## Solution
 
-Clarity is the first healthcare prevention software that provides nutritional data on transactions made for an insurance provider's entitlement population as well as a healthcare provider's patient population. In doing so we increase diagnostic accuracy, and we help reduce the rates of risk
+Clarity is the first healthcare prevention software that provides nutritional data on transactions made for an insurance provider's entitlement population as well as a healthcare provider's patient population. In doing so we increase diagnostic accuracy, and we help reduce the rates of risk.
 
 ### Solution Statement
 
@@ -149,15 +148,14 @@ What we think we know about healthcare is wrong by Luke Williams
 
 ### Solution for Physicians
 
-Pipeline that data structure in pre-existing web-based EMS portal.  (EMS -
-electronic medical records systems).
+Pipeline that data structure in pre-existing web-based EMS portal.  
+(EMS - electronic medical records systems).
 
 ## 🚧 Product
 
 
 ![preview 001](https://user-images.githubusercontent.com/65584733/196008038-e181e1d2-64c2-4f72-ac31-beb4bf65a39f.jpeg)
 ![preview 002](https://user-images.githubusercontent.com/65584733/196008034-39d181d8-9cff-45f2-a4ca-b69fb80c434e.jpeg)
-
 
 ```yml
 [
@@ -362,9 +360,9 @@ electronic medical records systems).
     "nutrition-score-uk_100g": "a",
 
   }
-] 
-
+]
 ```
+
 
 ### Product Implementation
 
@@ -567,4 +565,30 @@ A vendor might provide an API that the wallet application can call to create a n
 6.  Implement UI/UX.  Design a user interface that allows users to easily view and manage their wallet, make transactions, and view their transaction history and invoices.
 
 7.  Security.  Implement security measures like encryption, 2FA, etc to protect user data and user accounts.
+
+
+
+
+
+
+
+##  end
+
+project title: clarity
+
+Brief Description:
+A stablecoin-based monitoring platform on the XRP Ledger (testnet) to track and record patients' food and drug-related transactions. The monitoring platform provides physicians with their patients consumption data, clarity aims to enhance diagnostic accuracy in managing health conditions like type II diabetes, preventing colorectal cancer, and addressing substance abuse disorders.   The monitoring tool uses a web socket connection to aggregate data on trustlines and account lines used during the pilot.  Then presents that information for physicians to have more well informed decision regarding their patients behavior health.  this would be a webpage that would essentially allow for the physician to see all the information in real time and would also grant the physician to freeze a given trustlines if need be.
+
+Clarity will operate as the issuer account on the testnet and will mint 200 CSCs. Each CSC is collaterally backed by the US dollar.
+
+Entities on the pilot.
+- csc: clarity stable coin
+- pilot_account:  test user using a xumm wallet to facilitate transactions
+- retailer_accont:  test user using a xumm wallet to accept csc payments 
+- issuer_account:  clarity, responsible for managing the stabelcoin’s lifecycle, of minting, redeeming, and destroying csc
+
+
+Main Objective:
+To provide a transparent, real-time monitoring for physicians to gain insights into their patients' food and drug related transactions. 
+This will assist in making more informed diagnostic and treatment decisions, ultimately leading to better patient outcomes.
 
