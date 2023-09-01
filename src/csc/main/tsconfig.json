@@ -1,8 +1,12 @@
 {
-    "compilerOptions": {
-      "target": "ES6", 
-      "lib": ["ES2015", "DOM"],
-      "moduleResolution": "node",
-      "skipLibCheck": true
-    }
-  }
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "lib": ["es6", "dom"],
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "rootDir": "./"
+  },
+  "include": ["scripts/**/*.ts"]
+}
