@@ -14,13 +14,16 @@ async function creat_account() {
     await client.connect();
     const wallet = await client.fundWallet();
     console.log("wallet info:\n", wallet, "\n\n");
+
     const message = await client.request({
         "id": 2,
-        "command": wallet.wallet.classicAddress,
+        "command": "account_info",
+        "account": wallet.wallet.classicAddress,
         "strict": true,
         "ledger_index": "validated",
         "api_version": 1
     });
+    
     console.log(`account info response:\n ${wallet.wallet.classicAddress}`);
     console.log(message);
     client.disconnect();
@@ -33,4 +36,3 @@ function main() {
 }
 
 main();
-

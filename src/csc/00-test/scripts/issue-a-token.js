@@ -73,7 +73,8 @@ function creat_account() {
                     console.log("wallet info:\n", wallet, "\n\n");
                     return [4 /*yield*/, client.request({
                             "id": 2,
-                            "command": wallet.wallet.classicAddress,
+                            "command": "account_info",
+                            "account": wallet.wallet.classicAddress,
                             "strict": true,
                             "ledger_index": "validated",
                             "api_version": 1
