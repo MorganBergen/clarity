@@ -1,26 +1,21 @@
-// Stand-alone code sample for the "issue a token" tutorial:
-// https://xrpl.org/issue-a-fungible-token.html
-
-// Dependencies for Node.js.
-// In browsers, use <script> tags as in the example demo.html.
 if (typeof module !== "undefined") {
-    // Use var here because const/let are block-scoped to the if statement.
     var xrpl = require('xrpl')
   }
   
-  // Connect ---------------------------------------------------------------------
   async function main() {
+    
+    // connect 
     const client = new xrpl.Client('wss://s.altnet.rippletest.net:51233')
-    console.log("Connecting to Testnet...")
+    console.log("Connecting to Testnet...") 
     await client.connect()
-  
-    // Get credentials from the Testnet Faucet -----------------------------------
+
+    // get credentials from the Testnet Faucet -----------------------------------
     console.log("Requesting addresses from the Testnet faucet...")
     const hot_wallet = (await client.fundWallet()).wallet
     const cold_wallet = (await client.fundWallet()).wallet
     console.log(`Got hot address ${hot_wallet.address} and cold address ${cold_wallet.address}.`)
-  
-    // Configure issuer (cold address) settings ----------------------------------
+    
+    // configure issuer (cold address) settings
     const cold_settings_tx = {
       "TransactionType": "AccountSet",
       "Account": cold_wallet.address,
@@ -28,13 +23,13 @@ if (typeof module !== "undefined") {
       "TickSize": 5,
       "Domain": "6578616D706C652E636F6D", // "example.com"
       "SetFlag": xrpl.AccountSetAsfFlags.asfDefaultRipple,
-      // Using tf flags, we can enable more flags in one transaction
       "Flags": (xrpl.AccountSetTfFlags.tfDisallowXRP |
                xrpl.AccountSetTfFlags.tfRequireDestTag)
     }
-  
+    
     const cst_prepared = await client.autofill(cold_settings_tx)
     const cst_signed = cold_wallet.sign(cst_prepared)
+    
     console.log("Sending cold address AccountSet transaction...")
     const cst_result = await client.submitAndWait(cst_signed.tx_blob)
     if (cst_result.result.meta.TransactionResult == "tesSUCCESS") {
@@ -43,15 +38,11 @@ if (typeof module !== "undefined") {
       throw `Error sending transaction: ${cst_result}`
     }
   
-  
-    // Configure hot address settings --------------------------------------------
-  
+    // configure hot address settings 
     const hot_settings_tx = {
       "TransactionType": "AccountSet",
       "Account": hot_wallet.address,
-      "Domain": "6578616D706C652E636F6D", // "example.com"
-      // enable Require Auth so we can't use trust lines that users
-      // make to the hot address, even by accident:
+      "Domain": "6578616D706C652E636F6D",
       "SetFlag": xrpl.AccountSetAsfFlags.asfRequireAuth,
       "Flags": (xrpl.AccountSetTfFlags.tfDisallowXRP |
                 xrpl.AccountSetTfFlags.tfRequireDestTag)
@@ -67,8 +58,8 @@ if (typeof module !== "undefined") {
       throw `Error sending transaction: ${hst_result.result.meta.TransactionResult}`
     }
   
-  
-    // Create trust line from hot to cold address --------------------------------
+
+    // create trust line from hot to cold address 
     const currency_code = "CSC"
     const trust_set_tx = {
       "TransactionType": "TrustSet",
@@ -76,7 +67,7 @@ if (typeof module !== "undefined") {
       "LimitAmount": {
         "currency": currency_code,
         "issuer": cold_wallet.address,
-        "value": "10000000000" // Large limit, arbitrarily chosen
+        "value": "10000000000" 
       }
     }
   
@@ -90,8 +81,7 @@ if (typeof module !== "undefined") {
       throw `Error sending transaction: ${ts_result.result.meta.TransactionResult}`
     }
   
-  
-    // Send token ----------------------------------------------------------------
+    // send token 
     const issue_quantity = "3840"
     const send_token_tx = {
       "TransactionType": "Payment",
@@ -139,3 +129,4 @@ if (typeof module !== "undefined") {
   
   main()
   
+

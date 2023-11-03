@@ -81,7 +81,7 @@ function creat_account() {
                         })];
                 case 3:
                     message = _a.sent();
-                    console.log("account info response:\n ".concat(wallet.wallet.classicAddress));
+                    console.log("account ".concat(wallet.wallet.classicAddress, " info response"));
                     console.log(message);
                     client.disconnect();
                     return [2 /*return*/, (wallet)];

@@ -4,12 +4,13 @@ async function connect() {
     const client = new Client('wss://s.altnet.rippletest.net:51233');
     console.log("Connecting to Testnet...");
     await client.connect();
-    const { wallet } = await creat_account(); 
-
+    const { wallet } = await create_account(); 
+    
     client.disconnect();
+    client.
 }
 
-async function creat_account() {
+async function create_account() {
     const client = new Client('wss://s.altnet.rippletest.net:51233');
     await client.connect();
     const wallet = await client.fundWallet();
@@ -24,8 +25,9 @@ async function creat_account() {
         "api_version": 1
     });
     
-    console.log(`account info response:\n ${wallet.wallet.classicAddress}`);
+    console.log(`account ${wallet.wallet.classicAddress} info response`);
     console.log(message);
+    
     client.disconnect();
     return(wallet);
 }
@@ -36,3 +38,4 @@ function main() {
 }
 
 main();
+
