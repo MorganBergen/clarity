@@ -14,6 +14,11 @@ async function main() {
     console.log(`hot address ${hot_wallet.address} and cold address ${cold_wallet.address}`);
 
     const cold_settings_tx = {
+        "TransactionType": "AccountSet",
+        "Account": cold_wallet.address,
+        "TransferRate": 0,
+        "TickSize": 5, // a tick size of 5 means that the price must change by 0.00001 XRP
+        "Domain": "6578616D706C652E636F6D",
     
     }
 
