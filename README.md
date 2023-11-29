@@ -2,6 +2,8 @@
 
 # Clarity
 
+[update](https://chat.openai.com/share/881794ba-be13-4b72-8249-cf3ef30301bc)
+
 <a href="https://youtu.be/VVVlhPTN2NQ?t=3004"><img align="right" width=60% alt="clarity-thumbnail" src="https://user-images.githubusercontent.com/65584733/200047493-b717f144-5a82-416c-b7cc-c5356395497c.png"></a>
 
 [**View Pitch Here**](https://youtu.be/VVVlhPTN2NQ?t=3004)
