@@ -54,7 +54,9 @@
 
 ## Mission Statement
 
-Clarity is a software project that aims to mitigate the burden of chronic disease in America by applying an intermediary layer of computation behind every food and drug-related transaction made by all individuals in our economy today.  We believe that software can and should be capable of changing behavior for the better and we believe that a new paradigm of healthcare prevention software can realize that belief system.
+Clarity is a software project that aims to mitigate the burden of chronic disease in the United States by applying an intermediary layer of computation behind every food and drug-related transaction made by all individuals in our economy today.  This in turn strengthens the patient and physician relationship, allowing for more accurate transparency for the provider and greater trust for the patient.  
+
+We believe that software can and should be capable of changing behavior for the better and we believe that a new paradigm software can realize that belief system.
 
 ## Pitch
 
