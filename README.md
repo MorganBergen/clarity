@@ -10,26 +10,47 @@
     
 ## Table of Contents
 
-1. [Mission Statement](#mission-statement)
-2. [Pitch](#pitch)
-3. [Problem](#problem)
-    1. [Problem Statement](#problem-statement)
-    2. [Problem for Health Insurance Providers](###problem-for-health-insurance-providers) 3. [Problem for Physicians](###problem-for-physicians)
-4. [Solution](##solution)
-    1. [Solution Statement](###solution-statement)
-    2. [Solution for Health Insurance Providers](###solution-for-health-insurance-providers)
-    3. [Solution for Physicians](###solution-for-physicians)
-5. [Product](##product)
-    1. [Product Implementation](###product-implementation)
-    2. [Demo](###demo)
-    3. [User Case Example](###user-case-example)
-6. [Market](##market)
-    1. [Nationwide Market Size](##nationwide-market-size)
-7. [Clients](###clients)
-8. [Vendors](###vendors)
-9. [References](##references)
-10. [startup school](https://docs.google.com/document/d/11NN8rDbprI-ijqtp7zSIqtlmLyvz_9Z4hU3VqT5h3oc/edit)
-11. [start-up school pitch](https://drive.google.com/drive/folders/1AUrZg-D0Rc-xXVJVcf2rpLqQ21A8LDME)
+[Mission Statement](#mission-statement)
+
+[Pitch](#pitch)
+
+[Problem](#problem)
+
+[Problem Statement](#problem-statement)
+
+[Problem for Health Insurance Providers](###problem-for-health-insurance-providers)
+
+[Problem for Physicians](###problem-for-physicians)
+
+[Solution](##solution)
+
+[Solution Statement](###solution-statement)
+
+[Solution for Health Insurance Providers](###solution-for-health-insurance-providers)
+
+[Solution for Physicians](###solution-for-physicians)
+
+[Product](##product)
+
+[Product Implementation](###product-implementation)
+
+[Demo](###demo)
+
+[User Case Example](###user-case-example)
+
+[Market](##market)
+
+[Nationwide Market Size](##nationwide-market-size)
+
+[Clients](###clients)
+
+[Vendors](###vendors)
+
+[References](##references)
+
+[startup school](https://docs.google.com/document/d/11NN8rDbprI-ijqtp7zSIqtlmLyvz_9Z4hU3VqT5h3oc/edit)
+
+[start-up school pitch](https://drive.google.com/drive/folders/1AUrZg-D0Rc-xXVJVcf2rpLqQ21A8LDME)
 
 ## Mission Statement
 
