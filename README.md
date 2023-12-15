@@ -71,7 +71,7 @@ Clarity is the first healthcare prevention and health management software B2B2C 
 
 ### Problem Statement
 
-1. Most deaths in the U.S. are preventable and are related to our nutrition.
+1. Most chronic diseases in the U.S. are preventable and are related to our nutrition.
 2. Less than 8% of healthcare in the U.S. is preventative.
 3. Physicians do not have access to any of their patients food & drug-related
    consumption data.
