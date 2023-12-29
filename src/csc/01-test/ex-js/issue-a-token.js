@@ -90,6 +90,7 @@ if (typeof module !== "undefined") {
     const currency_code = "HSC";
 
     const trust_set_tx = {
+
       "TransactionType": "TrustSet",
 
       "Account": hot_wallet.address,
@@ -109,57 +110,88 @@ if (typeof module !== "undefined") {
     const ts_signed = hot_wallet.sign(ts_prepared);
 
     console.log("Creating trust line from hot address to issuer...")
+    
     const ts_result = await client.submitAndWait(ts_signed.tx_blob)
+    
     if (ts_result.result.meta.TransactionResult == "tesSUCCESS") {
-      console.log(`Transaction succeeded: https://testnet.xrpl.org/transactions/${ts_signed.hash}`)
+      
+        console.log(`Transaction succeeded: https://testnet.xrpl.org/transactions/${ts_signed.hash}`)
+    
     } else {
-      throw `Error sending transaction: ${ts_result.result.meta.TransactionResult}`
+      
+        throw `Error sending transaction: ${ts_result.result.meta.TransactionResult}`
     }
   
     // send token 
     const issue_quantity = "3840"
+    
     const send_token_tx = {
-      "TransactionType": "Payment",
-      "Account": cold_wallet.address,
-      "Amount": {
-        "currency": currency_code,
-        "value": issue_quantity,
-        "issuer": cold_wallet.address
+
+        "TransactionType": "Payment",
+
+        "Account": cold_wallet.address,
+
+        "Amount": {
+
+            "currency": currency_code,
+
+            "value": issue_quantity,
+
+            "issuer": cold_wallet.address
       },
-      "Destination": hot_wallet.address,
-      "DestinationTag": 1 
+      
+        "Destination": hot_wallet.address,
+
+        "DestinationTag": 1 
     }
   
     const pay_prepared = await client.autofill(send_token_tx)
+    
     const pay_signed = cold_wallet.sign(pay_prepared)
+    
     console.log(`Sending ${issue_quantity} ${currency_code} to ${hot_wallet.address}...`)
+    
     const pay_result = await client.submitAndWait(pay_signed.tx_blob)
+    
     if (pay_result.result.meta.TransactionResult == "tesSUCCESS") {
-      console.log(`Transaction succeeded: https://testnet.xrpl.org/transactions/${pay_signed.hash}`)
+      
+        console.log(`Transaction succeeded: https://testnet.xrpl.org/transactions/${pay_signed.hash}`)
+    
     } else {
-      throw `Error sending transaction: ${pay_result.result.meta.TransactionResult}`
+      
+        throw `Error sending transaction: ${pay_result.result.meta.TransactionResult}`
     }
   
     // check balances 
     console.log("Getting hot address balances...")
+    
     const hot_balances = await client.request({
-      command: "account_lines",
-      account: hot_wallet.address,
-      ledger_index: "validated"
+        
+        command: "account_lines",
+
+        account: hot_wallet.address,
+
+        ledger_index: "validated"
     })
+
     console.log(hot_balances.result)
   
     console.log("Getting cold address balances...")
+    
     const cold_balances = await client.request({
-      command: "gateway_balances",
-      account: cold_wallet.address,
-      ledger_index: "validated",
-      hotwallet: [hot_wallet.address]
+      
+        command: "gateway_balances",
+      
+        account: cold_wallet.address,
+      
+        ledger_index: "validated",
+      
+        hotwallet: [hot_wallet.address]
     })
+    
     console.log(JSON.stringify(cold_balances.result, null, 2))
   
     client.disconnect()
   } 
   
-  main()
-  
+  main().catch(console.error)
