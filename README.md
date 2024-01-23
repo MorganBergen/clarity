@@ -10,43 +10,25 @@
     
 ## Table of Contents
 
-[Mission Statement](#mission-statement)
-
-[Pitch](#pitch)
-
-[Problem](#problem)
-
-[Problem Statement](#problem-statement)
-
-[Problem for Health Insurance Providers](###problem-for-health-insurance-providers)
-
-[Problem for Physicians](###problem-for-physicians)
-
-[Solution](##solution)
-
-[Solution Statement](###solution-statement)
-
-[Solution for Health Insurance Providers](###solution-for-health-insurance-providers)
-
-[Solution for Physicians](###solution-for-physicians)
-
-[Product](##product)
-
-[Product Implementation](###product-implementation)
-
-[Demo](###demo)
-
-[User Case Example](###user-case-example)
-
-[Market](##market)
-
-[Nationwide Market Size](##nationwide-market-size)
-
-[Clients](###clients)
-
-[Vendors](###vendors)
-
-[References](##references)
+1.  [Mission Statement](#mission-statement)
+2.  [Pitch](#pitch)
+3.  [Problem Statement](#problem-statement)
+4.  [Problem for Health Insurance Providers](###problem-for-health-insurance-providers)
+5.  [Problem for Physicians](###problem-for-physicians)
+6.  [Solution](##solution)
+7.  [Solution Statement](###solution-statement)
+8.  [Solution for Health Insurance Providers](###solution-for-health-insurance-providers)
+9.  [Solution for Physicians](###solution-for-physicians)
+10. [Product](##product)
+11. [Product Implementation](###product-implementation)
+12. [Demo](###demo)
+13. [User Case Example](###user-case-example)
+14. [Market](##market)
+15. [Nationwide Market Size](##nationwide-market-size)
+16. [Clients](###clients)
+17. [Vendors](###vendors)
+18. [References](##references)
+19.  [Go to market strategy](###go-to-market-strategy)
 
 [startup school](https://docs.google.com/document/d/11NN8rDbprI-ijqtp7zSIqtlmLyvz_9Z4hU3VqT5h3oc/edit)
 
@@ -63,11 +45,6 @@ We believe that software can and should be capable of changing behavior for the 
 Clarity is the first healthcare prevention and health management software B2B2C company that allows physicians and insurance providers to see what their patients' consume in real-time.
 
 ![demo-00 Extract 001](https://user-images.githubusercontent.com/65584733/196009720-af7e437a-c457-4beb-a02e-61b20a78429e.png)
-
-
-## Problem
-
-> An apple a day keeps the doctor away
 
 ### Problem Statement
 

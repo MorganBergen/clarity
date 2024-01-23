@@ -60,7 +60,7 @@ if (typeof module !== "undefined") {
   
 
     // create trust line from hot to cold address 
-    const currency_code = "CSC"
+    const currency_code = "HSC"
     const trust_set_tx = {
       "TransactionType": "TrustSet",
       "Account": hot_wallet.address,
