@@ -83,6 +83,44 @@ Clarity is the first healthcare prevention and health management software B2B2C 
 5. The American Healthcare Crisis is not a healthcare-based problem, it’s a
    market-based problem. That requires a market-based solution.
 
+### Solution for Health Insurance Providers
+
+   // define key metrics to optimize for Insurance Provider?
+
+   Population health management software. Data Collection and Platform
+   Infrastructure
+
+   1. Clarity collects an individual’s food & drug-related transactions.
+   2. Parse and generates a patient profile nutritional data structure from those
+   transactions.
+   3. Integrate and pipeline that data into pre-existing legacy software to reduce
+   onboarding expenses.
+
+   We provide entitlement's nutritional intake behavioral patterns, by providing
+   food and drug-related transactional metadata for insurers.
+
+   By providing nutritional data on transactions made for an insurance provider's
+   entitlement population we help reduce waste.
+
+   How do we reduce waste? We provide entitlement data for insurance providers to
+   more accurately...
+
+   1. Assess Risk
+   2. Underwrite Risk
+   3. Price Risk
+
+   Insurance companies run on underwriting margin. Insurance companies will not be
+   creatively destroyed. Health Insurance companies have two things that maintain
+   their status... Their capital, and they are at the center of all the data.
+
+   What we think we know about healthcare is wrong by Luke Williams
+
+   | Cliche                                            |        Hypothesis       |
+   |---------------------------------------------------| ----------------------- |
+   | Healthcare costs always go up                     | What if we keep healthcare costs flat or even lower them?
+   | Healthy people are a better risk than sick people | What if the sickest populations were the best kind of risk?
+   | Waste in the healthcare system is unavoidable     | What if we could pay for the uninsured by reducing waste? What if we could pay back half the nation's debt by fixing this problem?
+
 ### Problem for Health Insurance Providers
 
 In 2009 a board of physicians at the institute of medicine discovered that ~30% of all health care spending is waste.
@@ -132,43 +170,6 @@ Clarity is the first healthcare prevention software that provides nutritional da
 
 ### Solution Statement
 
-### Solution for Health Insurance Providers
-
-// define key metrics to optimize for Insurance Provider?
-
-Population health management software. Data Collection and Platform
-Infrastructure
-
-1. Clarity collects an individual’s food & drug-related transactions.
-2. Parse and generates a patient profile nutritional data structure from those
-   transactions.
-3. Integrate and pipeline that data into pre-existing legacy software to reduce
-   onboarding expenses.
-
-We provide entitlement's nutritional intake behavioral patterns, by providing
-food and drug-related transactional metadata for insurers.
-
-By providing nutritional data on transactions made for an insurance provider's
-entitlement population we help reduce waste.
-
-How do we reduce waste? We provide entitlement data for insurance providers to
-more accurately...
-
-1. Assess Risk
-2. Underwrite Risk
-3. Price Risk
-
-Insurance companies run on underwriting margin. Insurance companies will not be
-creatively destroyed. Health Insurance companies have two things that maintain
-their status... Their capital, and they are at the center of all the data.
-
-What we think we know about healthcare is wrong by Luke Williams
-
-| Cliche                                            |        Hypothesis       |
-|---------------------------------------------------| ----------------------- |
-| Healthcare costs always go up                     | What if we keep healthcare costs flat or even lower them?
-| Healthy people are a better risk than sick people | What if the sickest populations were the best kind of risk?
-| Waste in the healthcare system is unavoidable     | What if we could pay for the uninsured by reducing waste? What if we could pay back half the nation's debt by fixing this problem?
 
 
 ### Solution for Physicians
@@ -177,7 +178,6 @@ Pipeline that data structure in pre-existing web-based EMS portal.
 (EMS - electronic medical records systems).
 
 ## 🚧 Product
-
 
 ![preview 001](https://user-images.githubusercontent.com/65584733/196008038-e181e1d2-64c2-4f72-ac31-beb4bf65a39f.jpeg)
 ![preview 002](https://user-images.githubusercontent.com/65584733/196008034-39d181d8-9cff-45f2-a4ca-b69fb80c434e.jpeg)
