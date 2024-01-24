@@ -7,7 +7,6 @@ async function connect() {
     const { wallet } = await create_account(); 
     
     client.disconnect();
-    client.
 }
 
 async function create_account() {
