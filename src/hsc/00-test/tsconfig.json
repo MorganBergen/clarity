@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "lib": ["es6", "dom"],
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "rootDir": "./"
+  },
+  "include": ["scripts/**/*.ts"]
+}
