@@ -5,7 +5,6 @@ async function connect() {
     console.log("Connecting to Testnet...");
     await client.connect();
     const { wallet } = await create_account(); 
-    
     client.disconnect();
 }
 
@@ -32,9 +31,7 @@ async function create_account() {
 }
 
 function main() {
-        
     connect();
 }
 
 main();
-

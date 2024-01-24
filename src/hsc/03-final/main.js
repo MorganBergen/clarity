@@ -6,6 +6,7 @@ if (typeof module !== "undefined") {
     
     // connect 
     const client = new xrpl.Client('wss://s.altnet.rippletest.net:51233')
+    // const client = new xrpl.Client('wss://xrplcluster.com')
     console.log("Connecting to Testnet...") 
     await client.connect()
 
