@@ -1,7 +1,5 @@
 #  Initial Pitch
 
-Elevator Pitch matching and assignment turn that in to a startup email me a one paragraph (or more if you must)
-
 #  Vision:  
 
 We aim to add friction to your unhealthy habits and bad purchases while making it simpler to make good lifestyle choices.
