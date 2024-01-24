@@ -1,5 +1,7 @@
 #  Initial Pitch
 
+CURRENTLY - UNITED STATES OF AMERICA (THE)	US Dollar (Next day)	USN	997
+
 #  Vision:  
 
 We aim to add friction to your unhealthy habits and bad purchases while making it simpler to make good lifestyle choices.
