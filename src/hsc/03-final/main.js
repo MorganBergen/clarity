@@ -36,7 +36,7 @@ if (typeof module !== "undefined") {
     if (cst_result.result.meta.TransactionResult == "tesSUCCESS") {
       console.log(`Transaction succeeded: https://testnet.xrpl.org/transactions/${cst_signed.hash}`)
     } else {
-      throw `Error sending transaction: ${cst_result}`
+      throw `Error sending transaction: ${cst_result} & ${cst_signed.hash}`
     }
   
     // configure hot address settings 
