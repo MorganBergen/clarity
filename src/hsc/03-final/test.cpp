@@ -5,6 +5,11 @@
  * @brief       a way for each websocket stream to be managed by console output using cpp
  *              integrating cpp into js or ts or python higher level code regarding fungible token HSC
  *              the front end design will simply contain data that can be viewed in the browser
+ *
+ *
+ * "ftp://ftp.example.com/file[1-100].txt"
+ * "ftp://ftp.example.com/file[001-100].txt"    
+ * "ftp://ftp.example.com/file[a-z].txt"
  **/
 
 #include <iostream>
@@ -13,7 +18,7 @@
 // Write callback function declaration
 size_t writecb(void* ptr, size_t size, size_t nmemb, void* userdata);
 
-int main(void) {
+int main() {
 
     CURL *curl;
     CURLcode res;
@@ -21,7 +26,7 @@ int main(void) {
 
     if(curl) {
         
-        curl_easy_setopt(curl, CURLOPT_URL, "wss://xrplcluster.com");
+        curl_easy_setopt(curl, CURLOPT_URL, "");
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writecb);
         
         // pass the easy handle to the callback
