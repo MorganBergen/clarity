@@ -6,8 +6,10 @@ if (typeof module !== "undefined") {
     
     // connect 
     const client = new xrpl.Client('wss://s.altnet.rippletest.net:51233')
+
     // const client = new xrpl.Client('wss://xrplcluster.com')
     console.log("Connecting to Testnet...") 
+
     await client.connect()
 
     // get credentials from the tesnet facuet
@@ -29,10 +31,13 @@ if (typeof module !== "undefined") {
     }
     
     const cst_prepared = await client.autofill(cold_settings_tx)
+
     const cst_signed = cold_wallet.sign(cst_prepared)
     
     console.log("Sending cold address AccountSet transaction...")
+
     const cst_result = await client.submitAndWait(cst_signed.tx_blob)
+
     if (cst_result.result.meta.TransactionResult == "tesSUCCESS") {
       console.log(`Transaction succeeded: https://testnet.xrpl.org/transactions/${cst_signed.hash}`)
     } else {
@@ -51,22 +56,25 @@ if (typeof module !== "undefined") {
   
     const hst_prepared = await client.autofill(hot_settings_tx)
     const hst_signed = hot_wallet.sign(hst_prepared)
+
     console.log("Sending hot address AccountSet transaction...")
+
     const hst_result = await client.submitAndWait(hst_signed.tx_blob)
+
     if (hst_result.result.meta.TransactionResult == "tesSUCCESS") {
       console.log(`Transaction succeeded: https://testnet.xrpl.org/transactions/${hst_signed.hash}`)
     } else {
       throw `Error sending transaction: ${hst_result.result.meta.TransactionResult}`
     }
-  
 
     // create trust line from hot to cold address 
     const currency_code = "HSC"
+
     const trust_set_tx = {
       "TransactionType": "TrustSet",
       "Account": hot_wallet.address,
       "LimitAmount": {
-        "currency": currency_code,
+        "currency": currency_code, // flag for the currency
         "issuer": cold_wallet.address,
         "value": "10000000000" 
       }
@@ -98,6 +106,8 @@ if (typeof module !== "undefined") {
   
     const pay_prepared = await client.autofill(send_token_tx)
     const pay_signed = cold_wallet.sign(pay_prepared)
+
+
     console.log(`Sending ${issue_quantity} ${currency_code} to ${hot_wallet.address}...`)
     const pay_result = await client.submitAndWait(pay_signed.tx_blob)
     if (pay_result.result.meta.TransactionResult == "tesSUCCESS") {
