@@ -6,6 +6,8 @@
  *              integrating cpp into js or ts or python higher level code regarding fungible token HSC
  *              the front end design will simply contain data that can be viewed in the browser
  *
+ *              curl_easy_perform() RETURN VALUE AFTER INVOCATION
+ *
  *
  * "ftp://ftp.example.com/file[1-100].txt"
  * "ftp://ftp.example.com/file[001-100].txt"    
@@ -34,6 +36,10 @@ int main() {
     
         // perform the request, res will get the return code
         res = curl_easy_perform(curl);
+
+	for (int i = 0; i < 10; i++) {
+		std::cout << res << std::endl;
+	}
 
         // check for errors
         if (res != CURLE_OK) {
