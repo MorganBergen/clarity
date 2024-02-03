@@ -48,7 +48,7 @@ function connect() {
                     return [4 /*yield*/, client.connect()];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, creat_account()];
+                    return [4 /*yield*/, create_account()];
                 case 2:
                     wallet = (_a.sent()).wallet;
                     client.disconnect();
@@ -57,7 +57,7 @@ function connect() {
         });
     });
 }
-function creat_account() {
+function create_account() {
     return __awaiter(this, void 0, void 0, function () {
         var client, wallet, message;
         return __generator(this, function (_a) {
