@@ -37,7 +37,7 @@ int main() {
         // perform the request, res will get the return code
         res = curl_easy_perform(curl);
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 1; i++) {
 		std::cout << res << std::endl;
 	}
 
