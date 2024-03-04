@@ -1,5 +1,18 @@
 #  hsc
 
+###  system requirements
+
+```
+❯ npm --version
+8.19.1
+❯ which npm
+/usr/local/bin/npm
+❯ ls -l /usr/local/bin/npm
+lrwxr-xr-x  1 owner  admin  46 Sep 17  2022 /usr/local/bin/npm -> /usr/local/lib/node_modules/npm/bin/npm-cli.js
+❯ node --version
+v17.9.1
+```
+
 health stable coin project
 
 project title: hsc monitoring
