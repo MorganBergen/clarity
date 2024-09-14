@@ -77,6 +77,8 @@ the scripts define custom commands for the project, such as `start`, `build`, `t
 
 [`axios`](https://axios-http.com/docs/intro) is a library that helps with making http requests, it's used to communication with the backend apis, making it easier to send and receive data from the server.
 
+`cors`
+
 ####  `./server/server.js`
 
 ####  `./server/app.js`

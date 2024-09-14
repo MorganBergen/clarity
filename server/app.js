@@ -9,12 +9,12 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-//  middleware
-app.arguments(bodyParser.json());
-app.arguments(cors());
+// Middleware
+app.use(bodyParser.json());
+app.use(cors());
 
-//  routes
+// Routes
 const apiRoutes = require('./routes/api');
 app.use('/api', apiRoutes);
- 
+
 module.exports = app;

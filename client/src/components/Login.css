@@ -1,0 +1,78 @@
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: url('../../public/background.heic') no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  .login-form-container {
+    width: 100%;
+    max-width: 450px; /* Slightly bigger than the original */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    backdrop-filter: blur(10px); /* Blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance glass effect */
+    position: relative; /* Ensure it is above the background */
+    z-index: 1; /* Ensure it is above the background */
+  }
+  
+  .login-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: white; /* Make the h2 element white */
+  }
+  
+  .login-form {
+    margin-bottom: 15px;
+  }
+  
+  .login-button {
+    width: 100%;
+  }
+  
+  /* Add this to change the label text color to white */
+  .login-form-container .form-label {
+    color: white;
+  }
+  
+  /* Style the input fields with a transparent, blurred, and dark background */
+  .login-form-container .form-control:focus {
+    background: rgba(255, 255, 255, 0.05); /* Semi-transparent background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    backdrop-filter: blur(15px); /* More blur effect */
+    -webkit-backdrop-filter: blur(15px); /* Safari support */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  }
+
+  .login-form-container .form-control {
+    background: rgba(255, 255, 255, 0.05); /* Semi-transparent background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    backdrop-filter: blur(15px); /* More blur effect */
+    -webkit-backdrop-filter: blur(15px); /* Safari support */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  }
+
+  /* Style the placeholder text color */
+.login-form-container .form-control::placeholder {
+    color: rgba(155, 155, 155, 0.7); /* Lighter grey placeholder text */
+    opacity: 1; /* Ensure full opacity for Firefox */
+  }
+
+  .login-form-container .form-control:focus {
+    color: white; /* White text when focused */
+  }
+
+  .login-form-container .small-link {
+    font-size: 0.875em; /* Smaller font size */
+    color: white; /* Ensure the text color is white */
+  }
