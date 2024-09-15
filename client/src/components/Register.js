@@ -30,12 +30,13 @@ const Register = () => {
       <Container>
         <Row className="justify-content-md-center mt-5">
           <Col xs={12} md={6}>
+          
           <div className="login-form-container">
             <h2 className="login-title text-center mb-4">Register</h2>
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
+                <Form.Label className="form-label">Email address</Form.Label>
                 <Form.Control
                   type="email"
                   placeholder="Enter email"
@@ -64,7 +65,7 @@ const Register = () => {
                 />
               </Form.Group>
 
-              <Button variant="primary" type="submit" className="w-100">
+              <Button variant="primary" type="submit" className="login-button w-100">
                 Register
               </Button>
             </Form>
