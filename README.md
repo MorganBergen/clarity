@@ -2,6 +2,15 @@
 
 advanced ml for nutritional analysis and healthcare management
 
+steps to run the project
+
+```
+git clone https://github.com/your-username/clarity-app.git
+cd clarity-app
+```
+
+install dependencies
+
 ```
 npm init -y
 npm install express pocketbase
@@ -9,7 +18,21 @@ npm install --save-dev nodemon
 npx create-react-app-client
 cd client
 npm install @mui/material @emotion/react @emotion/styled redux react-redux axios
+cd ../server
+npm install express pocketbase
+npm install --save-dev nodemon
 ```
+
+run the project
+
+```
+cd server
+npm run dev
+
+cd client
+npm start
+```
+
 
 project structure
 
