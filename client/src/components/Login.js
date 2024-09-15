@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { signIn } from '../pocketbaseService';
 import './Login.css';
 import ThemeToggle from './ThemeToggle/ThemeToggle';
 
@@ -8,16 +9,21 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
     if (!email || !password) {
       setError('Please enter both email and password.');
       return;
     }
-    console.log('Login attempted with:', { email, password });
-    // Here you would typically send a request to the server
+    try {
+      await signIn(email, password);
+      navigate('/dashboard');
+    } catch (err) {
+      setError('Login failed. Please check your credentials and try again.');
+    }
   };
 
   return (
@@ -36,10 +42,8 @@ const Login = () => {
                     placeholder="Enter email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="form-control"
                   />
                 </Form.Group>
-
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label className="form-label">Password</Form.Label>
                   <Form.Control
@@ -47,11 +51,9 @@ const Login = () => {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="form-control"
                   />
                 </Form.Group>
-
-                <Button variant="primary" type="submit" class="login-button" className="login-button w-100">
+                <Button variant="primary" type="submit" className="login-button w-100">
                   Login
                 </Button>
               </Form>
@@ -64,7 +66,7 @@ const Login = () => {
           </Col>
         </Row>
       </Container>
-      <ThemeToggle /> {/* Ensure ThemeToggle is used here */}
+      <ThemeToggle />
     </div>
   );
 };
