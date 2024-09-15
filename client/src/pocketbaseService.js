@@ -5,12 +5,14 @@
  * @function        sendVerificationEmail
  * @function        sendPasswordResetEmail
  * 
+ * @see             Login.js
+ * @see             ForgotPassword.js
+ * @see             ResetPassword.js
  * 
  * @todo            add error handling
  * @todo            add logout function if possible
  * @todo            add user profile update function if possible
  * @todo            add user profile view function if possible
- * 
  */
 
 import PocketBase from 'pocketbase';
