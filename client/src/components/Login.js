@@ -3,7 +3,6 @@ import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { signIn } from '../pocketbaseService';
 import './Login.css';
-import ThemeToggle from './ThemeToggle/ThemeToggle';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -28,11 +27,17 @@ const Login = () => {
 
   return (
     <div className="login-wrapper">
-      <Container>
+      <Container fluid>
         <Row className="justify-content-md-center mt-5">
-          <Col xs={12} md={6}>
+          <Col xs={12} md={6} className="text-column">
+            <div className="text-container">
+              <h1 className="site-title">Clarity</h1>
+              <p className="site-subtitle">Nutritional Analysis at your Fingertips</p>
+            </div>
+          </Col>
+          <Col xs={12} md={6} className="form-column">
             <div className="login-form-container">
-              <h2 className="login-title text-center mb-4">Login</h2>
+              <h2 className="login-title text-center mb-4">Welcome</h2>
               {error && <Alert variant="danger">{error}</Alert>}
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -57,16 +62,14 @@ const Login = () => {
                   Login
                 </Button>
               </Form>
-              <div className="mt-3 text-center">
+              <div className="link-container mt-3">
                 <Link to="/register" className="small-link">Create an account</Link>
-                <br />
                 <Link to="/forgot-password" className="small-link">Forgot your password?</Link>
               </div>
             </div>
           </Col>
         </Row>
       </Container>
-      <ThemeToggle />
     </div>
   );
 };

@@ -33,8 +33,17 @@ server is running on port 5001
 ```
 
 ```
+cd backend/pocketbase
+./pocketbase serve
+2024/09/15 00:01:51 Server started at http://127.0.0.1:8090
+├─ REST API: http://127.0.0.1:8090/api/
+└─ Admin UI: http://127.0.0.1:8090/_/
+```
+
+```
 cd client
 npm start
+
 Compiled successfully!
 
 You can now view client in the browser.

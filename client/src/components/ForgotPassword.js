@@ -3,7 +3,6 @@ import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { sendPasswordResetEmail } from '../pocketbaseService';
 import './Login.css';
-import ThemeToggle from './ThemeToggle/ThemeToggle';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -28,9 +27,15 @@ const ForgotPassword = () => {
 
   return (
     <div className="login-wrapper">
-      <Container>
+      <Container fluid>
         <Row className="justify-content-md-center mt-5">
-          <Col xs={12} md={6}>
+          <Col xs={12} md={6} className="text-column">
+            <div className="text-container">
+              <h1 className="site-title">Clarity</h1>
+              <p className="site-subtitle">Nutritional Analysis at your Fingertips</p>
+            </div>
+          </Col>
+          <Col xs={12} md={6} className="form-column">
             <div className="login-form-container">
               <h2 className="login-title text-center mb-4">Forgot Password</h2>
               {error && <Alert variant="danger">{error}</Alert>}
@@ -45,7 +50,7 @@ const ForgotPassword = () => {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </Form.Group>
-                <Button variant="primary" type="submit" className="w-100 login-button">
+                <Button variant="primary" type="submit" className="login-button w-100">
                   Reset Password
                 </Button>
               </Form>
@@ -56,7 +61,6 @@ const ForgotPassword = () => {
           </Col>
         </Row>
       </Container>
-      <ThemeToggle />
     </div>
   );
 };
