@@ -17,7 +17,7 @@ const Login = () => {
       return;
     }
     console.log('Login attempted with:', { email, password });
-    // Here you would typically send a request to your server
+    // Here you would typically send a request to the server
   };
 
   return (
@@ -51,7 +51,7 @@ const Login = () => {
                   />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" className="w-100">
+                <Button variant="primary" type="submit" class="login-button" className="login-button w-100">
                   Login
                 </Button>
               </Form>
