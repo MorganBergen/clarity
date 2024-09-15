@@ -2,14 +2,7 @@
 
 advanced ml for nutritional analysis and healthcare management
 
-steps to run the project
-
-```
-git clone https://github.com/your-username/clarity-app.git
-cd clarity-app
-```
-
-install dependencies
+steps to run project install dependencies
 
 ```
 npm init -y
@@ -19,20 +12,41 @@ npx create-react-app-client
 cd client
 npm install @mui/material @emotion/react @emotion/styled redux react-redux axios
 cd ../server
+npm init -y
 npm install express pocketbase
 npm install --save-dev nodemon
 ```
-
-run the project
 
 ```
 cd server
 npm run dev
 
-cd client
-npm start
+> clarity-backend@1.0.0 dev
+> nodemon server.js
+
+[nodemon] 3.1.4
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,cjs,json
+[nodemon] starting `node server.js`
+server is running on port 5001
 ```
 
+```
+cd client
+npm start
+Compiled successfully!
+
+You can now view client in the browser.
+
+  Local:            http://localhost:3000
+  On Your Network:  http://192.168.1.242:3000
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
+
+webpack compiled successfully
+```
 
 project structure
 
@@ -56,6 +70,85 @@ clarity-app/
 ├── .gitignore
 ├── README.md
 └── package.json
+```
+
+```
+.
+├── README.md
+├── client
+│   ├── README.md
+│   ├── build
+│   │   ├── asset-manifest.json
+│   │   ├── favicon.ico
+│   │   ├── index.html
+│   │   ├── logo192.png
+│   │   ├── logo512.png
+│   │   ├── manifest.json
+│   │   ├── robots.txt
+│   │   └── static
+│   │       ├── css
+│   │       │   ├── main.f855e6bc.css
+│   │       │   └── main.f855e6bc.css.map
+│   │       ├── js
+│   │       │   ├── 453.419a5d54.chunk.js
+│   │       │   ├── 453.419a5d54.chunk.js.map
+│   │       │   ├── main.91e64355.js
+│   │       │   ├── main.91e64355.js.LICENSE.txt
+│   │       │   └── main.91e64355.js.map
+│   │       └── media
+│   │           └── logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   │   ├── background.heic
+│   │   ├── cover-d.png
+│   │   ├── cover-l.png
+│   │   ├── d-cover.png
+│   │   ├── d-mockup.png
+│   │   ├── favicon.ico
+│   │   ├── index.html
+│   │   ├── l-cover.png
+│   │   ├── l-mockup.png
+│   │   ├── logo192.png
+│   │   ├── logo512.png
+│   │   ├── manifest.json
+│   │   └── robots.txt
+│   └── src
+│       ├── App.css
+│       ├── App.js
+│       ├── App.test.js
+│       ├── components
+│       │   ├── Dashboard.js
+│       │   ├── ForgotPassword.js
+│       │   ├── Login.css
+│       │   ├── Login.js
+│       │   ├── Register.js
+│       │   └── ThemeToggle
+│       │       ├── ThemeToggle.css
+│       │       └── ThemeToggle.js
+│       ├── index.css
+│       ├── index.js
+│       ├── logo.svg
+│       ├── redux
+│       │   ├── index.js
+│       │   ├── reducers
+│       │   │   └── index.js
+│       │   └── store.js
+│       ├── reportWebVitals.js
+│       └── setupTests.js
+├── package-lock.json
+├── package.json
+└── server
+    ├── app.js
+    ├── controllers
+    ├── models
+    ├── package-lock.json
+    ├── package.json
+    ├── routes
+    │   └── api.js
+    └── server.js
+
+17 directories, 57 files
 ```
 
 ####  `package.json`
