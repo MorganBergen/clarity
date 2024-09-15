@@ -34,6 +34,18 @@
   
   .login-button {
     width: 100%;
+    background: rgba(0, 255, 0, 0.5); /* Semi-transparent green background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    backdrop-filter: blur(5px); /* Blur effect */
+    -webkit-backdrop-filter: blur(5px); /* Safari support */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: background 0.3s ease; /* Smooth transition */
+  }
+  
+  .login-button:hover {
+    background: rgba(0, 255, 0, 0.7); /* Slightly less transparent on hover */
   }
   
   /* Add this to change the label text color to white */
@@ -75,4 +87,14 @@
   .login-form-container .small-link {
     font-size: 0.875em; /* Smaller font size */
     color: white; /* Ensure the text color is white */
+  }
+
+  .login-form-container .login-button {
+    background: rgb(0, 132, 255); 
+    color: white; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    backdrop-filter: blur(5px); /* Blur effect */
+    -webkit-backdrop-filter: blur(5px); /* Safari support */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
   }
