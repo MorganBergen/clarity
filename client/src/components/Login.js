@@ -12,6 +12,7 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
     setError('');
     if (!email || !password) {
       setError('Please enter both email and password.');
@@ -28,7 +29,7 @@ const Login = () => {
   return (
     <div className="login-wrapper">
       <Container fluid>
-        <Row className="justify-content-md-center mt-5">
+        <Row className="justify-content-md-ce nter mt-5">
           <Col xs={12} md={6} className="text-column">
             <div className="text-container">
               <h1 className="site-title">Clarity</h1>
