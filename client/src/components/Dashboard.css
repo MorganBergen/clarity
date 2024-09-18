@@ -1,0 +1,51 @@
+.dashboard-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: rgb(37, 37, 37); /* Set background color to white */
+}
+
+.dashboard-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.welcome-title {
+    font-size: 50px;
+    color: rgb(255, 255, 255); /* Change text color to black for better contrast */
+    text-align: center;
+}
+
+.welcome-subtitle {
+    font-size: 20px;
+    color: rgb(156, 156, 156); /* Change text color to black for better contrast */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.dashboard-container .dashboard-content .get-started-button {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 5px; /* Rounded corners */
+    background: rgba(24, 24, 24, 0.09); /* Semi-transparent background */
+    box-shadow: 0 4px 30px rgba(126, 126, 126, 0.1); /* Subtle shadow */
+    backdrop-filter: blur(10px); /* Blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border: 1px solid rgba(48, 48, 48, 0.3); /* Border to enhance glass effect */
+    position: relative; /* Ensure it is above the background */
+    z-index: 1; /* Ensure it is above the background */
+}
+
+.dashboard-container .dashboard-content .get-started-button:hover {
+    background: rgba(56, 56, 56, 0.2); /* Slightly less transparent on hover */
+}
