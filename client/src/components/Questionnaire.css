@@ -1,0 +1,105 @@
+html, body {
+    background-color: #242424; /* Dark background color */
+    color: white; /* Default text color */
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.questionnaire-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+}
+
+.clarity-title {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    color: white;
+    z-index: 1000; /* Ensure it stays on top */
+}
+
+.question-list {
+    position: fixed;
+    top: 100px; /* Adjusted to be further down from the "Clarity" title */
+    left: 20px;
+    width: 200px; /* Adjust width as needed */
+    padding: 10px;
+    font-size: 14px; /* Smaller font size */
+    color: #ccc; /* Light grey text color */
+}
+
+.question-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.question-list li {
+    padding: 5px 0;
+}
+
+.question-list li.active {
+    color: #fff; /* White color for active question */
+    font-weight: bold;
+}
+
+.question-content {
+    width: 100%; /* Make the content smaller */
+    max-width: 600px; /* Decrease max-width */
+    padding: 20px; /* Reduce padding */
+    border-radius: 10px; /* Rounded corners */
+    text-align: left; /* Align text to the left */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+}
+
+.question-content h2 {
+    margin-bottom: 20px;
+    color: white; /* White text color */
+    font-size: 20px; /* Smaller font size */
+}
+
+.question-content .form-control {
+    width: 100%;
+    padding: 10px; /* Reduce padding */
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px; /* Smaller font size */
+}
+
+.question-content .form-check {
+    display: flex;
+    justify-content: flex-start; /* Align to the left */
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.question-content .form-check-label {
+    margin-left: 10px;
+    font-size: 16px; /* Smaller font size */
+    color: white;
+}
+
+.question-content .btn {
+    width: auto; /* Make the button smaller */
+    padding: 10px 20px; /* Adjust padding */
+    font-size: 16px; /* Smaller font size */
+    border-radius: 5px;
+    background-color: #007bff; /* Primary button color */
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.question-content .btn:hover {
+    background-color: #0056b3; /* Darker button color on hover */
+}
