@@ -8,10 +8,12 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsClicked(true);
     
     setError('');
     if (!email || !password) {
@@ -59,7 +61,11 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </Form.Group>
-                <Button variant="primary" type="submit" className="login-button w-100">
+                <Button 
+                  variant="primary" 
+                  type="submit" 
+                  className={`login-button w-100 ${isClicked ? 'clicked' : ''}`}
+                  >
                   Login
                 </Button>
               </Form>
