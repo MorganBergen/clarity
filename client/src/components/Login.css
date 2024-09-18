@@ -4,7 +4,8 @@
   align-items: center;
   min-height: 100vh;
   padding: 20px;
-  background: url('../../public/background.heic') no-repeat center center fixed;
+  background-color: rgb(255, 255, 255);
+  /* background: url('../../public/background.heic') no-repeat center center fixed; */
   background-size: cover;
 }
 
@@ -28,7 +29,7 @@
   padding: 20px;
   border-radius: 15px; /* Rounded corners */
   background: rgba(56, 56, 56, 0.09); /* Semi-transparent background */
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.155); /* Subtle shadow */
   backdrop-filter: blur(10px); /* Blur effect */
   -webkit-backdrop-filter: blur(10px); /* Safari support */
   border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance glass effect */
@@ -39,11 +40,19 @@
 .login-title {
   text-align: center;
   margin-bottom: 20px;
-  color: white; /* Make the h2 element white */
+  color: rgb(130, 130, 130); /* Make the h2 element white */
 }
 
 .login-form {
   margin-bottom: 15px;
+}
+
+.login-form-container .alert {
+  background-color: rgba(255, 167, 167, 0.339); /* Red background with 20% opacity */
+  border: none; /* Red border with 30% opacity */
+  backdrop-filter: blur(5px); /* Blur effect */
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.2); /* Subtle shadow */
+  color: rgb(255, 71, 71); /* Red text color */
 }
 
 .login-form-container .login-button {
@@ -59,28 +68,16 @@
 }
 
 .login-form-container .login-button:hover {
-  background: rgba(0, 0, 0); /* Slightly less transparent green on hover */
-}
-
-
-
-.login-form-container .form-control:focus {
-  background: rgba(255, 255, 255, 0.05); /* Semi-transparent background */
-  color: white; /* White text */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Rounded corners */
-  backdrop-filter: blur(15px); /* More blur effect */
-  -webkit-backdrop-filter: blur(15px); /* Safari support */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  background: rgb(75, 75, 75); 
 }
 
 .login-form-container .form-label {
-  color: white;
+  color: rgb(160, 160, 160);
 }
 
 .login-form-container .form-control {
   background: rgba(255, 255, 255, 0.05); /* Semi-transparent background */
-  color: white; /* White text */
+  color: rgba(46, 46, 46, 0.7); /* Lighter grey placeholder text */
   border: none; /* Remove border */
   border-radius: 5px; /* Rounded corners */
   backdrop-filter: blur(15px); /* More blur effect */
@@ -90,17 +87,17 @@
 
 /* Style the placeholder text color */
 .login-form-container .form-control::placeholder {
-  color: rgba(155, 155, 155, 0.7); /* Lighter grey placeholder text */
+  color: rgba(129, 129, 129, 0.7); /* Lighter grey placeholder text */
   opacity: 1; /* Ensure full opacity for Firefox */
 }
 
 .login-form-container .form-control:focus {
-  color: white; /* White text when focused */
+  color: rgb(55, 55, 55); /* White text when focused */
 }
 
 .login-form-container .small-link {
   font-size: 0.875em; /* Smaller font size */
-  color: white; /* Ensure the text color is white */
+  color: rgb(156, 156, 156); 
   text-decoration: none; /* Remove underline */
 }
 
@@ -121,12 +118,10 @@
 
 .site-title {
   font-size: 96px;
-  color: white;
+  color: rgb(65, 65, 65);
 }
 
 .site-subtitle {
   font-size: 20px;
-  color: white;
+  color: rgb(156, 156, 156);
 }
-
-

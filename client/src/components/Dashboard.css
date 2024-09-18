@@ -1,35 +1,34 @@
-.dashboard-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    background-color: rgb(37, 37, 37); /* Set background color to white */
-}
-
 .dashboard-content {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the content */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    padding: 20px;
+    align-items: flex-start; /* Align items to the start (left) */
+    padding: 10px; /* Reduce padding */
+    text-align: left; /* Align text to the left */
+    max-width: 800px; /* Increase max-width */
 }
 
 .welcome-title {
     font-size: 50px;
-    color: rgb(255, 255, 255); /* Change text color to black for better contrast */
-    text-align: center;
+    color: rgb(65, 65, 65); /* Change text color to black for better contrast */
+    text-align: left; /* Align text to the left */
 }
 
 .welcome-subtitle {
     font-size: 20px;
     color: rgb(156, 156, 156); /* Change text color to black for better contrast */
-    text-align: center;
+    text-align: left; /* Align text to the left */
+    margin-bottom: 20px;
+}
+
+.welcome-paragraph {
+    font-size: 14px;
+    color: rgb(195, 195, 195); /* Light grey text color */
+    text-align: left; /* Align text to the left */
     margin-bottom: 20px;
 }
 
@@ -37,15 +36,21 @@
     width: 100%;
     max-width: 200px;
     border-radius: 5px; /* Rounded corners */
-    background: rgba(24, 24, 24, 0.09); /* Semi-transparent background */
-    box-shadow: 0 4px 30px rgba(126, 126, 126, 0.1); /* Subtle shadow */
+    background: rgba(24, 24, 24, 0.253); /* Semi-transparent background */
+    box-shadow: 0 4px 30px rgba(126, 126, 126, 0.5); /* Subtle shadow */
     backdrop-filter: blur(10px); /* Blur effect */
     -webkit-backdrop-filter: blur(10px); /* Safari support */
-    border: 1px solid rgba(48, 48, 48, 0.3); /* Border to enhance glass effect */
+    border: 0px solid rgba(255, 255, 255, 0.3); /* Border to enhance glass effect */
     position: relative; /* Ensure it is above the background */
     z-index: 1; /* Ensure it is above the background */
+    margin-top: 15px;
 }
 
 .dashboard-container .dashboard-content .get-started-button:hover {
-    background: rgba(56, 56, 56, 0.2); /* Slightly less transparent on hover */
+    background: rgba(56, 56, 56, 0.537); /* Slightly less transparent on hover */
 }
+
+.dashboard-container .dashboard-content .get-started-button:active {
+    background: rgb(65, 65, 65);
+}
+    
