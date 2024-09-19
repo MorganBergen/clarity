@@ -1,5 +1,9 @@
 # Clarity
 
+Advanced ML for Nutritional Analysis and Healthcare Management.  @ChristalShaner, @MorganBergen, @BlazingEmerald
+
+###  Getting Started
+
 <details><summary>Install Dependencies</summary>
 
 <br>
@@ -34,7 +38,7 @@
 
 <details><summary>Output from successfully running the Application</summary>
 
-###  `npm run dev`  - terminal 1
+####  `npm run dev`  - terminal 1
 
 ```bash
 > clarity-backend@1.0.0 dev
@@ -48,7 +52,7 @@
 server is running on port 5001
 ```
 
-###  `./pocketbase serve` - terminal 2
+####  `./pocketbase serve` - terminal 2
 
 ```bash
 2024/09/19 11:04:40 Server started at http://127.0.0.1:8090
@@ -56,7 +60,7 @@ server is running on port 5001
 └─ Admin UI: http://127.0.0.1:8090/_/
 ```
 
-###  `npm start` - terminal 3
+####  `npm start` - terminal 3
 
 
 ```bash
@@ -76,11 +80,9 @@ webpack compiled successfully
 </details>
 
 
+####  `package.json` and Dependency Overview
 
-
-####  `package.json`
-
-provides metadata, dependencies, scripts, configuration, engines, versioning, and repository information for the project.  
+Provides metadata, dependencies, scripts, configuration, engines, versioning, and repository information for the project.  
 
 metadata contains the `name`, `version`, `description`, `main`, `scripts`, `keywords`, `author`, `dependencies`, `devDependencies`, and `license` of the project
 
@@ -120,132 +122,92 @@ the scripts define custom commands for the project, such as `start`, `build`, `t
 
 [`axios`](https://axios-http.com/docs/intro) is a library that helps with making http requests, it's used to communication with the backend apis, making it easier to send and receive data from the server.
 
-`cors`
+`cors` is a middleware that allows for cross origin resource sharing, it enables the server to accept requests from different origins.
 
-####  `./server/server.js`
+###  Introduction
 
-####  `./server/app.js`
+**Summary**  - Clarity is a web and mobile application that leverages image recognition and machine learning to analyze the nutritional content of food and comprehensive health management tool.  Designed to empower users with real time dietary insights and transform the way individuals manage their chronic conditions, nutrition, and overall health.
 
-####  `./server/routes/api.js`
+**Features** -  Users captures or uploads images or scan barcodes of their food using Clarity.  The app then provides comprehensive nutritional analysis, dietary trends, and provide personalized recommendations based on the user's health goals or chronic conditions.  Clarity can also predicts or mitigates disease risk factors, and allocates data for health care providers.  
 
-----
+**Problem Statement**  -  [Most chronic disease are caused by risk factors such as poor nutrition and excessive alcohol use.](https://www.cdc.gov/chronic-disease/prevention/index.html#:~:text=Most%20chronic%20diseases%20are%20caused,feeling%20good%2C%20and%20living%20longer.)  By avoiding these risks and receiving good preventative care Clarity can help reduce the risk of chronic diseases.  The current healthcare system is intervention based and reactive.  Clarity aims to be proactive and preventative by providing users and healthcare providers with real-time data to make informed decisions about their health.
 
-#  Clarity
+###  Users
 
-> 🚧 Design Project Proposal - Currently under maintenance
+**Patients with Chronic Conditions** -  Clarity assist those needing dietary monitoring, such as diabetes, hypertension, heart disease, and obesity.  Clarity can help patients manage their conditions and provide their healthcare providers with data to make informed decisions.
 
-**Project Title 1**  Clarity -  Nutritional Analysis and Health Insights at Your Fingertips
+**Insured Individuals** -  Users seeking to reduce healthcare costs will find Clarity invaluable for incentive programs that help reduce insurance premiums based on health data.
 
-**Project Title 2**  Clarity -  Advanced ML for Nutritional Analysis and Healthcare Management
+**Athletes** -  Optimize performance and recovery with nutritional insights and recommendations.
 
-**Name**  Morgan Bergen
+**Personal Trainers** -  To track their clients' progress and provide personalized recommendations to achieve their health and fitness goals.
 
-**Course**  CS 598 Senior Design Project I
+**Health-conscious Individuals** -  Anyone looking to enhance their well-being to make more informed dietary choices, track trends, prevent disease, and improve overall health.
 
-**Deadline**  September 6 2024
+###  Features
 
-----
+**Nutritional Analysis and Insights** -  Insights into macronutrient and micronutrient in take.  Inform users about carcinogens, pesticides, heavy metals, mycotoxins, artificial additives, trans fats, acrylamide, and other harmful substances in their food.
 
-<details>
-    <summary>Open Toggle to Preview of Application Dashboard</summary>
-    <p>
-        <img src="./docs/assets/dashboard.svg" alt="Dashboard Preview">
-    </p>
-</details>
+**Personalized Dietary Recommendations** -  Help users meet specific nutritional needs, such as managing cholesterol, blood sugar, blood pressure, or weight through personalized recommendations.  Provide users with meal plans, recipes, and grocery lists.
 
-----
+**Health Monitoring and Trend Analysis** -  Track dietary trends, allow users to log biometric data (integrated with wearables or medical devices such as glucose monitors, blood pressure monitors)
 
-####  Table of Contents
+**Disease Risk Management** -  Use dietary data to predict potential health risks and offer preventive guidance to mitigate these risks.
 
-1.  [Synopsis](#synopsis)
-2.  [Introduction](#introduction)
-3.  [Project Description](#project-description)
-4.  [Design](#design)
-5.  [Implementation Plan](#implementation-plan)
-6.  [Expected Outcomes](#expected-outcomes)
-7.  [Resource Requirements](#resource-requirements)
-8.  [References](#references)
+**Data Sharing with Healthcare Providers** -  Allow users to share their nutritional data with healthcare providers by exporting reports into formats such as PDF, CSV, through API integrations, or HL7 (Health Level Seven International), CDA (Clinical Document Architecture), or FHIR (Fast Healthcare Interoperability Resources) standards.
 
-----
+**Reduce Healthcare Costs** -  Incentivize users to reduce healthcare costs by providing data to insurance companies for premium reductions.
 
-##  Synopsis
+**Support Athletic Performance and Personal Training** -  Provide athletes and personal trainers with nutritional insights to optimize performance and recovery.
 
-####  Summary
+**Enhance Overall Health and Well-being** -  Empower users to make informed dietary choices, track trends, prevent disease, and improve overall health.
 
-Clarity is a web and mobile application that leverages image recognition and machine learning to analyze the nutritional content of food and comprehensive health management tool.  Designed to empower users with real time dietary insights and transform the way individuals manage their chronic conditions, nutrition, and overall health.
+**Wearable Integration** -  Integrate with wearables and medical devices to monitor health data in real time.
 
-####  How it works
+###  Functionality
 
-Users captures or uploads images or scan barcodes of their food using Clarity.  The app then provides comprehensive nutritional analysis, dietary trends, and provide personalized recommendations based on the user's health goals or chronic conditions.  Clarity can also predicts or mitigates disease risk factors, and allocates data for health care providers.  
+**User profile and data input**
 
-####  Who benefits
+Users provide their specific information, including age, gender, weight, medical history, medications, and other relevant health data.  The user can set specific health goals related to their dietary needs, such as managing diabetes, losing weight, or improving overall wellness.
 
-1.  **Patients with Chronic Conditions** -  Clarity assist those needing dietary monitoring, such as diabetes, hypertension, heart disease, and obesity.  Clarity can help patients manage their conditions and provide their healthcare providers with data to make informed decisions.
+After the User creates an account an introduction to the application is displayed that states the following - 
 
-2.  **Insured Individuals** -  Users seeking to reduce healthcare costs will find Clarity invaluable for incentive programs that help reduce insurance premiums based on health data.
+-  Simply snap a photo of their meal
+-  Scan the barcode of the packaged food item
+-  Input the food item into the database manually
 
-3.  **Athletes** -  Optimize performance and recovery with nutritional insights and recommendations.
+Initial Questionnaire
 
-4.  **Personal Trainers** -  To track their clients' progress and provide personalized recommendations to achieve their health and fitness goals.
+-  What's your sex?
+-  What is your age?
+-  What is your height?
+-  Current Weight?
+-  Target Weight
+-  What's your activity level?
+-  What medications are you currently taking
+-  What medical conditions do you currently have?
+-  Any family medical history of (high blood pressure, diabetes, cardiac problems, cholesterol problems, or cancer?)
+-  What is your dietary preference? (n/a, vegan, vegetarian, pescatarian, etc.)
+-  Any allergies or medications or foods?
+-  What are your fitness or nutrition goals? (weight loss, muscle gain, etc.)
+-  Have you ever been on a diet before? (yes, no)
+-  Do you current take any vitamins or supplements? (yes, no)
+-  How would you rate your diet
+-  Do you use alcohol? (yes, no)
+-  Do you use any tobacco products? (yes, no)
+-  Are you on any weight loss medications? (yes, no)
+-  Do you know what nutrients you have consumed? (I do know all the nutrients, I often check the nutrients list, Not really)
+-  Do you usually keep a record of what you eat? (Every meal, I do when I remember, Not at all)
 
-5.  **Health-conscious Individuals** -  Anyone looking to enhance their well-being to make more informed dietary choices, track trends, prevent disease, and improve overall health.
+**Image Capture or Barcode Scanning**
 
-##  Introduction
+Users capture images of their meals using a mobile device.  The software should be user friendly and guide users on how to take clear and useful photos for analysis.  Or users can scan the barcode of the packaged food item.
 
-####  Background Information
+**Image analysis and nutritional data extraction**
 
-[Most chronic disease are caused by risk factors such as poor nutrition and excessive alcohol use.](https://www.cdc.gov/chronic-disease/prevention/index.html#:~:text=Most%20chronic%20diseases%20are%20caused,feeling%20good%2C%20and%20living%20longer.)  By avoiding these risks and receiving good preventative care Clarity can help reduce the risk of chronic diseases.
+[AI powered analysis](https://openfoodfacts.github.io/openfoodfacts-server/) will consist of uploaded images to a desktop software where machine learning algorithms analyze the food items for nutritional content, portion sizes, and dietary composition.  The app allows users to scan the barcode of products, to view the product information, and to take and submit pictures and data for missing products. [ios app](https://github.com/openfoodfacts/openfoodfacts-ios)  
 
-####  Problem Statement
-
-The current healthcare system is intervention based and reactive.  Clarity aims to be proactive and preventative by providing users and healthcare providers with real-time data to make informed decisions about their health.
-
-####  Objectives
-
-1.  Nutritional Analysis and Insights
-2.  Personalized Dietary Recommendations
-3.  Health Monitoring and Trend Analysis
-4.  Disease Risk Management
-5.  Data Sharing with Healthcare Providers
-6.  Reduce Healthcare Costs
-7.  Support Athletic Performance and Personal Training
-8.  Enhance Overall Health and Well-being
-
-Nutritional Analysis and Insights -  Insights into macronutrient and micronutrient in take.  Inform users about carcinogens, pesticides, heavy metals, mycotoxins, artificial additives, trans fats, acrylamide, and other harmful substances in their food.
-
-Personalized Dietary Recommendations -  Help users meet specific nutritional needs, such as managing cholesterol, blood sugar, blood pressure, or weight through personalized recommendations.  Provide users with meal plans, recipes, and grocery lists.
-
-Health Monitoring and Trend Analysis -  Track dietary trends, allow users to log biometric data (integrated with wearables or medical devices such as glucose monitors, blood pressure monitors)
-
-Disease Risk Management -  Use dietary data to predict potential health risks and offer preventive guidance to mitigate these risks.
-
-Data Sharing with Healthcare Providers -  Allow users to share their nutritional data with healthcare providers by exporting reports into formats such as PDF, CSV, through API integrations, or HL7 (Health Level Seven International), CDA (Clinical Document Architecture), or FHIR (Fast Healthcare Interoperability Resources) standards.
-
-Reduce Healthcare Costs -  Incentivize users to reduce healthcare costs by providing data to insurance companies for premium reductions.
-
-Support Athletic Performance and Personal Training -  Provide athletes and personal trainers with nutritional insights to optimize performance and recovery.
-
-Enhance Overall Health and Well-being -  Empower users to make informed dietary choices, track trends, prevent disease, and improve overall health.
-
-##  Project Description
-
-Clarity will be using the following features to achieve the objectives of the project:
-
-1.  User profile and data input
-
-users provide their specific information, including age, gender, weight, medical history, medications, and other relevant health data.  the user can set specific health goals related to their dietary needs, such as managing diabetes, losing weight, or improving overall wellness.
-
-2.  Mobile device image capture
-
-users capture images of their meals using a mobile device.  the software should be user friendly and guide users on how to take clear and useful photos for analysis.
-
-3.  Image analysis and nutritional data extraction
-
-[ai powered analysis](https://openfoodfacts.github.io/openfoodfacts-server/) will consist of uploaded images to a desktop software where machine learning algorithms analyze the food items for nutritional content, portion sizes, and dietary composition.
-
-The app allows users to scan the barcode of products, to view the product information, and to take and submit pictures and data for missing products. [ios app](https://github.com/openfoodfacts/openfoodfacts-ios)  
-
-Nutritional Data Extraction
+**Nutritional Data Extraction in `JSON` format**
 
 ```JSON
 [
@@ -453,9 +415,7 @@ Nutritional Data Extraction
 ] 
 ```
 
-####  Methodology
-
-####  Tools and Technologies
+###  Tools and Technologies
 
 **Backend**
 -  Node.js - for server-side development
@@ -478,23 +438,11 @@ Nutritional Data Extraction
 **Barcode Scanning**
 -  Open Food Facts API - for food identification and nutritional information via barcode scanning
 
-Option to Train Custom Models
--  TensorFlow and Keras 
--  Pytorch
-
-Dataset for Custom Model
+**Dataset for Custom Model**
 -  Food 101
 -  UPMC Food 101
 
-1.  Select a framework - use tensorflow, keras, or pytorch
-2.  Obtain a dataset -  download a food image dataset such as foo101
-3.  Train the model -  use the dataset to train a model to recognize different food items
-4.  Deploy the model -  use a free cloud service provider that offers a free tier like keroku and create an api around the model using a framework like flask or python
-5.  Use the api -  connect the api to perform food recognition tasks
-
-##  Design
-
-The design of the application will consists of a user journey that includes the following screens:
+###  Architecture
 
 1.  **Login Screen** -  Users can login or create an account to access the app.
 2.  **Dashboard** -  Users can view their daily nutritional intake, health data, and personalized recommendations.
@@ -503,82 +451,25 @@ The design of the application will consists of a user journey that includes the 
 5.  **Reports** -  Users can export their data for healthcare providers or insurance companies.
 6.  etc.
 
-####  Sketches / Models
+Figma - [Link to Project](https://www.figma.com/proto/0lIIBK2ARIaFwXMi4KiJY0/mockup?node-id=70-287&t=EZ5trGXitWiy3gsk-1)
 
-<img src="./docs/assets/login.svg">
+###  Resources
 
-<img src="./docs/assets/dashboard.svg">
+[Open Food Facts API](https://openfoodfacts.github.io/openfoodfacts-server/api/)
 
-<img src="./docs/assets/analysis.svg">
+[HealthKit](https://developer.apple.com/documentation/healthkit)
 
-####  Design Architecture
+[Open Food Facts](https://world.openfoodfacts.org/data)
 
-Architecture Diagram is to be determined
+[USDA Food Data Central](https://fdc.nal.usda.gov)
 
-##  Implementation Plan
+[Nutritionix](https://www.nutritionix.com)
 
-Initial Questionnaire
+[USDA FoodData Central](https://fdc.nal.usda.gov)
 
+[USDA Food Composition Databases](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/nutrient-data-laboratory/docs/usda-national-nutrient-database-for-standard-reference/)
 
--  What's your sex?
--  What is your age?
--  What is your height?
--  Current Weight?
--  Target Weight
--  What's your activity level?
--  What medications are you currently taking
--  What medical conditions do you currently have?
--  Any family medical history of (high blood pressure, diabetes, cardiac problems, cholesterol problems, or cancer?)
--  What is your dietary preference? (n/a, vegan, vegetarian, pescatarian, etc.)
--  Any allergies or medications or foods?
--  What are your fitness or nutrition goals? (weight loss, muscle gain, etc.)
--  Have you ever been on a diet before? (yes, no)
--  Do you current take any vitamins or supplements? (yes, no)
--  How would you rate your diet
--  Do you use alcohol? (yes, no)
--  Do you use any tobacco products? (yes, no)
--  Are you on any weight loss medications? (yes, no)
-
--  Do you know what nutrients you have consumed? (I do know all the nutrients, I often check the nutrients list, Not really)
--  Do you usually keep a record of what you eat? (Every meal, I do when I remember, Not at all)
-
-
-Introduction to the application
--  Simply snap a photo of your meal
--  Scan the barcode of the packaged food item
--  Input the food item into the database manually
-
-####  Timeline
-
-TBD
-
-####  Task Allocation
-
-##  Expected Outcomes
-
-####  Use Cases
-
-####  Deliverables
-
-##  Resource Requirements
-
-####  APIs
-
--  [Open Food Facts API](https://openfoodfacts.github.io/openfoodfacts-server/api/)
--  [HealthKit](https://developer.apple.com/documentation/healthkit)
-
-####  Datasets
-
--  [Open Food Facts](https://world.openfoodfacts.org/data)
--  [USDA Food Data Central](https://fdc.nal.usda.gov)
--  [Nutritionix](https://www.nutritionix.com)
--  [USDA FoodData Central](https://fdc.nal.usda.gov)
--  [USDA Food Composition Databases](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/nutrient-data-laboratory/docs/usda-national-nutrient-database-for-standard-reference/)
--  [USDA National Nutrient Database for Standard Reference](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/nutrient-data-laboratory/docs/usda-national-nutrient-database-for-standard-reference/)
-
-####  Libraries
-
-##  References
+[USDA National Nutrient Database for Standard Reference](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/nutrient-data-laboratory/docs/usda-national-nutrient-database-for-standard-reference/)
 
 [uber api](https://developer.uber.com/docs/eats/introduction)
 
@@ -588,77 +479,13 @@ TBD
 
 [open food facts api documentation](https://openfoodfacts.github.io/openfoodfacts-server/api/)
 
-####  Documentation
-
-####  Tools for Development
-
-Figma - [Link to Project](https://www.figma.com/proto/0lIIBK2ARIaFwXMi4KiJY0/mockup?node-id=70-287&t=EZ5trGXitWiy3gsk-1)
-
-
 ###  Competitors
 
-[Calorie Mama](https://caloriemama.ai/#CalorieMama)
+**Calorie Mama:** Provides food recognition and nutritional analysis.
 
-#  Draft of Formal Project Proposal
+**MyFitnessPal:** Offers comprehensive dietary tracking and personalized recommendations.
 
-Clarity Advanced Machine Learning for Nutritional Analysis and Healthcare Management
-
-Clarity is an interoperable web and mobile application that utilizes machine learning to analyze the nutritional content of captured meals, providing a comprehensive health management tool, along with data extraction capabilities for healthcare providers.  Designed to deliver real time dietary insights to transform the way individuals manage their chronic conditions, nutrition, performance, and overall health.   Interacting with the application requires users to register, enter essential health information, and upload images or scan barcodes of their meals.  The core functionalities that are derived from these requirements include dashboards containing nutritional analysis and insights, personalized dietary recommendations, health monitoring and trend analysis, disease risk management, wearable integration, and data sharing with healthcare providers.
-
-Group Name – CJM, Group Formation - Christal Shaner, Jason Heitman, Morgan B	ergen
-Christal Shaner’s excperience includes JavaScript, React.js, C++, Python, F#, SQL, R, PHP, Prolog, Material UI, Git.  Along with experience as a Software Engineer at Ennovar & Web Developer at McCurdy Real Estate & Auction, LLC.  Jason Heitman’s experience include C++, F#, SQL, Linux.  Morgan Bergen’s experience include TypeScript, C, x86 Assembly, C++, Python, Solidity, Haskell, Verilog HDL, git, bash, zsh.  Along with experience as a Software Engineer Intern at Ripple Labs in NYC.  Link to Github Profile’s - @ChristalShaner, @MorganBergen, @BlazingEmerald.
-
-
-#  Formal Project Proposal
-
-introduction -  briefly introduce what product you would like to work on for your senior design project, including its intended functionality, target users, general architecture, etc.
-
-group Information -  please introduce each group member including names, experience from work or side projects, tech strengths, tech that you would like to learn, etc
-
-competitors. Here competitors mean existing software products that can be used to perform the same or similar functions as your product. Please list any features from competitors that you wish to implement (note: just wish, not necessary to have)
-
-product plan: please list features or functionalities that are important to your product. Note that this is a formal plan, so please try to deliver most of it. In case that some features cannot be delivered at the end of senior design 2, please let me know. 
-
-project phase plan. please try to evenly distribute your project workload through several phases, and release new functions with each phase. For example, you may plan two phases for SD1 and four phases for SD2.  
-
-technology stack. What technologies, such as database choice, cloud service choice, framework, etc. that you plan to use or learn for your project. 
-
-rescue plan. List any factors that may fail your entire senior design year, such as procrastination, bad group collaboration, etc. More importantly, how to prevent them from happening? 
-
-group work. I need to know each group member cares about your group and has a respectful and professional attitude toward each other. 
-
-mentors. Can you find someone to mentor your projects, such as software engineer or college professor to mentor your project? how to impress them with your work so that they can provide recommendations when needed? 
-
-user experience. have a plan to ask your classmates (outside your group) to test drive your product
-
-Clarity is an interoperable web and mobile application that utilizes machine learning to analyze the nutritional content of captured meals, providing a comprehensive health management tool, along with data extraction capabilities for healthcare providers. Designed to deliver real-time dietary insights, Clarity transforms the way individuals manage their chronic conditions, nutrition, performance, and overall health. Users interact with Clarity by registering, entering essential health information, and uploading images or scanning barcodes of their meals. The application offers functionalities such as nutritional analysis and insights, personalized dietary recommendations, health monitoring and trend analysis, disease risk management, wearable integration, and data sharing with healthcare providers.
-
-Group Name – CJM, Group Formation - Christal Shaner, Jason Heitman, Morgan Bergen
-
-Christal Shaner’s experience includes JavaScript, React.js, C++, Python, F#, SQL, R, PHP, Prolog, Material UI, and Git. She has worked as a Software Engineer at Ennovar and a Web Developer at McCurdy Real Estate & Auction, LLC. [GitHub Profile](https://github.com/ChristalShaner)
-
-Jason Heitman’s experience includes C++, F#, SQL, and Linux. [GitHub Profile](https://github.com/BlazingEmerald)
-
-Morgan Bergen’s experience includes TypeScript, C, x86 Assembly, C++, Python, Solidity, Haskell, Verilog HDL, Git, Bash, and Zsh. He has interned as a Software Engineer at Ripple Labs in NYC. [GitHub Profile](https://github.com/MorganBergen)
-
-Several existing software products offer similar functionalities to Clarity:
-
-- **Calorie Mama:** Provides food recognition and nutritional analysis.
-- **MyFitnessPal:** Offers comprehensive dietary tracking and personalized recommendations.
-- **Lose It!:** Focuses on weight loss through calorie counting and food logging.
-
-We aim to implement features such as food recognition, detailed nutritional analysis, and personalized dietary recommendations, inspired by these competitors.
-
-Key features and functionalities for Clarity:
-
-1. User profile and data input
-2. Mobile device image capture
-3. Image analysis and nutritional data extraction
-4. Personalized dietary recommendations
-5. Health monitoring and trend analysis
-6. Disease risk management
-7. Data sharing with healthcare providers
-8. Wearable integration
+**Lose It!:** Focuses on weight loss through calorie counting and food logging.
 
 ### Project Phase Plan
 
@@ -673,16 +500,6 @@ Key features and functionalities for Clarity:
 - **Phase 4:** Health monitoring and trend analysis
 - **Phase 5:** Disease risk management and data sharing
 - **Phase 6:** Wearable integration and final testing
-
-### Technology Stack
-
-To achieve our goals, we will utilize the following technologies:
-
-- **Backend:** Node.js, Express.js, Pocketbase
-- **Frontend:** React, Material UI, Redux, Axios
-- **Machine Learning:** Clarifai, TensorFlow, Keras, Pytorch
-- **Barcode Scanning:** Open Food Facts API
-- **Cloud Services:** Google Cloud, IBM Watson
 
 ### Rescue Plan
 
