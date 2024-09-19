@@ -1,38 +1,42 @@
 # Clarity
 
-###  Steps to run the application in bash
+<details><summary>Install Dependencies</summary>
+
+<br>
+
+1.  `cd ./clarity` -  navigate to the clarity root directory
+2.  `npm init-y` -  initialize npm in the clarity root directory
+3.  `cd ./clarity/client` -  navigate to the client directory
+4.  `npm init-y` -  initialize npm in the client directory
+5.  `npm install @mui/material @emotion/react @emotion/styled redux react-redux axios` -  install dependencies
+6.  `cd ./clarity/server` -  navigate to the server directory
+7.  `npm init-y` -  initialize npm in the server directory
+8.  `npm install express pocketbase` -  install dependencies
+9.  `npm install --save-dev nodemon` -  install nodemon as a development dependency
+10.  install [`pocketbase`](https://pocketbase.io/docs/) 
+11.  move `pocketbase` into the `./clarity/backend` directory
+
+</details>
+
+<details><summary>Run the Application</summary>
+
+
+1.  `cd ./clarity/server` - navigate to the server directory
+2.  `npm run dev` - start the server
+3.  open a new terminal window
+4.  `cd ./clarity/backend/pocketbase` -  navigate to the pocketbase directory
+5.  `./pocketbase serve` -  execute the `pocketbase` executable file to start the server
+6.  open a new terminal window
+7.  `cd ./clarity/client` -  navigate to the client directory
+8.  `npm start` -  start the client
+
+</details>
+
+<details><summary>Output from successfully running the Application</summary>
+
+###  `npm run dev`  - terminal 1
 
 ```bash
-#  step 1 - navigate to the clarity directory
-❯ cd clarity
-
-#  step 2 - initialize npm in the clarity root folder
-❯ npm init -y
-
-#  step 3 - navigate to the client directory
-❯ cd client
-
-#  step 4 - initialize npm in the client folder
-❯ npm init -y
-
-#  step 5 - install dependencies
-❯ npm install @mui/material @emotion/react @emotion/styled redux react-redux axios
-
-#  step 6 - navigate to the server directory
-❯ cd ../server
-
-#  step 7 - initialize npm in the server folder
-❯ npm init -y
-
-#  step 8 - install dependencies
-❯ npm install express pocketbase
-
-#  step 9 - install nodemon as a development dependency
-❯ npm install --save-dev nodemon
-
-#  step 10 - run the application in the server directory
-❯ npm run dev
-
 > clarity-backend@1.0.0 dev
 > nodemon server.js
 
@@ -42,18 +46,20 @@
 [nodemon] watching extensions: js,mjs,cjs,json
 [nodemon] starting `node server.js`
 server is running on port 5001
+```
 
-#  step 11 - run the pocketbase application in the backend/pocketbase directory
-❯ cd ../backend/pocketbase
-❯ ./pocketbase serve
-2024/09/15 00:01:51 Server started at http://127.0.0.1:8090
+###  `./pocketbase serve` - terminal 2
+
+```bash
+2024/09/19 11:04:40 Server started at http://127.0.0.1:8090
 ├─ REST API: http://127.0.0.1:8090/api/
 └─ Admin UI: http://127.0.0.1:8090/_/
+```
 
-#  step 12 - run the front end application in the client directory
-❯ cd ../client
-❯ npm start
+###  `npm start` - terminal 3
 
+
+```bash
 Compiled successfully!
 
 You can now view client in the browser.
@@ -66,6 +72,9 @@ To create a production build, use npm run build.
 
 webpack compiled successfully
 ```
+
+</details>
+
 
 
 
@@ -689,4 +698,4 @@ Each group member is committed to the project and maintains a respectful and pro
 
 ### User Experience
 
-To ensure Clarity meets user needs, we plan to involve classmates outside our group in testing the application. Their feedback will be invaluable in refining the user interface and overall functionality, ensuring a user-friendly and effective application.
+To ensure Clarity meets user needs, we plan to involve classmates outside our group in testing the application. Their feedback will be invaluable in refining the use`r interface and overall functionality, ensuring a user-friendly and effective application.
