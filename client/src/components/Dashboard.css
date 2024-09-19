@@ -36,7 +36,8 @@
     width: 100%;
     max-width: 200px;
     border-radius: 5px; /* Rounded corners */
-    background: rgba(24, 24, 24, 0.253); /* Semi-transparent background */
+    background: rgba(183, 183, 183, 0.362); /* Semi-transparent background */
+    color: rgb(156, 156, 156); 
     box-shadow: 0 4px 30px rgba(126, 126, 126, 0.5); /* Subtle shadow */
     backdrop-filter: blur(10px); /* Blur effect */
     -webkit-backdrop-filter: blur(10px); /* Safari support */
@@ -47,10 +48,13 @@
 }
 
 .dashboard-container .dashboard-content .get-started-button:hover {
-    background: rgba(56, 56, 56, 0.537); /* Slightly less transparent on hover */
+    background: rgba(183, 183, 183, 0.362); /* Semi-transparent background */
+    color: rgb(156, 156, 156); 
+    box-shadow: none;
+    backdrop-filter: blur(10px); /* Blur effect */
 }
 
 .dashboard-container .dashboard-content .get-started-button:active {
-    background: rgb(65, 65, 65);
+    background: rgba(174, 174, 174, 0.492); /* Semi-transparent background */
+    color: rgb(156, 156, 156); 
 }
-    
