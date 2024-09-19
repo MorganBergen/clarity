@@ -178,7 +178,7 @@ After the User creates an account an introduction to the application is displaye
 
 Initial Questionnaire
 
--  What's your sex?
+-  What is your sex?
 -  What is your age?
 -  What is your height?
 -  Current Weight?
