@@ -1,6 +1,19 @@
 # Clarity
 
-Advanced ML for Nutritional Analysis and Healthcare Management by @ChristalShaner, @MorganBergen, @BlazingEmerald
+Advanced ML for Nutritional Analysis and Healthcare Management
+
+**Table of Contents**
+
+1.  [Getting Started](#getting-started)
+2.  [Introduction](#introduction)
+3.  [Users](#users)
+4.  [Features](#features)
+5.  [Functionality](#functionality)
+6.  [Tools and Technologies](#tools-and-technologies)
+7.  [Architecture](#architecture)
+8.  [Additional Resources](#additional-resources)
+9.  [Project Phase Plan](#project-phase-plan)
+
 
 ##  Getting Started
 
@@ -229,8 +242,7 @@ Empower users to make informed dietary choices, track trends, prevent disease, a
 Integrate with wearables and medical devices to monitor health data in real time.
 </details>
 
-###  Functionality
-
+##  Functionality
 
 <details><summary>User profile and data input</summary>
 <br>
@@ -542,7 +554,7 @@ Food 101
 UPMC Food 101
 </details>
 
-###  Architecture
+##  Architecture
 
 <details><summary>Login Screen</summary>
 <br>
@@ -617,7 +629,7 @@ Figma - [Link to Project](https://www.figma.com/proto/0lIIBK2ARIaFwXMi4KiJY0/moc
 **Lose It!** Focuses on weight loss through calorie counting and food logging.
 </details>
 
-### Project Phase Plan
+##  Project Phase Plan
 
 **Phase 1:** Initial setup and user registration module
 
