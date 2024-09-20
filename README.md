@@ -2,7 +2,7 @@
 
 Advanced ML for Nutritional Analysis and Healthcare Management by @ChristalShaner, @MorganBergen, @BlazingEmerald
 
-###  Getting Started
+##  Getting Started
 
 <details><summary>Install Dependencies</summary>
 
@@ -38,7 +38,7 @@ Advanced ML for Nutritional Analysis and Healthcare Management by @ChristalShane
 
 <details><summary>Output from successfully running the Application</summary>
 
-####  `npm run dev`  - terminal 1
+##****##  `npm run dev`  - terminal 1
 
 ```bash
 > clarity-backend@1.0.0 dev
@@ -127,7 +127,7 @@ the scripts define custom commands for the project, such as `start`, `build`, `t
 
 </details>
 
-###  Introduction
+##  Introduction
 
 <details><summary>Summary</summary>
 <br>
@@ -148,7 +148,7 @@ Users captures or uploads images or scan barcodes of their food using Clarity.  
 
 </details>
 
-###  Users
+##  Users
 
 <details><summary>Patients with Chronic Conditions</summary>
 <br>
@@ -181,71 +181,106 @@ Anyone looking to enhance their well-being to make more informed dietary choices
 
 </details>
 
+##  Features
 
-###  Features
+<details><summary>Nutritional Analysis and Insights</summary>       
+<br>
 
-**Nutritional Analysis and Insights** -  Insights into macronutrient and micronutrient in take.  Inform users about carcinogens, pesticides, heavy metals, mycotoxins, artificial additives, trans fats, acrylamide, and other harmful substances in their food.
+Insights into macronutrient and micronutrient in take.  Inform users about carcinogens, pesticides, heavy metals, mycotoxins, artificial additives, trans fats, acrylamide, and other harmful substances in their food.
+</details>
 
-**Personalized Dietary Recommendations** -  Help users meet specific nutritional needs, such as managing cholesterol, blood sugar, blood pressure, or weight through personalized recommendations.  Provide users with meal plans, recipes, and grocery lists.
+<details><summary>Personalized Dietary Recommendations</summary>
+<br>
+Help users meet specific nutritional needs, such as managing cholesterol, blood sugar, blood pressure, or weight through personalized recommendations.  Provide users with meal plans, recipes, and grocery lists.
+</details>
 
-**Health Monitoring and Trend Analysis** -  Track dietary trends, allow users to log biometric data (integrated with wearables or medical devices such as glucose monitors, blood pressure monitors)
+<details><summary>Health Monitoring and Trend Analysis</summary>
+<br>
+Track dietary trends, allow users to log biometric data (integrated with wearables or medical devices such as glucose monitors, blood pressure monitors)
+</details>
 
-**Disease Risk Management** -  Use dietary data to predict potential health risks and offer preventive guidance to mitigate these risks.
+<details><summary>Disease Risk Management</summary>
+<br>
+Use dietary data to predict potential health risks and offer preventive guidance to mitigate these risks.
+</details>
 
-**Data Sharing with Healthcare Providers** -  Allow users to share their nutritional data with healthcare providers by exporting reports into formats such as PDF, CSV, through API integrations, or HL7 (Health Level Seven International), CDA (Clinical Document Architecture), or FHIR (Fast Healthcare Interoperability Resources) standards.
+<details><summary>Data Sharing with Healthcare Providers</summary>
+<br>
+Allow users to share their nutritional data with healthcare providers by exporting reports into formats such as PDF, CSV, through API integrations, or HL7 (Health Level Seven International), CDA (Clinical Document Architecture), or FHIR (Fast Healthcare Interoperability Resources) standards.
+</details>
 
-**Reduce Healthcare Costs** -  Incentivize users to reduce healthcare costs by providing data to insurance companies for premium reductions.
+<details><summary>Reduce Healthcare Costs</summary>
+<br>
+Incentivize users to reduce healthcare costs by providing data to insurance companies for premium reductions.
+</details>
 
-**Support Athletic Performance and Personal Training** -  Provide athletes and personal trainers with nutritional insights to optimize performance and recovery.
+<details><summary>Support Athletic Performance and Personal Training</summary>
+<br>
+Provide athletes and personal trainers with nutritional insights to optimize performance and recovery.
+</details>
 
-**Enhance Overall Health and Well-being** -  Empower users to make informed dietary choices, track trends, prevent disease, and improve overall health.
+<details><summary>Enhance Overall Health and Well-being</summary>
+<br>
+Empower users to make informed dietary choices, track trends, prevent disease, and improve overall health.
+</details>
 
-**Wearable Integration** -  Integrate with wearables and medical devices to monitor health data in real time.
+<details><summary>Wearable Integration</summary>
+<br>
+Integrate with wearables and medical devices to monitor health data in real time.
+</details>
 
 ###  Functionality
 
-**User profile and data input**
+
+<details><summary>User profile and data input</summary>
+<br>
 
 Users provide their specific information, including age, gender, weight, medical history, medications, and other relevant health data.  The user can set specific health goals related to their dietary needs, such as managing diabetes, losing weight, or improving overall wellness.
 
 After the User creates an account an introduction to the application is displayed that states the following
 
--  Simply snap a photo of their meal
--  Scan the barcode of the packaged food item
--  Input the food item into the database manually
+1.  Simply snap a photo of their meal
+2.  Scan the barcode of the packaged food item
+3.  Input the food item into the database manually
 
 Initial Questionnaire
 
--  What is your sex?
--  What is your age?
--  What is your height?
--  Current Weight?
--  Target Weight
--  What's your activity level?
--  What medications are you currently taking?
--  What medical conditions do you currently have?
--  Any family medical history of (high blood pressure, diabetes, cardiac problems, cholesterol problems, or cancer?)
--  What is your dietary preference? (n/a, vegan, vegetarian, pescatarian, etc.)
--  Any allergies or medications or foods?
--  What are your fitness or nutrition goals? (weight loss, muscle gain, etc.)
--  Have you ever been on a diet before? (yes, no)
--  Do you current take any vitamins or supplements? (yes, no)
--  How would you rate your diet
--  Do you use alcohol? (yes, no)
--  Do you use any tobacco products? (yes, no)
--  Are you on any weight loss medications? (yes, no)
--  Do you know what nutrients you have consumed? (I do know all the nutrients, I often check the nutrients list, Not really)
--  Do you usually keep a record of what you eat? (Every meal, I do when I remember, Not at all)
+1.  What is your sex?
+2.  What is your age?
+3.  What is your height?
+4.  Current Weight?
+5.  Target Weight
+6.  What's your activity level?
+7.  What medications are you currently taking?
+8.  What medical conditions do you currently have?
+9.  Any family medical history of (high blood pressure, diabetes, cardiac problems, cholesterol problems, or cancer?)
+10.  What is your dietary preference? (n/a, vegan, vegetarian, pescatarian, etc.)
+11.  Any allergies or medications or foods?
+12.  What are your fitness or nutrition goals? (weight loss, muscle gain, etc.)
+13.  Have you ever been on a diet before? (yes, no)
+14.  Do you current take any vitamins or supplements? (yes, no)
+15.  How would you rate your diet? (excellent, good, fair, poor)
+16.  Do you use alcohol? (yes, no)
+17.  Do you use any tobacco products? (yes, no)
+18.  Are you on any weight loss medications? (yes, no)
+19.  Do you know what nutrients you have consumed? (I do know all the nutrients, I often check the nutrients list, Not really)
+20.  Do you usually keep a record of what you eat? (Every meal, I do when I remember, Not at all)
 
-**Image Capture or Barcode Scanning**
+</details>
 
+<details><summary>Image Capture or Barcode Scanning</summary>
+<br>
 Users capture images of their meals using a mobile device.  The software should be user friendly and guide users on how to take clear and useful photos for analysis.  Or users can scan the barcode of the packaged food item.
+</details>
 
-**Image analysis and nutritional data extraction**
+<details><summary>Image analysis and nutritional data extraction</summary>
+<br>
 
 [AI powered analysis](https://openfoodfacts.github.io/openfoodfacts-server/) will consist of uploaded images to a desktop software where machine learning algorithms analyze the food items for nutritional content, portion sizes, and dietary composition.  The app allows users to scan the barcode of products, to view the product information, and to take and submit pictures and data for missing products. [ios app](https://github.com/openfoodfacts/openfoodfacts-ios)  
 
-**Nutritional Data Extraction in `JSON` format**
+
+<details><summary>Nutritional Data Extraction in <code>JSON</code> format</summary>
+<br>
 
 ```JSON
 [
@@ -452,46 +487,99 @@ Users capture images of their meals using a mobile device.  The software should 
   }
 ] 
 ```
+</details>
+</details>
 
-###  Tools and Technologies
+##  Tools and Technologies
 
-**Backend**
--  Node.js - for server-side development
--  Express.js - framework for node.js for handling server requests, routing, and api endpoints
--  [Pocketbase](https://pocketbase.io) - for cloud storage, user authentication, hosting, and database
+<details><summary>Backend</summary>
+<br>
 
-**Frontend**
--  React - for building the user interface
--  [Material UI](https://mui.com) - for design components
--  Redux - for state management
--  Axios - for making https requests
--  React Native Health - for integrating with HealthKit
+Node.js - for server-side development
 
-**Machine Learning**
--  [Clarifai](https://www.clarifai.com)
--  Roboflow Universe
--  Google Cloud Vision API
--  IMB Watson Visual Recognition
+Express.js - framework for node.js for handling server requests, routing, and api endpoints
+  
+[Pocketbase](https://pocketbase.io) - for cloud storage, user authentication, hosting, and database
+</details>
 
-**Barcode Scanning**
--  Open Food Facts API - for food identification and nutritional information via barcode scanning
+<details><summary>Frontend</summary>
+<br>
 
-**Dataset for Custom Model**
--  Food 101
--  UPMC Food 101
+React - for building the user interface
+
+[Material UI](https://mui.com) - for design components
+
+Redux - for state management
+
+Axios - for making https requests
+
+React Native Health - for integrating with HealthKit
+</details>
+
+<details><summary>Machine Learning</summary>
+<br>
+
+[Clarifai](https://www.clarifai.com)
+
+[Roboflow Universe](https://universe.roboflow.com)
+
+[Google Cloud Vision API](https://cloud.google.com/vision)
+
+[IBM Watson Visual Recognition](https://www.ibm.com/products/watson-visual-recognition)
+</details>
+
+<details><summary>Barcode Scanning API</summary>
+<br>
+
+Open Food Facts API - for food identification and nutritional information via barcode scanning
+</details>
+
+<details><summary>Dataset for Custom Model</summary>
+<br>
+
+Food 101
+
+UPMC Food 101
+</details>
 
 ###  Architecture
 
-1.  **Login Screen** -  Users can login or create an account to access the app.
-2.  **Dashboard** -  Users can view their daily nutritional intake, health data, and personalized recommendations.
-3.  **Analysis** -  Users can view detailed analysis of their meals, dietary trends, and health insights.
-4.  **Settings** -  Users can update their profile, health goals, and preferences.
-5.  **Reports** -  Users can export their data for healthcare providers or insurance companies.
-6.  etc.
+<details><summary>Login Screen</summary>
+<br>
+
+Users can login or create an account to access the app.
+</details>
+
+<details><summary>Dashboard</summary>
+<br>
+
+Users can view their daily nutritional intake, health data, and personalized recommendations.
+</details>
+
+<details><summary>Analysis</summary>
+<br>
+
+Users can view detailed analysis of their meals, dietary trends, and health insights.
+</details>
+
+<details><summary>Settings</summary>
+<br>
+
+Users can update their profile, health goals, and preferences.
+</details>
+
+<details><summary>Reports</summary>
+<br>
+
+Users can export their data for healthcare providers or insurance companies.
+</details>
 
 Figma - [Link to Project](https://www.figma.com/proto/0lIIBK2ARIaFwXMi4KiJY0/mockup?node-id=70-287&t=EZ5trGXitWiy3gsk-1)
 
-###  Resources
+##  Additional Resources
+
+<details><summary>Resources</summary>
+<br>
 
 [Open Food Facts API](https://openfoodfacts.github.io/openfoodfacts-server/api/)
 
@@ -517,40 +605,28 @@ Figma - [Link to Project](https://www.figma.com/proto/0lIIBK2ARIaFwXMi4KiJY0/moc
 
 [open food facts api documentation](https://openfoodfacts.github.io/openfoodfacts-server/api/)
 
-###  Competitors
+</details>
 
-**Calorie Mama:** Provides food recognition and nutritional analysis.
+<details><summary>Competitors</summary>
+<br>
 
-**MyFitnessPal:** Offers comprehensive dietary tracking and personalized recommendations.
+**Calorie Mama** Provides food recognition and nutritional analysis.
 
-**Lose It!:** Focuses on weight loss through calorie counting and food logging.
+**MyFitnessPal** Offers comprehensive dietary tracking and personalized recommendations.
+
+**Lose It!** Focuses on weight loss through calorie counting and food logging.
+</details>
 
 ### Project Phase Plan
 
-#### Senior Design 1 (SD1)
+**Phase 1:** Initial setup and user registration module
 
-- **Phase 1:** Initial setup and user registration module
-- **Phase 2:** Image capture and basic nutritional analysis
+**Phase 2:** Image capture and basic nutritional analysis
 
-#### Senior Design 2 (SD2)
+**Phase 3:** Advanced nutritional analysis and personalized recommendations
 
-- **Phase 3:** Advanced nutritional analysis and personalized recommendations
-- **Phase 4:** Health monitoring and trend analysis
-- **Phase 5:** Disease risk management and data sharing
-- **Phase 6:** Wearable integration and final testing
+**Phase 4:** Health monitoring and trend analysis
 
-### Rescue Plan
+**Phase 5:** Disease risk management and data sharing
 
-Several factors could potentially derail our project, such as procrastination and poor group collaboration. To mitigate these risks, we will:
-
-- Establish a clear timeline with milestones and deadlines.
-- Hold regular meetings to ensure consistent progress and address any issues promptly.
-- Foster open communication and a supportive team environment to maintain motivation and collaboration.
-
-### Group Work
-
-Each group member is committed to the project and maintains a respectful and professional attitude. We will distribute tasks based on individual strengths and interests, ensuring mutual support and knowledge sharing. Regular meetings and clear communication channels will facilitate smooth collaboration.
-
-### User Experience
-
-To ensure Clarity meets user needs, we plan to involve classmates outside our group in testing the application. Their feedback will be invaluable in refining the use`r interface and overall functionality, ensuring a user-friendly and effective application.
+**Phase 6:** Wearable integration and final testing
