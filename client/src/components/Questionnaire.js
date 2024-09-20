@@ -108,7 +108,16 @@ const Questionnaire = () => {
             </Form>
           )}
           {currentQuestion === 2 && (
-            <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
+            <Form onSubmit={handleNext} onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                const nextButton = document.querySelector('.next-button');
+                if (nextButton) {
+                  nextButton.focus();
+                  nextButton.click();
+                }
+              }
+            }}>
               <Form.Group controlId="formSex" className="mt-4">
                 <Form.Label>What is your sex?</Form.Label>
                 <div className="button-group-vertical">
@@ -118,7 +127,7 @@ const Questionnaire = () => {
                 </div>
                 <div className="button-group">
                   <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
-                  <Button type="submit" onSubmit={handleNext} className="next-button" disabled={!sex}>Next</Button>
+                  <Button type="submit" className="next-button" disabled={!sex}>Next</Button>
                 </div>
               </Form.Group>
             </Form>
