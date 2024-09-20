@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import './Questionnaire.css';
@@ -9,6 +9,10 @@ const Questionnaire = () => {
   const [activityLevel, setActivityLevel] = useState('');
   const [medications, setMedications] = useState('');
   const [medicationSuggestions, setMedicationSuggestions] = useState([]);
+  const [currentWeight, setCurrentWeight] = useState('');
+  const [targetWeight, setTargetWeight] = useState('');
+  const weightInputRef = useRef(null);
+  const targetWeightInputRef = useRef(null);
 
   const questions = [
     { id: 1, label: "Name" },
@@ -61,6 +65,33 @@ const Questionnaire = () => {
     setMedications(medication);
     setMedicationSuggestions([]);
   };
+
+  const handleWeightFocus = (inputRef, weight) => {
+    if (inputRef.current) {
+      const length = weight.length;
+      inputRef.current.setSelectionRange(length, length);
+    }
+  };
+
+  const handleWeightInput = (e, setWeight, inputRef) => {
+    const value = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+    setWeight(value);
+    const input = inputRef.current;
+    if (input) {
+      const position = value.length;
+      setTimeout(() => input.setSelectionRange(position, position), 0);
+    }
+  };
+
+  // const handleWeightChange = (e) => {
+  //   const value = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+  //   setCurrentWeight(value);
+  // };
+
+  // const handleTargetWeightChange = (e) => {
+  //   const value = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+  //   setTargetWeight(value);
+  // };
 
   return (
     <div className="questionnaire-container">
@@ -134,24 +165,42 @@ const Questionnaire = () => {
           )}
           {currentQuestion === 3 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
-              <Form.Group controlId="formCurrentWeight" className="mt-4">
-                <Form.Label>What is your current weight?</Form.Label>
-                <Form.Control type="number" placeholder="in lbs" required className="no-spinner" />
-                <div className="button-group">
-                  <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
-                  <Button type="submit" className="next-button">Next</Button>
-                </div>
-              </Form.Group>
-            </Form>
+            <Form.Group controlId="formCurrentWeight" className="mt-4">
+              <Form.Label>What is your current weight?</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="in lbs"
+                value={currentWeight ? `${currentWeight} lbs` : ''}
+                onChange={(e) => handleWeightInput(e, setCurrentWeight, weightInputRef)}
+                onFocus={() => handleWeightFocus(weightInputRef, currentWeight)}
+                ref={weightInputRef}
+                required
+                className="no-spinner"
+              />
+              <div className="button-group">
+                <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
+                <Button type="submit" className="next-button" disabled={!currentWeight}>Next</Button>
+              </div>
+            </Form.Group>
+          </Form>
           )}
           {currentQuestion === 4 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formTargetWeight" className="mt-4">
                 <Form.Label>What is your target weight?</Form.Label>
-                <Form.Control type="number" placeholder="in lbs" required className="no-spinner" />
+                <Form.Control
+                  type="text"
+                  placeholder="in lbs"
+                  value={targetWeight ? `${targetWeight} lbs` : ''}
+                  onChange={(e) => handleWeightInput(e, setTargetWeight, targetWeightInputRef)}
+                  onFocus={() => handleWeightFocus(targetWeightInputRef, targetWeight)}
+                  ref={targetWeightInputRef}
+                  required
+                  className="no-spinner"
+                />
                 <div className="button-group">
                   <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
-                  <Button type="submit" className="next-button">Next</Button>
+                  <Button type="submit" className="next-button" disabled={!targetWeight}>Next</Button>
                 </div>
               </Form.Group>
             </Form>
@@ -168,7 +217,7 @@ const Questionnaire = () => {
                     Moderately active (3 to 5 days of exercise per week)
                   </Button>
                   <Button variant="outline-primary" onClick={() => setActivityLevel('Vigorously active')} className={activityLevel === 'Vigorously active' ? 'selected' : ''}>
-                    Vigorously active (daily movement throughout the day)
+                    Vigorously active (daily movement)
                   </Button>
                 </div>
                 <div className="button-group">
