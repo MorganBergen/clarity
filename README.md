@@ -47,6 +47,7 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 6.  open a new terminal window
 7.  `cd ./clarity/client` -  navigate to the client directory
 8.  `npm start` -  start the client
+9.  `grok http http://localhost:3000` -  view the application in the browser 
 
 </details>
 
@@ -93,6 +94,8 @@ webpack compiled successfully
 
 </details>
 
+
+
 <details><summary><code>Package.json</code> and Dependency Overview</summary>
 
 <br>
@@ -121,9 +124,18 @@ the scripts define custom commands for the project, such as `start`, `build`, `t
 
 `nodemon` is a utility that monitors for any changes in the source code and automatically restarts the server, it helps with the development process by reducing the need to manually restart the server for every change.
 
-`npx` is a package running tool that comes with npm, and allows you to run node.js packages without having to install them globally.
+[`npx`](https://docs.npmjs.com/cli/v8/commands/npx) is a package running tool that comes with npm, and allows you to run node.js packages without having to install them globally.
 
-`create-react-app` is a used to create a single page react application and sets up the project with default configurations, including tools like webpack babel, eslint, and jest.
+[`create-react-app`](https://create-react-app.dev/docs/getting-started) is a used to create a single page react application and sets up the project with default configurations, including tools like webpack babel, eslint, and jest.
+
+[`react`](https://react.dev) is a library for building user interfaces, it provides a declarative way to create interactive user interfaces with components and props.
+
+[`react-bootstrap`](https://react-bootstrap.github.io/docs/getting-started/introduction) is a library of reusable react components for building web applications, it provides a set of pre-built components such as buttons, forms, and navigation menus, which can be easily integrated into your application.
+
+[`redux`](https://redux.js.org/usage/#code-quality) is a state management library, it helps manage the state of the application in a predictable way.  it centralizes the applications state and logic.
+
+[`react-redux`](https://react-redux.js.org/using-react-redux/connect-mapstate) is the official binding library for react and redux, it allows for easy integration by connecting 
+react components to the redux store, enabling them to read state and dispatch actions.
 
 [`@mui/material`](https://mui.com/material-ui/getting-started/installation/) is a library of react components that implements google's material design, it helps with building a user interface with components such as buttons, text fields, and dialogs.
 
@@ -131,13 +143,10 @@ the scripts define custom commands for the project, such as `start`, `build`, `t
 
 [`@emotion/styled`](https://emotion.sh/docs/styled) is part of the emotion library that provides a styled components like api for creating styled react components
 
-[`redux`](https://redux.js.org/usage/#code-quality) is a state management library, it helps manage the state of the application in a predictable way.  it centralizes the applications state and logic.
-
-[`react-redux`](https://react-redux.js.org/using-react-redux/connect-mapstate) is the official binding library for react and redux, it allows for easy integration by connecting react components to the redux store, enabling them to read state and dispatch actions.
 
 [`axios`](https://axios-http.com/docs/intro) is a library that helps with making http requests, it's used to communication with the backend apis, making it easier to send and receive data from the server.
 
-`cors` is a middleware that allows for cross origin resource sharing, it enables the server to accept requests from different origins.
+[`cors`](https://fetch.spec.whatwg.org/#http-cors-protocol) is a middleware that allows for cross origin resource sharing, it enables the server to accept requests from different origins.
 
 </details>
 
