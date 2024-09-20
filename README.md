@@ -1,6 +1,6 @@
 # Clarity
 
-Advanced ML for Nutritional Analysis and Healthcare Management.  @ChristalShaner, @MorganBergen, @BlazingEmerald
+Advanced ML for Nutritional Analysis and Healthcare Management by @ChristalShaner, @MorganBergen, @BlazingEmerald
 
 ###  Getting Started
 
@@ -79,10 +79,11 @@ webpack compiled successfully
 
 </details>
 
+<details><summary><code>Package.json</code> and Dependency Overview</summary>
 
-####  `package.json` and Dependency Overview
+<br>
 
-Provides metadata, dependencies, scripts, configuration, engines, versioning, and repository information for the project.  
+`package.json` provides metadata, dependencies, scripts, configuration, engines, versioning, and repository information for the project.  
 
 metadata contains the `name`, `version`, `description`, `main`, `scripts`, `keywords`, `author`, `dependencies`, `devDependencies`, and `license` of the project
 
@@ -124,25 +125,62 @@ the scripts define custom commands for the project, such as `start`, `build`, `t
 
 `cors` is a middleware that allows for cross origin resource sharing, it enables the server to accept requests from different origins.
 
+</details>
+
 ###  Introduction
 
-**Summary**  - Clarity is a web and mobile application that leverages image recognition and machine learning to analyze the nutritional content of food and comprehensive health management tool.  Designed to empower users with real time dietary insights and transform the way individuals manage their chronic conditions, nutrition, and overall health.
+<details><summary>Summary</summary>
+<br>
+Clarity is a web and mobile application that leverages image recognition and machine learning to analyze the nutritional content of food and comprehensive health management tool.  Designed to empower users with real time dietary insights and transform the way individuals manage their chronic conditions, nutrition, and overall health.
 
-**Features** -  Users captures or uploads images or scan barcodes of their food using Clarity.  The app then provides comprehensive nutritional analysis, dietary trends, and provide personalized recommendations based on the user's health goals or chronic conditions.  Clarity can also predicts or mitigates disease risk factors, and allocates data for health care providers.  
+</details>
 
-**Problem Statement**  -  [Most chronic disease are caused by risk factors such as poor nutrition and excessive alcohol use.](https://www.cdc.gov/chronic-disease/prevention/index.html#:~:text=Most%20chronic%20diseases%20are%20caused,feeling%20good%2C%20and%20living%20longer.)  By avoiding these risks and receiving good preventative care Clarity can help reduce the risk of chronic diseases.  The current healthcare system is intervention based and reactive.  Clarity aims to be proactive and preventative by providing users and healthcare providers with real-time data to make informed decisions about their health.
+<details><summary>Features</summary>
+<br>
+Users captures or uploads images or scan barcodes of their food using Clarity.  The app then provides comprehensive nutritional analysis, dietary trends, and provide personalized recommendations based on the user's health goals or chronic conditions.  Clarity can also predicts or mitigates disease risk factors, and allocates data for health care providers.  
+
+</details>
+
+<details><summary>Problem Statement</summary>
+<br>
+
+[Most chronic disease are caused by risk factors such as poor nutrition and excessive alcohol use.](https://www.cdc.gov/chronic-disease/prevention/index.html#:~:text=Most%20chronic%20diseases%20are%20caused,feeling%20good%2C%20and%20living%20longer.)  By avoiding these risks and receiving good preventative care Clarity can help reduce the risk of chronic diseases.  The current healthcare system is intervention based and reactive.  Clarity aims to be proactive and preventative by providing users and healthcare providers with real-time data to make informed decisions about their health.
+
+</details>
 
 ###  Users
 
-**Patients with Chronic Conditions** -  Clarity assist those needing dietary monitoring, such as diabetes, hypertension, heart disease, and obesity.  Clarity can help patients manage their conditions and provide their healthcare providers with data to make informed decisions.
+<details><summary>Patients with Chronic Conditions</summary>
+<br>
 
-**Insured Individuals** -  Users seeking to reduce healthcare costs will find Clarity invaluable for incentive programs that help reduce insurance premiums based on health data.
+Clarity assist those needing dietary monitoring, such as diabetes, hypertension, heart disease, and obesity.  Clarity can help patients manage their conditions and provide their healthcare providers with data to make informed decisions.
+</details>
 
-**Athletes** -  Optimize performance and recovery with nutritional insights and recommendations.
+<details><summary>Insured Individuals</summary>
+<br>
 
-**Personal Trainers** -  To track their clients' progress and provide personalized recommendations to achieve their health and fitness goals.
+Users seeking to reduce healthcare costs will find Clarity invaluable for incentive programs that help reduce insurance premiums based on health data.
+</details>
 
-**Health-conscious Individuals** -  Anyone looking to enhance their well-being to make more informed dietary choices, track trends, prevent disease, and improve overall health.
+<details><summary>Athletes</summary>
+<br>
+
+Optimize performance and recovery with nutritional insights and recommendations.
+</details>
+
+<details><summary>Personal Trainers</summary>
+<br>
+
+Track their clients' progress and provide personalized recommendations to achieve their health and fitness goals.
+</details>
+
+<details><summary>Health-conscious Individuals</summary>
+<br>
+
+Anyone looking to enhance their well-being to make more informed dietary choices, track trends, prevent disease, and improve overall health.
+
+</details>
+
 
 ###  Features
 
@@ -170,7 +208,7 @@ the scripts define custom commands for the project, such as `start`, `build`, `t
 
 Users provide their specific information, including age, gender, weight, medical history, medications, and other relevant health data.  The user can set specific health goals related to their dietary needs, such as managing diabetes, losing weight, or improving overall wellness.
 
-After the User creates an account an introduction to the application is displayed that states the following - 
+After the User creates an account an introduction to the application is displayed that states the following
 
 -  Simply snap a photo of their meal
 -  Scan the barcode of the packaged food item
@@ -184,7 +222,7 @@ Initial Questionnaire
 -  Current Weight?
 -  Target Weight
 -  What's your activity level?
--  What medications are you currently taking
+-  What medications are you currently taking?
 -  What medical conditions do you currently have?
 -  Any family medical history of (high blood pressure, diabetes, cardiac problems, cholesterol problems, or cancer?)
 -  What is your dietary preference? (n/a, vegan, vegetarian, pescatarian, etc.)
