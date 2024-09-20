@@ -243,7 +243,7 @@
 .button-group .next-button:hover,
 .button-group .back-button:hover {
   background: rgba(183, 183, 183, 0.362) !important; /* Semi-transparent background */
-  color: rgb(156, 156, 156) ; 
+  color: rgb(156, 156, 156) !important; 
 }
 
 .button-group .next-button:active,
@@ -346,4 +346,57 @@
   font-size: 12px;
   color: rgb(156, 156, 156);
   margin-left: 5px;
+}
+
+.add-medication-button {
+  height: 25px !important;
+  width: 10% !important;
+  display: flex !important; /* Use flexbox */
+  align-items: center !important; /* Center vertically */
+  justify-content: center !important; /* Center horizontally */
+  background: rgba(70, 70, 70, 0.078) !important; /* Semi-transparent background */
+  color: rgb(156, 156, 156) !important; 
+  border: none !important;
+  border-radius: 5px !important; /* Optional: Add rounded corners */
+  font-size: 10px !important; /* Set font size to 8px */
+}
+
+.add-medication-button:disabled {
+  color: transparent !important;
+  background-color: transparent !important; 
+}
+
+.add-medication-button:hover {
+  background: rgba(183, 183, 183, 0.362) !important; /* Semi-transparent background */
+  color: rgb(156, 156, 156) !important; 
+}
+
+.add-medication-button:active {
+  background: rgba(174, 174, 174, 0.492) !important; /* Semi-transparent background */
+  color: rgb(156, 156, 156) !important; 
+}
+
+.question-box .added-medications-list p {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 0px;
+}
+
+.question-box .remove-medication-button {
+  background: transparent;
+  color: grey;
+  border: none;
+  font-size: 10px;
+  margin-top: 0px;
+  align-content: center;
+}
+
+.question-box .remove-medication-button:hover {
+  background: #333;
+  color: grey;
+  border: none;
+  font-size: 10px;
+  margin-top: 0px;
+  align-content: center;
 }

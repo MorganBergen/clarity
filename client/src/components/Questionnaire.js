@@ -9,6 +9,7 @@ const Questionnaire = () => {
   const [activityLevel, setActivityLevel] = useState('');
   const [medications, setMedications] = useState('');
   const [medicationSuggestions, setMedicationSuggestions] = useState([]);
+  const [addedMedications, setAddedMedications] = useState([]);
   const [currentWeight, setCurrentWeight] = useState('');
   const [targetWeight, setTargetWeight] = useState('');
   const weightInputRef = useRef(null);
@@ -66,6 +67,17 @@ const Questionnaire = () => {
     setMedicationSuggestions([]);
   };
 
+  const handleAddMedication = () => {
+    if (medications && !addedMedications.includes(medications)) {
+      setAddedMedications([...addedMedications, medications]);
+      setMedications('');
+    }
+  };
+
+  const handleRemoveMedication = (index) => {
+    setAddedMedications(addedMedications.filter((_, i) => i !== index));
+  };
+
   const handleWeightFocus = (inputRef, weight) => {
     if (inputRef.current) {
       const length = weight.length;
@@ -82,16 +94,6 @@ const Questionnaire = () => {
       setTimeout(() => input.setSelectionRange(position, position), 0);
     }
   };
-
-  // const handleWeightChange = (e) => {
-  //   const value = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-  //   setCurrentWeight(value);
-  // };
-
-  // const handleTargetWeightChange = (e) => {
-  //   const value = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-  //   setTargetWeight(value);
-  // };
 
   return (
     <div className="questionnaire-container">
@@ -165,24 +167,24 @@ const Questionnaire = () => {
           )}
           {currentQuestion === 3 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
-            <Form.Group controlId="formCurrentWeight" className="mt-4">
-              <Form.Label>What is your current weight?</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="in lbs"
-                value={currentWeight ? `${currentWeight} lbs` : ''}
-                onChange={(e) => handleWeightInput(e, setCurrentWeight, weightInputRef)}
-                onFocus={() => handleWeightFocus(weightInputRef, currentWeight)}
-                ref={weightInputRef}
-                required
-                className="no-spinner"
-              />
-              <div className="button-group">
-                <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
-                <Button type="submit" className="next-button" disabled={!currentWeight}>Next</Button>
-              </div>
-            </Form.Group>
-          </Form>
+              <Form.Group controlId="formCurrentWeight" className="mt-4">
+                <Form.Label>What is your current weight?</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="in lbs"
+                  value={currentWeight ? `${currentWeight} lbs` : ''}
+                  onChange={(e) => handleWeightInput(e, setCurrentWeight, weightInputRef)}
+                  onFocus={() => handleWeightFocus(weightInputRef, currentWeight)}
+                  ref={weightInputRef}
+                  required
+                  className="no-spinner"
+                />
+                <div className="button-group">
+                  <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
+                  <Button type="submit" className="next-button" disabled={!currentWeight}>Next</Button>
+                </div>
+              </Form.Group>
+            </Form>
           )}
           {currentQuestion === 4 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
@@ -231,7 +233,10 @@ const Questionnaire = () => {
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formMedications" className="mt-4">
                 <Form.Label>What medications are you currently taking?</Form.Label>
-                <p>As you type, suggestions will appear below</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <p>As you type, suggestions will appear below</p>
+                  <Button className='add-medication-button' onClick={handleAddMedication} disabled={!medications}>Add</Button>
+                </div>
                 <Form.Control
                   type="text"
                   placeholder="List your medications"
@@ -247,6 +252,16 @@ const Questionnaire = () => {
                       </li>
                     ))}
                   </ul>
+                )}
+                {addedMedications.length > 0 && (
+                  <div className="added-medications-list">
+                    {addedMedications.map((medication, index) => (
+                      <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <p>{medication}</p>
+                        <Button className="remove-medication-button" size="sm" onClick={() => handleRemoveMedication(index)}>X</Button>
+                      </div>
+                    ))}
+                  </div>
                 )}
                 <div className="button-group">
                   <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
