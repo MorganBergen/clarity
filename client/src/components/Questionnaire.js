@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import axios from 'axios';
 import './Questionnaire.css';
 
 const Questionnaire = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [sex, setSex] = useState('');
   const [activityLevel, setActivityLevel] = useState('');
+  const [medications, setMedications] = useState('');
+  const [medicationSuggestions, setMedicationSuggestions] = useState([]);
 
   const questions = [
     { id: 1, label: "Name" },
@@ -36,6 +39,27 @@ const Questionnaire = () => {
   const handleBack = (e) => {
     e.preventDefault();
     setCurrentQuestion(currentQuestion - 1);
+  };
+
+  const handleMedicationChange = async (e) => {
+    const query = e.target.value;
+    setMedications(query);
+
+    if (query.length > 2) {
+      try {
+        const response = await axios.get(`https://api.fda.gov/drug/label.json?search=openfda.brand_name:${query}*&limit=10`);
+        setMedicationSuggestions(response.data.results.map(result => result.openfda.brand_name[0]));
+      } catch (error) {
+        console.error('Error fetching medication data:', error);
+      }
+    } else {
+      setMedicationSuggestions([]);
+    }
+  };
+
+  const handleMedicationSelect = (medication) => {
+    setMedications(medication);
+    setMedicationSuggestions([]);
   };
 
   return (
@@ -149,7 +173,22 @@ const Questionnaire = () => {
             <Form onSubmit={handleNext}>
               <Form.Group controlId="formMedications" className="mt-4">
                 <Form.Label>What medications are you currently taking?</Form.Label>
-                <Form.Control type="text" placeholder="List your medications" required />
+                <Form.Control
+                  type="text"
+                  placeholder="List your medications"
+                  value={medications}
+                  onChange={handleMedicationChange}
+                  required
+                />
+                {medicationSuggestions.length > 0 && (
+                  <ul className="suggestions-list">
+                    {medicationSuggestions.map((suggestion, index) => (
+                      <li key={index} onClick={() => handleMedicationSelect(suggestion)}>
+                        {suggestion}
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <div className="button-group">
                   <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
                   <Button type="submit" className="next-button">Next</Button>
