@@ -2,8 +2,8 @@
 
 Advanced ML for Nutritional Analysis and Healthcare Management
 
-**Table of Contents**
-
+###  Table of Contents
+---
 1.  [Getting Started](#getting-started)
 2.  [Introduction](#introduction)
 3.  [Users](#users)
@@ -14,6 +14,7 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 8.  [Additional Resources](#additional-resources)
 9.  [Project Phase Plan](#project-phase-plan)
 
+----
 
 ##  Getting Started
 
