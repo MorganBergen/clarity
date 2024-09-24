@@ -172,9 +172,9 @@
   justify-content: left;
   align-items: left; /* Align items to the start (left) */
   width: 35%; /* Adjust width as needed */
-  height: 50%;
+  height: 70%;
   padding: 30px;
-  background-color: #ffffff; /* Background color of the box */
+  background-color: transparent; /* Background color of the box */
   border-radius: 25px; /* Border radius */
 }
 
@@ -376,27 +376,95 @@
   color: rgb(156, 156, 156) !important; 
 }
 
-.question-box .added-medications-list p {
-  align-items: center;
+.added-medication-item {
   display: flex;
-  justify-content: space-between;
-  margin-left: 0px;
+  align-items: center; 
+  font-size: 12px;
+  color: rgb(156, 156, 156);
+  list-style-type: none;
 }
 
 .question-box .remove-medication-button {
   background: transparent;
-  color: grey;
+  color: rgb(156, 156, 156);
   border: none;
-  font-size: 10px;
-  margin-top: 0px;
-  align-content: center;
+  font-size: 12px;  
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  padding: 4px 8px 6px 8px; /* Remove default padding */
+  margin-right: 7px;
 }
 
 .question-box .remove-medication-button:hover {
-  background: #333;
-  color: grey;
+  background: rgba(183, 183, 183, 0.362) !important; /* Semi-transparent background */
+  color: grey !important;
+}
+
+.question-box .remove-medication-button:active {
+  background: rgba(174, 174, 174, 0.492) !important; /* Semi-transparent background */
+  color: grey !important;
+}
+
+.add-allergy-button {
+  height: 25px !important;
+  width: 10% !important;
+  display: flex !important; /* Use flexbox */
+  align-items: center !important; /* Center vertically */
+  justify-content: center !important; /* Center horizontally */
+  background: rgba(70, 70, 70, 0.078) !important; /* Semi-transparent background */
+  color: rgb(156, 156, 156) !important; 
+  border: none !important;
+  border-radius: 5px !important; /* Optional: Add rounded corners */
+  font-size: 10px !important; /* Set font size to 8px */
+}
+
+.add-allergy-button:disabled {
+  color: transparent !important;
+  background-color: transparent !important; 
+}
+
+.add-allergy-button:hover {
+  background: rgba(183, 183, 183, 0.362) !important; /* Semi-transparent background */
+  color: rgb(156, 156, 156) !important; 
+}
+
+.add-allergy-button:active {
+  background: rgba(174, 174, 174, 0.492) !important; /* Semi-transparent background */
+  color: rgb(156, 156, 156) !important; 
+}
+
+.added-allergy-item {
+  display: flex;
+  align-items: center; 
+  font-size: 12px;
+  color: rgb(156, 156, 156);
+  list-style-type: none;
+}
+
+.question-box .remove-allergy-button {
+  background: transparent;
+  color: rgb(156, 156, 156);
   border: none;
-  font-size: 10px;
-  margin-top: 0px;
-  align-content: center;
+  font-size: 12px;  
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  padding: 4px 8px 6px 8px; /* Remove default padding */
+  margin-right: 7px;
+}
+
+.question-box .remove-allergy-button:hover {
+  background: rgba(183, 183, 183, 0.362) !important; /* Semi-transparent background */
+  color: grey !important;
+}
+
+.question-box .remove-allergy-button:active {
+  background: rgba(174, 174, 174, 0.492) !important; /* Semi-transparent background */
+  color: grey !important;
+}
+
+.button-group-vertical .selected {
+  background-color: rgba(70, 70, 70, 0.5); /* Example selected background */
+  color: white; /* Example selected text color */
 }
