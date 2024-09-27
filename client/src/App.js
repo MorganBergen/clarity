@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import ForgotPassword from './components/ForgotPassword';
 import EmailVerification from './components/EmailVerification';
+import Analysis from './components/Analysis';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/MainDashboard" element={<MainDashboard />} />
           <Route path="/_/#/auth/confirm-verification/:token" element={<EmailVerification />} />
+          <Route path="/Analysis" element={<Analysis />} />
         </Routes>
       </Router>
     </Provider>
