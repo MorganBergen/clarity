@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Questionnaire.css';
+import './MainDashboard.js';
 
 const Questionnaire = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
@@ -20,7 +22,11 @@ const Questionnaire = () => {
   const [allergies, setAllergies] = useState('');
   const [addedAllergies, setAddedAllergies] = useState([]);
   const [fitnessGoals, setFitnessGoals] = useState([]);
-  const [dietHistory, setDietHistory] = useState([]);
+  const [tobaccoUse, setTobaccoUse] = useState([]);
+  const [isNoneSelected, setIsNoneSelected] = useState(false);
+  const [dietHistory, setDietHistory] = useState('');
+
+  const navigate = useNavigate();
 
   const questions = [
     { id: 1, label: "Name" },
@@ -34,21 +40,20 @@ const Questionnaire = () => {
     { id: 9, label: "Dietary Preference" },
     { id: 10, label: "Allergies" },
     { id: 11, label: "Fitness Goals" },
-    { id: 12, label: "Diet History" },
-    { id: 13, label: "Vitamins / Supplements" },
-    { id: 14, label: "Diet Rating" },
-    { id: 15, label: "Alcohol Use" },
-    { id: 16, label: "Tobacco Use" },
-    { id: 17, label: "Weight Loss Medicines" },
-    { id: 18, label: "Nutrient Knowledge" },
-    { id: 19, label: "Food Record" },
+    { id: 12, label: "Vitamins / Supplements" },
+    { id: 13, label: "Diet Rating" },
+    { id: 14, label: "Alcohol Use" },
+    { id: 15, label: "Tobacco Use" },
   ];
 
   const handleNext = (e) => {
     e.preventDefault();
-    setCurrentQuestion(currentQuestion + 1);
+    if (currentQuestion < questions.length) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      navigate('/MainDashboard'); // Redirect to MainDashboard
+    }
   };
-
   const handleBack = (e) => {
     e.preventDefault();
     setCurrentQuestion(currentQuestion - 1);
@@ -84,6 +89,14 @@ const Questionnaire = () => {
 
   const handleRemoveMedication = (index) => {
     setAddedMedications(addedMedications.filter((_, i) => i !== index));
+  };
+
+  const handleSetMedicationsNone = () => {
+    setIsNoneSelected((prev) => !prev);
+    if (!isNoneSelected) {
+      setMedications('');
+      setAddedMedications([]);
+    }
   };
 
   const handleWeightFocus = (inputRef, weight) => {
@@ -142,7 +155,6 @@ const Questionnaire = () => {
     );
   };
 
-  
 
   return (
     <div className="questionnaire-container">
@@ -284,13 +296,14 @@ const Questionnaire = () => {
                 <Form.Label>What medications are you currently taking?</Form.Label>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <p>As you type, suggestions will appear below</p>
-                  <Button className='add-medication-button' onClick={handleAddMedication} disabled={!medications}>Add</Button>
+                  <Button className='add-medication-button' onClick={handleAddMedication} disabled={!medications || isNoneSelected}>Add</Button>
                 </div>
                 <Form.Control
                   type="text"
                   placeholder="List your medications"
                   value={medications}
                   onChange={handleMedicationChange}
+                  // disabled={isNoneSelected}
                 />
                 {medicationSuggestions.length > 0 && (
                   <ul className="suggestions-list">
@@ -301,7 +314,10 @@ const Questionnaire = () => {
                     ))}
                   </ul>
                 )}
-                {addedMedications.length > 0 && (
+                <div className="button-group-vertical">
+                  <Button variant="outline-primary" onClick={handleSetMedicationsNone} className={isNoneSelected ? 'selected' : ''}>None</Button>
+                </div>
+                {!isNoneSelected && addedMedications.length > 0 && (
                   <div className="added-medications-list">
                     {addedMedications.map((medication, index) => (
                       <div key={index} className="added-medication-item">
@@ -322,6 +338,9 @@ const Questionnaire = () => {
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formMedicalConditions" className="mt-4">
                 <Form.Label>What are your current medical conditions?</Form.Label>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <p>Select all that apply or none</p>
+                </div>
                 <div className="button-group-vertical">
                   <Button variant="outline-primary" onClick={() => toggleCondition('Hypertension')} className={conditions.includes('Hypertension') ? 'selected' : ''}>Hypertension</Button>
                   <Button variant="outline-primary" onClick={() => toggleCondition('High Cholesterol')} className={conditions.includes('High Cholesterol') ? 'selected' : ''}>High Cholesterol</Button>
@@ -332,6 +351,7 @@ const Questionnaire = () => {
                   <Button variant="outline-primary" onClick={() => toggleCondition('Lung Disease')} className={conditions.includes('Lung Disease') ? 'selected' : ''}>Lung Disease</Button>
                   <Button variant="outline-primary" onClick={() => toggleCondition('Thyroid Disease')} className={conditions.includes('Thyroid Disease') ? 'selected' : ''}>Thyroid Disease</Button>
                   <Button variant="outline-primary" onClick={() => toggleCondition('Gastric Disease')} className={conditions.includes('Gastric Disease') ? 'selected' : ''}>Gastric Disease</Button>
+                  <Button variant="outline-primary" onClick={() => toggleCondition('None')} className={conditions.includes('None') ? 'selected' : ''}>None</Button>
                 </div>
                 <div className="button-group">
                   <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
@@ -357,6 +377,7 @@ const Questionnaire = () => {
                   <Button variant="outline-primary" onClick={() => toggleFamilyCondition('Lung Disease')} className={familyConditions.includes('Lung Disease') ? 'selected' : ''}>Lung Disease</Button>
                   <Button variant="outline-primary" onClick={() => toggleFamilyCondition('Thyroid Disease')} className={familyConditions.includes('Thyroid Disease') ? 'selected' : ''}>Thyroid Disease</Button>
                   <Button variant="outline-primary" onClick={() => toggleFamilyCondition('Gastric Disease')} className={familyConditions.includes('Gastric Disease') ? 'selected' : ''}>Gastric Disease</Button>
+                  <Button variant="outline-primary" onClick={() => toggleFamilyCondition('None')} className={familyConditions.includes('None') ? 'selected' : ''}>None</Button>
                 </div>
                 <div className="button-group">
                   <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
@@ -370,7 +391,7 @@ const Questionnaire = () => {
               <Form.Group controlId="formDietaryPreference" className="mt-4">
                 <Form.Label>What is your dietary preference?</Form.Label>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <p>Select all that apply or n/a if you do not have any dietary preferences</p>
+                  <p>Select all that apply or none if you do not have any dietary preferences</p>
                 </div>
                 <div className="button-group-vertical">
                   <Button variant="outline-primary" onClick={() => setDietaryPreference('vegan')} className={dietaryPreference === 'vegan' ? 'selected' : ''}>Vegan</Button>
@@ -378,7 +399,7 @@ const Questionnaire = () => {
                   <Button variant="outline-primary" onClick={() => setDietaryPreference('pescatarian')} className={dietaryPreference === 'pescatarian' ? 'selected' : ''}>Pescatarian</Button>
                   <Button variant="outline-primary" onClick={() => setDietaryPreference('gluten-free')} className={dietaryPreference === 'gluten-free' ? 'selected' : ''}>Gluten-free</Button>
                   <Button variant="outline-primary" onClick={() => setDietaryPreference('dairy-free')} className={dietaryPreference === 'dairy-free' ? 'selected' : ''}>Dairy-free</Button>
-                  <Button variant="outline-primary" onClick={() => setDietaryPreference('n/a')} className={dietaryPreference === 'n/a' ? 'selected' : ''}>n/a</Button>
+                  <Button variant="outline-primary" onClick={() => setDietaryPreference('none')} className={dietaryPreference === 'none' ? 'selected' : ''}>None</Button>
                 </div>
                 <div className="button-group">
                   <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
@@ -468,18 +489,6 @@ const Questionnaire = () => {
           )}
           {currentQuestion === 14 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
-              <Form.Group controlId="formDietRating" className="mt-4">
-                <Form.Label>How would you rate your diet?</Form.Label>
-                <Form.Control type="text" placeholder="Rate your diet" required />
-                <div className="button-group">
-                  <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
-                  <Button type="submit" className="next-button">Next</Button>
-                </div>
-              </Form.Group>
-            </Form>
-          )}
-          {currentQuestion === 15 && (
-            <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formAlcoholUse" className="mt-4">
                 <Form.Label>Do you use alcohol? (yes, no)</Form.Label>
                 <Form.Control type="text" placeholder="Yes or No" required />
@@ -490,47 +499,16 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 16 && (
+          {currentQuestion === 15 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formTobaccoUse" className="mt-4">
-                <Form.Label>Do you use any tobacco products? (yes, no)</Form.Label>
-                <Form.Control type="text" placeholder="Yes or No" required />
-                <div className="button-group">
-                  <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
-                  <Button type="submit" className="next-button">Next</Button>
-                </div>
-              </Form.Group>
-            </Form>
-          )}
-          {currentQuestion === 17 && (
-            <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
-              <Form.Group controlId="formWeightLossMedications" className="mt-4">
-                <Form.Label>Are you on any weight loss medications? (yes, no)</Form.Label>
-                <Form.Control type="text" placeholder="Yes or No" required />
-                <div className="button-group">
-                  <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
-                  <Button type="submit" className="next-button">Next</Button>
-                </div>
-              </Form.Group>
-            </Form>
-          )}
-          {currentQuestion === 18 && (
-            <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
-              <Form.Group controlId="formNutrientKnowledge" className="mt-4">
-                <Form.Label>Do you know what nutrients you have consumed? (I do know all the nutrients, I often check the nutrients list, Not really)</Form.Label>
-                <Form.Control type="text" placeholder="Enter your knowledge level" required />
-                <div className="button-group">
-                  <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
-                  <Button type="submit" className="next-button">Next</Button>
-                </div>
-              </Form.Group>
-            </Form>
-          )}
-          {currentQuestion === 19 && (
-            <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
-              <Form.Group controlId="formFoodRecord" className="mt-4">
-                <Form.Label>Do you usually keep a record of what you eat? (Every meal, I do when I remember, Not at all)</Form.Label>
-                <Form.Control type="text" placeholder="Enter your record-keeping habit" required />
+                <Form.Label>Do you use tobacco?</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your tobacco use"
+                  value={tobaccoUse}
+                  onChange={(e) => setTobaccoUse(e.target.value)}
+                />
                 <div className="button-group">
                   <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
                   <Button type="submit" className="next-button">Next</Button>
