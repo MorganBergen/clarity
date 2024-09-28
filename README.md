@@ -27,12 +27,13 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 3.  `cd ./clarity/client` -  navigate to the client directory
 4.  `npm init-y` -  initialize npm in the client directory
 5.  `npm install @mui/material @emotion/react @emotion/styled redux react-redux axios` -  install dependencies
-6.  `cd ./clarity/server` -  navigate to the server directory
-7.  `npm init-y` -  initialize npm in the server directory
-8.  `npm install express pocketbase` -  install dependencies
-9.  `npm install --save-dev nodemon` -  install nodemon as a development dependency
-10.  install [`pocketbase`](https://pocketbase.io/docs/) 
-11.  move `pocketbase` into the `./clarity/backend` directory
+6.  `npm install @mui/icons-material` -  install material ui icons
+7.  `cd ./clarity/server` -  navigate to the server directory
+8.  `npm init-y` -  initialize npm in the server directory
+9.  `npm install express pocketbase` -  install dependencies
+10. `npm install --save-dev nodemon` -  install nodemon as a development dependency
+11.  install [`pocketbase`](https://pocketbase.io/docs/) 
+12.  move `pocketbase` into the `./clarity/backend` directory
 
 </details>
 
