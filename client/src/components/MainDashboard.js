@@ -4,6 +4,18 @@ import { Box, Drawer, List, ListItem, ListItemText, Typography } from '@mui/mate
 import './MainDashboard.css';
 
 const MainDashboard = () => {
+  const mainItems = [
+    { text: 'Dashboard' },
+    { text: 'Analysis' },
+    { text: 'Logging' },
+    { text: 'Reports' },
+  ];
+
+  const bottomItems = [
+    { text: 'Settings' },
+    { text: 'Sign Out' },
+  ];
+
   return (
     <Box sx={{ display: 'flex' }}>
       <Drawer
@@ -14,13 +26,23 @@ const MainDashboard = () => {
           [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' },
         }}
       >
-        <List>
-          {['Dashboard', 'Analysis', 'Logging', 'Reports', 'Settings', 'Sign Out'].map((text, index) => (
-            <ListItem button key={text} component={Link} to={`/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}`}>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+          <List className="main-list">
+            {mainItems.map(({ text }) => (
+              <ListItem button key={text} component={Link} to={`/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}`}>
+                <ListItemText primary={text} className="icon-text-color" />
+              </ListItem>
+            ))}
+          </List>
+          <div className="separator-line"></div>
+          <List className="bottom-list">
+            {bottomItems.map(({ text }) => (
+              <ListItem button key={text} component={Link} to={`/${text.toLowerCase().replace(' ', '-')}`}>
+                <ListItemText primary={text} className="icon-text-color" />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
       </Drawer>
       <Box
         component="main"
