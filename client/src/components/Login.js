@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
-import { signIn } from '../pocketbaseService';
-import './Login.css';
+import { useNavigate, Link } from 'react-router-dom';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import { signIn } from '../pocketbaseService'; // Adjust the path as necessary
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -21,8 +20,10 @@ const Login = () => {
       return;
     }
     try {
-      await signIn(email, password);
-      navigate('/dashboard');
+      const { token } = await signIn(email, password); // Destructure token from response
+      console.log('Generated token:', token); // Log the token
+      localStorage.setItem('token', token); // Store token in localStorage
+      navigate('/Dashboard');
     } catch (err) {
       setError('Login failed. Please check your credentials and try again.');
     }
@@ -31,7 +32,7 @@ const Login = () => {
   return (
     <div className="login-wrapper">
       <Container fluid>
-        <Row className="justify-content-md-ce nter mt-5">
+        <Row className="justify-content-md-center mt-5">
           <Col xs={12} md={6} className="text-column">
             <div className="text-container">
               <h1 className="site-title">Clarity</h1>
