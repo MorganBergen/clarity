@@ -1,8 +1,27 @@
 .main-dashboard {
-    display: flex;
-  }
+  display: flex;
+}
 
-  .content {
-    flex-grow: 1;
-    padding: 20px;
-  }
+.content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.main-list {
+  flex-grow: 1;
+}
+
+.bottom-list {
+  margin-top: auto;
+}
+
+.icon-text-color {
+  color: rgb(156, 156, 156);
+}
+
+.separator-line {
+  width: calc(100% - 40px); /* Adjust the width to be slightly less than 100% */
+  height: 1px;
+  background-color: rgb(156, 156, 156); /* Color of the line */
+  margin: 10px 20px; /* Add margin to push the line away from the edges */
+}
