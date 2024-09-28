@@ -13,7 +13,7 @@ const MainDashboard = () => {
 
   const bottomItems = [
     { text: 'Settings' },
-    { text: 'Sign Out' },
+    { text: 'Sign Out', link: '/'},
   ];
 
   return (
@@ -37,7 +37,7 @@ const MainDashboard = () => {
           <div className="separator-line"></div>
           <List className="bottom-list">
             {bottomItems.map(({ text }) => (
-              <ListItem button key={text} component={Link} to={`/${text.toLowerCase().replace(' ', '-')}`}>
+              <ListItem button key={text} component={Link} to={`/${ text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
                 <ListItemText primary={text} className="icon-text-color" />
               </ListItem>
             ))}
