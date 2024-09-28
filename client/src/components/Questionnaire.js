@@ -1,12 +1,16 @@
 import React, { useState, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useProfile } from './Profile';
 import axios from 'axios';
 import './Questionnaire.css';
 import './MainDashboard.js';
 
 const Questionnaire = () => {
+  const { profile, setProfile } = useProfile();
   const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [sex, setSex] = useState('');
   const [activityLevel, setActivityLevel] = useState('');
   const [medications, setMedications] = useState('');
@@ -26,7 +30,6 @@ const Questionnaire = () => {
   const [dietHistory, setDietHistory] = useState('');
   const [vitamins, setVitamins] = useState('');
   const [addedVitamins, setAddedVitamins] = useState([]);
-
   const [alcoholUse, setAlcoholUse] = useState('');
   const [tobaccoUse, setTobaccoUse] = useState('');
 
@@ -55,9 +58,30 @@ const Questionnaire = () => {
     if (currentQuestion < questions.length) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
+      setProfile({
+        ...profile,
+        firstName,
+        lastName,
+        sex,
+        activityLevel,
+        medications: addedMedications,
+        currentWeight,
+        targetWeight,
+        conditions,
+        familyConditions,
+        dietaryPreference,
+        allergies: addedAllergies,
+        fitnessGoals,
+        dietHistory,
+        vitamins: addedVitamins,
+        alcoholUse,
+        tobaccoUse,
+      });
+
       navigate('/MainDashboard'); // Redirect to MainDashboard
     }
   };
+  
   const handleBack = (e) => {
     e.preventDefault();
     setCurrentQuestion(currentQuestion - 1);
@@ -230,8 +254,20 @@ const Questionnaire = () => {
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formName" className="mt-4">
                 <Form.Label>What is your name?</Form.Label>
-                <Form.Control type="text" placeholder="First Name" required />
-                <Form.Control type="text" placeholder="Last Name" required />
+                <Form.Control 
+                  type="text" 
+                  placeholder="First Name" 
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                />
+                <Form.Control 
+                  type="text" 
+                  placeholder="Last Name" 
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required 
+                />
                 <div className="button-group">
                   <Button type="submit" className="next-button">Next</Button>
                 </div>
