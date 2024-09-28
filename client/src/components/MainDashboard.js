@@ -30,7 +30,7 @@ const MainDashboard = () => {
           <List className="main-list">
             {mainItems.map(({ text }) => (
               <ListItem button key={text} component={Link} to={`/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}`}>
-                <ListItemText primary={text} className="icon-text-color" />
+                <ListItemText primary={text} className="page-text-color" />
               </ListItem>
             ))}
           </List>
@@ -38,7 +38,7 @@ const MainDashboard = () => {
           <List className="bottom-list">
             {bottomItems.map(({ text }) => (
               <ListItem button key={text} component={Link} to={`/${ text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
-                <ListItemText primary={text} className="icon-text-color" />
+                <ListItemText primary={text} className="page-text-color" />
               </ListItem>
             ))}
           </List>
