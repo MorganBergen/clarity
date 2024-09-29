@@ -1,13 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { useProfile } from './Profile';
 import axios from 'axios';
 import './Questionnaire.css';
 import './MainDashboard.js';
 
-const Questionnaire = () => {
-  const { profile, setProfile } = useProfile();
+const Questionnaire = () => { 
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -58,30 +56,10 @@ const Questionnaire = () => {
     if (currentQuestion < questions.length) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      setProfile({
-        ...profile,
-        firstName,
-        lastName,
-        sex,
-        activityLevel,
-        medications: addedMedications,
-        currentWeight,
-        targetWeight,
-        conditions,
-        familyConditions,
-        dietaryPreference,
-        allergies: addedAllergies,
-        fitnessGoals,
-        dietHistory,
-        vitamins: addedVitamins,
-        alcoholUse,
-        tobaccoUse,
-      });
-
       navigate('/MainDashboard'); // Redirect to MainDashboard
     }
   };
-  
+    
   const handleBack = (e) => {
     e.preventDefault();
     setCurrentQuestion(currentQuestion - 1);
