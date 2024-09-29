@@ -13,7 +13,7 @@ const Logging = () => {
 
   const bottomItems = [
     { text: 'Settings' },
-    { text: 'Sign Out', link: '/'},
+    { text: 'Sign Out', link: '/' },
   ];
 
   return (
@@ -29,15 +29,15 @@ const Logging = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           <List className="main-list">
             {mainItems.map(({ text }) => (
-              <ListItem button key={text} component={Link} to={`/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}`}>
-                <ListItemText primary={text} className="page-text-color" />
-              </ListItem>
+            <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}`}>
+              <ListItemText primary={text} className="page-text-color" />
+            </ListItem>
             ))}
           </List>
           <div className="separator-line"></div>
           <List className="bottom-list">
             {bottomItems.map(({ text }) => (
-              <ListItem button key={text} component={Link} to={`/${ text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
+              <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
                 <ListItemText primary={text} className="page-text-color" />
               </ListItem>
             ))}
