@@ -42,9 +42,14 @@ export const signUp = async (email, password, name) => {
  * @returns {Promise<Object>} the authenticated user object
  */
 export const signIn = async (email, password) => {
-  return await pb.collection('users').authWithPassword(email, password);
-};
+  const response = await pb.collection('users').authWithPassword(email, password);
+  console.log('response from authwithpassword:', response);
+  return {
+    token: response.token,
+    user: response.record.id,
 
+  };
+};
 /**
  * sends a verification email to the provided email address
  * @param {string} email the email address to send the verification email to
