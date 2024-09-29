@@ -5,7 +5,7 @@ import axios from 'axios';
 import './Questionnaire.css';
 import './MainDashboard.js';
 
-const Questionnaire = () => { 
+const Questionnaire = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -59,7 +59,7 @@ const Questionnaire = () => {
       navigate('/MainDashboard'); // Redirect to MainDashboard
     }
   };
-    
+
   const handleBack = (e) => {
     e.preventDefault();
     setCurrentQuestion(currentQuestion - 1);
@@ -74,7 +74,12 @@ const Questionnaire = () => {
         const response = await axios.get(`https://api.fda.gov/drug/label.json?search=openfda.brand_name:${query}*&limit=10`);
         setMedicationSuggestions(response.data.results.map(result => result.openfda.brand_name[0]));
       } catch (error) {
-        console.error('Error fetching medication data:', error);
+        if (error.response && error.response.status === 404) {
+          console.error('No matches found for the query:', query);
+          setMedicationSuggestions([]);
+        } else {
+          console.error('Error fetching medication data:', error);
+        }
       }
     } else {
       setMedicationSuggestions([]);
@@ -232,19 +237,19 @@ const Questionnaire = () => {
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formName" className="mt-4">
                 <Form.Label>What is your name?</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  placeholder="First Name" 
+                <Form.Control
+                  type="text"
+                  placeholder="First Name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   required
                 />
-                <Form.Control 
-                  type="text" 
-                  placeholder="Last Name" 
+                <Form.Control
+                  type="text"
+                  placeholder="Last Name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  required 
+                  required
                 />
                 <div className="button-group">
                   <Button type="submit" className="next-button">Next</Button>
@@ -354,7 +359,6 @@ const Questionnaire = () => {
                   placeholder="List your medications"
                   value={medications}
                   onChange={handleMedicationChange}
-                // disabled={isNoneSelected}
                 />
                 {medicationSuggestions.length > 0 && (
                   <ul className="suggestions-list">
