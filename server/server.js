@@ -11,7 +11,6 @@
  * connection string mongodb+srv://clarityfounders:<db_password>@clarity.9saaa.mongodb.net/?retryWrites=true&w=majority&appName=Clarity
  */
 
-
 const express = require('express');
 const bodyParser = require('body-parser');
 
