@@ -75,7 +75,7 @@ const Questionnaire = () => {
         setMedicationSuggestions(response.data.results.map(result => result.openfda.brand_name[0]));
       } catch (error) {
         if (error.response && error.response.status === 404) {
-          console.error('No matches found for the query:', query);
+          // console.error('No matches found for the query:', query);
           setMedicationSuggestions([]);
         } else {
           console.error('Error fetching medication data:', error);
