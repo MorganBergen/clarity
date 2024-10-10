@@ -1,13 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Drawer, List, ListItem, ListItemText } from '@mui/material';
-import PocketBase from 'pocketbase';
 import './MainDashboard.css';
 
-const pb = new PocketBase('https://127.0.0.1:8090');
-
 const Settings = () => {
-  const [userData, setUserData] = useState(null);
   
     const mainItems = [
         { text: 'Dashboard' },
