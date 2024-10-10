@@ -9,6 +9,7 @@ const Questionnaire = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [age, setAge] = useState('');
   const [sex, setSex] = useState('');
   const [activityLevel, setActivityLevel] = useState('');
   const [medications, setMedications] = useState('');
@@ -35,20 +36,21 @@ const Questionnaire = () => {
 
   const questions = [
     { id: 1, label: "Name" },
-    { id: 2, label: "Sex" },
-    { id: 3, label: "Current Weight" },
-    { id: 4, label: "Target Weight" },
-    { id: 5, label: "Activity Level" },
-    { id: 6, label: "Medications" },
-    { id: 7, label: "Medical Conditions" },
-    { id: 8, label: "Family Medical History" },
-    { id: 9, label: "Dietary Preference" },
-    { id: 10, label: "Allergies" },
-    { id: 11, label: "Fitness Goals" },
-    { id: 12, label: "Diet History" },
-    { id: 13, label: "Vitamins / Supplements" },
-    { id: 14, label: "Alcohol Use" },
-    { id: 15, label: "Tobacco Use" },
+    { id: 2, label: "Age" }, // New question
+    { id: 3, label: "Sex" },
+    { id: 4, label: "Current Weight" },
+    { id: 5, label: "Target Weight" },
+    { id: 6, label: "Activity Level" },
+    { id: 7, label: "Medications" },
+    { id: 8, label: "Medical Conditions" },
+    { id: 9, label: "Family Medical History" },
+    { id: 10, label: "Dietary Preference" },
+    { id: 11, label: "Allergies" },
+    { id: 12, label: "Fitness Goals" },
+    { id: 13, label: "Diet History" },
+    { id: 14, label: "Vitamins / Supplements" },
+    { id: 15, label: "Alcohol Use" },
+    { id: 16, label: "Tobacco Use" },
   ];
 
   const handleNext = (e) => {
@@ -258,6 +260,24 @@ const Questionnaire = () => {
             </Form>
           )}
           {currentQuestion === 2 && (
+            <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
+              <Form.Group controlId="formAge" className="mt-4">
+                <Form.Label>What is your age?</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter your age"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  required
+                />
+                <div className="button-group">
+                  <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
+                  <Button type="submit" className="next-button" disabled={!age}>Next</Button>
+                </div>
+              </Form.Group>
+            </Form>
+          )}
+          {currentQuestion === 3 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault();
@@ -282,7 +302,7 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 3 && (
+          {currentQuestion === 4 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formCurrentWeight" className="mt-4">
                 <Form.Label>What is your current weight?</Form.Label>
@@ -303,7 +323,7 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 4 && (
+          {currentQuestion === 5 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formTargetWeight" className="mt-4">
                 <Form.Label>What is your target weight?</Form.Label>
@@ -324,7 +344,7 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 5 && (
+          {currentQuestion === 6 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formActivityLevel" className="mt-4">
                 <Form.Label>What is your activity level?</Form.Label>
@@ -346,7 +366,7 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 6 && (
+          {currentQuestion === 7 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formMedications" className="mt-4">
                 <Form.Label>What medications are you currently taking?</Form.Label>
@@ -389,7 +409,7 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 7 && (
+          {currentQuestion === 8 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formMedicalConditions" className="mt-4">
                 <Form.Label>What are your current medical conditions?</Form.Label>
@@ -415,7 +435,7 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 8 && (
+          {currentQuestion === 9 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formFamilyMedicalHistory" className="mt-4">
                 <Form.Label>Any family medical history?</Form.Label>
@@ -441,7 +461,7 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 9 && (
+          {currentQuestion === 10 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formDietaryPreference" className="mt-4">
                 <Form.Label>What is your dietary preference?</Form.Label>
@@ -463,7 +483,7 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 10 && (
+          {currentQuestion === 11 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formAllergies" className="mt-4">
                 <Form.Label>Any allergies to medications or foods?</Form.Label>
@@ -497,7 +517,7 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 11 && (
+          {currentQuestion === 12 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formFitnessGoals" className="mt-4">
                 <Form.Label>What are your fitness or nutrition goals?</Form.Label>
@@ -515,7 +535,7 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 12 && (
+          {currentQuestion === 13 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formDietHistory" className="mt-4">
                 <Form.Label>Have you ever been on a diet before?</Form.Label>
@@ -533,7 +553,7 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 13 && (
+          {currentQuestion === 14 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formVitaminsSupplements" className="mt-4">
                 <Form.Label>Any vitamins or supplements?</Form.Label>
@@ -567,7 +587,7 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 14 && (
+          {currentQuestion === 15 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formAlcoholUse" className="mt-4">
                 <Form.Label>Do you use Alcohol?</Form.Label>
@@ -582,7 +602,7 @@ const Questionnaire = () => {
               </Form.Group>
             </Form>
           )}
-          {currentQuestion === 15 && (
+          {currentQuestion === 16 && (
             <Form onSubmit={handleNext} onKeyDown={(e) => e.key === 'Enter' && handleNext(e)}>
               <Form.Group controlId="formTobaccoUse" className="mt-4">
                 <Form.Label>Do you use Tobacco?</Form.Label>
