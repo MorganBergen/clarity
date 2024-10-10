@@ -64,18 +64,18 @@ const Settings = () => {
               </ListItem>
             ))}
           </List>
-          {userData && (
-            <Box sx={{ padding: 2 }}>
-              <h3>User Information</h3>
-              <p>Username: {userData.username}</p>
-              <p>Email: {userData.email}</p>
-              <p>Name: {userData.name}</p>
-              <p>Created: {new Date(userData.created).toLocaleString()}</p>
-              <p>Updated: {new Date(userData.updated).toLocaleString()}</p>
-            </Box>
-          )}
         </Box>
       </Drawer>
+      {userData && (
+        <Box sx={{ padding: 2 }}>
+          <h3>User Information</h3>
+          <p>Username: {userData.username}</p>
+          <p>Email: {userData.email}</p>
+          <p>Name: {userData.name}</p>
+          <p>Created: {new Date(userData.created).toLocaleString()}</p>
+          <p>Updated: {new Date(userData.updated).toLocaleString()}</p>
+        </Box>
+      )}
     </Box>
   );
 };
