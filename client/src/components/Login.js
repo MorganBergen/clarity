@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import { signIn } from '../pocketbaseService';
+import { UserContext } from '../context/UserContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  // const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
+  const { setUserId } = useContext(UserContext);
+  // const [isClicked, setIsClicked] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,6 +20,8 @@ const Login = () => {
       return;
     }
     try {
+      const { user } = await signIn(email, password);
+      setUserId(user);
       navigate('/Dashboard');
     } catch (err) {
       setError(`Login failed. Please check your credentials and try again. ${err}`);
