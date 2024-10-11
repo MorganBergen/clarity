@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Questionnaire.css';
 import './MainDashboard.js';
+import PocketBase from 'pocketbase';
+
+const pb = new PocketBase('http://127.0.0.1:8090');
 
 const Questionnaire = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
@@ -34,6 +37,35 @@ const Questionnaire = () => {
 
   const navigate = useNavigate();
 
+  const handleSubmit = async () => {
+    try {
+      const data = {
+        firstName,
+        lastName,
+        age,
+        sex,
+        activityLevel,
+        medications: addedMedications,
+        currentWeight,
+        targetWeight,
+        conditions,
+        familyConditions,
+        dietaryPreference,
+        allergies: addedAllergies,
+        fitnessGoals,
+        dietHistory,
+        vitamins: addedVitamins,
+        alcoholUse,
+        tobaccoUse,
+      };
+
+      await pb.collection('questionnaire').create(data);
+      navigate('/MainDashboard');
+    } catch (error) {
+      console.error('Error saving questionnaire data:', error);
+    }
+  };
+
   const questions = [
     { id: 1, label: "Name" },
     { id: 2, label: "Age" }, // New question
@@ -58,6 +90,7 @@ const Questionnaire = () => {
     if (currentQuestion < questions.length) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
+      handleSubmit();
       navigate('/MainDashboard'); // Redirect to MainDashboard
     }
   };
