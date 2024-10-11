@@ -25,15 +25,24 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 1.  `cd ./clarity` -  navigate to the clarity root directory
 2.  `npm init-y` -  initialize npm in the clarity root directory
 3.  `cd ./clarity/client` -  navigate to the client directory
-4.  `npm init-y` -  initialize npm in the client directory
-5.  `npm install @mui/material @emotion/react @emotion/styled redux react-redux axios` -  install dependencies
-6.  `npm install @mui/icons-material` -  install material ui icons
-7.  `cd ./clarity/server` -  navigate to the server directory
-8.  `npm init-y` -  initialize npm in the server directory
-9.  `npm install express pocketbase` -  install dependencies
-10. `npm install --save-dev nodemon` -  install nodemon as a development dependency
-11.  install [`pocketbase`](https://pocketbase.io/docs/) 
-12.  move `pocketbase` into the `./clarity/backend` directory
+4.  `npm install --save-dev nodemon` - install nodemon as dev dependency
+5.  `npm init-y` -  initialize npm in the client directory
+6.  `npm install @mui/material @emotion/react @emotion/styled redux react-redux axios` -  install dependencies
+7.  `npm install @mui/icons-material` -  install material ui icons
+8.  `cd ./clarity/server` -  navigate to the server directory
+9.  `npm init-y` -  initialize npm in the server directory
+10.  `npm install express pocketbase` -  install dependencies
+11. `npm install --save-dev nodemon` -  install nodemon as a development dependency
+
+`./backend/pocketbase`
+
+1.  `wget https://github.com/pocketbase/pocketbase/releases/download/v0.23.0-rc3/pocketbase_0.23.0-rc3_linux_amd64.zip`
+
+2.  `unzip pocketbase_0.23.0-rc3_linux_amd64.zip`
+
+3.  `chmod +x pocketbase`
+
+4.  `./pocketbase serve`
 
 </details>
 
