@@ -220,7 +220,7 @@ const Questionnaire = () => {
           </span>
         </div>
         <div className="header-right">
-          <Button variant="secondary" className="header-button">Logout</Button>
+          <Button variant="secondary" className="header-button" onClick={() => navigate('/')}>Logout</Button>
         </div>
       </header>
       <div className="main-content">
