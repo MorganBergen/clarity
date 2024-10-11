@@ -11,6 +11,7 @@ const pb = new PocketBase('http://127.0.0.1:8090');
 const Settings = () => {
   const { userId } = useContext(UserContext);
   const [userData, setUserData] = useState(null);
+  const [questionnaireData, setQuestionnaireData] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -18,6 +19,9 @@ const Settings = () => {
         try {
           const userRecord = await pb.collection('users').getOne(userId);
           setUserData(userRecord);
+
+          const questionnaireRecord = await pb.collection('questionnaire').getFullListItem(`user_id="${userId}"`);
+          setQuestionnaireData(questionnaireRecord);
         } catch (error) {
           console.error('Error fetching user data:', error);
         }
@@ -74,6 +78,28 @@ const Settings = () => {
           <p>Name: {userData.name}</p>
           <p>Created: {new Date(userData.created).toLocaleString()}</p>
           <p>Updated: {new Date(userData.updated).toLocaleString()}</p>
+        </Box>
+      )}
+      {questionnaireData && (
+        <Box sx={{ padding: 2 }}>
+          <h3>Questionnaire Data</h3>
+          <p>First Name: {questionnaireData.firstName}</p>
+          <p>Last Name: {questionnaireData.lastName}</p>
+          <p>Age: {questionnaireData.age}</p>
+          <p>Sex: {questionnaireData.sex}</p>
+          <p>Activity Level: {questionnaireData.activityLevel}</p>
+          <p>Medications: {questionnaireData.medications.join(', ')}</p>
+          <p>Current Weight: {questionnaireData.currentWeight}</p>
+          <p>Target Weight: {questionnaireData.targetWeight}</p>
+          <p>Conditions: {questionnaireData.conditions.join(', ')}</p>
+          <p>Family Conditions: {questionnaireData.familyConditions.join(', ')}</p>
+          <p>Dietary Preference: {questionnaireData.dietaryPreference}</p>
+          <p>Allergies: {questionnaireData.allergies.join(', ')}</p>
+          <p>Fitness Goals: {questionnaireData.fitnessGoals.join(', ')}</p>
+          <p>Diet History: {questionnaireData.dietHistory}</p>
+          <p>Vitamins: {questionnaireData.vitamins.join(', ')}</p>
+          <p>Alcohol Use: {questionnaireData.alcoholUse}</p>
+          <p>Tobacco Use: {questionnaireData.tobaccoUse}</p>
         </Box>
       )}
     </Box>
