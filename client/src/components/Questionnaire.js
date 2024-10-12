@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Questionnaire.css';
 import './MainDashboard.js';
 import PocketBase from 'pocketbase';
+import { UserContext } from '../context/UserContext';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -34,12 +35,16 @@ const Questionnaire = () => {
   const [addedVitamins, setAddedVitamins] = useState([]);
   const [alcoholUse, setAlcoholUse] = useState('');
   const [tobaccoUse, setTobaccoUse] = useState('');
+  const { userId } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
+    let record = await pb.collection('users').getOne(userId);
+
     try {
       const data = {
+        userId: record.id,
         firstName,
         lastName,
         age,
@@ -59,7 +64,7 @@ const Questionnaire = () => {
         tobaccoUse,
       };
       console.log(`creating questionnaire data records into pb collection.....`);
-      console.log(`data: ${data}`);
+      console.log(data);
       await pb.collection('questionnaire').create(data);
       navigate('/MainDashboard');
     } catch (error) {
