@@ -58,7 +58,8 @@ const Questionnaire = () => {
         alcoholUse,
         tobaccoUse,
       };
-
+      console.log(`creating questionnaire data records into pb collection.....`);
+      console.log(`data: ${data}`);
       await pb.collection('questionnaire').create(data);
       navigate('/MainDashboard');
     } catch (error) {
