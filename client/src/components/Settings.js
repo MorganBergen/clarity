@@ -17,10 +17,15 @@ const Settings = () => {
     const fetchUserData = async () => {
       if (userId) {
         try {
+          console.log(`user record:`);
           const userRecord = await pb.collection('users').getOne(userId);
           setUserData(userRecord);
+          console.log(userRecord);
 
-          const questionnaireRecord = await pb.collection('questionnaire').getFullListItem(`user_id="${userId}"`);
+          let id = userRecord.id;
+
+          const questionnaireRecord = await pb.collection('questionnaire').getFirstListItem(`userId="${id}"`);
+
           setQuestionnaireData(questionnaireRecord);
         } catch (error) {
           console.error('Error fetching user data:', error);
@@ -88,16 +93,16 @@ const Settings = () => {
           <p>Age: {questionnaireData.age}</p>
           <p>Sex: {questionnaireData.sex}</p>
           <p>Activity Level: {questionnaireData.activityLevel}</p>
-          <p>Medications: {questionnaireData.medications.join(', ')}</p>
+          <p>Medications: {Array.isArray(questionnaireData.medications) ? questionnaireData.medications.join(', ') : questionnaireData.medications}</p>
           <p>Current Weight: {questionnaireData.currentWeight}</p>
           <p>Target Weight: {questionnaireData.targetWeight}</p>
-          <p>Conditions: {questionnaireData.conditions.join(', ')}</p>
-          <p>Family Conditions: {questionnaireData.familyConditions.join(', ')}</p>
+          <p>Conditions: {Array.isArray(questionnaireData.conditions) ? questionnaireData.conditions.join(', ') : questionnaireData.conditions}</p>
+          <p>Family Conditions: {Array.isArray(questionnaireData.familyConditions) ? questionnaireData.familyConditions.join(', ') : questionnaireData.familyConditions}</p>
           <p>Dietary Preference: {questionnaireData.dietaryPreference}</p>
-          <p>Allergies: {questionnaireData.allergies.join(', ')}</p>
-          <p>Fitness Goals: {questionnaireData.fitnessGoals.join(', ')}</p>
+          <p>Allergies: {Array.isArray(questionnaireData.allergies) ? questionnaireData.allergies.join(', ') : questionnaireData.allergies}</p>
+          <p>Fitness Goals: {Array.isArray(questionnaireData.fitnessGoals) ? questionnaireData.fitnessGoals.join(', ') : questionnaireData.fitnessGoals}</p>
           <p>Diet History: {questionnaireData.dietHistory}</p>
-          <p>Vitamins: {questionnaireData.vitamins.join(', ')}</p>
+          <p>Vitamins: {Array.isArray(questionnaireData.vitamins) ? questionnaireData.vitamins.join(', ') : questionnaireData.vitamins}</p>
           <p>Alcohol Use: {questionnaireData.alcoholUse}</p>
           <p>Tobacco Use: {questionnaireData.tobaccoUse}</p>
         </Box>
