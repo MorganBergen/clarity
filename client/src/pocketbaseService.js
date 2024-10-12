@@ -43,7 +43,6 @@ export const signUp = async (email, password, name) => {
  */
 export const signIn = async (email, password) => {
   const response = await pb.collection('users').authWithPassword(email, password);
-  console.log('response from authwithpassword:', response);
   return {
     token: response.token,
     user: response.record.id,
