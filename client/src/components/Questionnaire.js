@@ -36,7 +36,7 @@ const Questionnaire = () => {
 
   const questions = [
     { id: 1, label: "Name" },
-    { id: 2, label: "Age" }, // New question
+    { id: 2, label: "Age" },
     { id: 3, label: "Sex" },
     { id: 4, label: "Current Weight" },
     { id: 5, label: "Target Weight" },
@@ -220,7 +220,7 @@ const Questionnaire = () => {
           </span>
         </div>
         <div className="header-right">
-          <Button variant="secondary" className="header-button" onClick={() => navigate('/')}>Logout</Button>
+          <Button variant="secondary" className="header-button">Logout</Button>
         </div>
       </header>
       <div className="main-content">
