@@ -234,7 +234,7 @@ const Questionnaire = () => {
           const response = await axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${familyConditionInput}&maxList=10`);
           if (response.data && Array.isArray(response.data[3])) {
             setFamilyConditionSuggestions(response.data[3]);
-          } else {  
+          } else {
             console.error('Unexpected response structure:', response.data);
             setFamilyConditionSuggestions([]);
           }
@@ -248,6 +248,17 @@ const Questionnaire = () => {
       setFamilyConditionSuggestions([]);
     }
   }, [familyConditionInput]);
+
+  const handleAddFamilyCondition = () => {
+    if (familyConditionInput && !familyConditions.includes(familyConditionInput)) {
+      setFamilyConditions([...familyConditions, familyConditionInput]);
+      setFamilyConditionInput('');
+    }
+  };
+
+  const handleRemoveFamilyCondition = (index) => {
+    setFamilyConditions(familyConditions.filter((_, i) => i !== index));
+  };
 
   // const toggleFamilyCondition = (familyCondition) => {
   //   setFamilyConditions((prevfamilyConditions) =>
@@ -569,20 +580,37 @@ const Questionnaire = () => {
               <Form.Group controlId="formFamilyMedicalHistory" className="mt-4">
                 <Form.Label>Any family medical history?</Form.Label>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <p>Select all of the conditions that apply or none that apply</p>
+                  <p>As you type, suggestions will appear below</p>
+                  <Button className='add-medication-button' onClick={handleAddFamilyCondition} disabled={!familyConditionInput}>Add</Button>
                 </div>
+                <Form.Control
+                  type="text"
+                  placeholder="List family medical conditions"
+                  value={familyConditionInput}
+                  onChange={(e) => setFamilyConditionInput(e.target.value)}
+                />
+                {familyConditionSuggestions.length > 0 && (
+                  <ul className="suggestions-list">
+                    {familyConditionSuggestions.map((suggestion, index) => (
+                      <li key={index} onClick={() => setFamilyConditionInput(suggestion)}>
+                        {suggestion}
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <div className="button-group-vertical">
-                  <Button variant="outline-primary" onClick={() => toggleFamilyCondition('Hypertension')} className={familyConditions.includes('Hypertension') ? 'selected' : ''}>Hypertension</Button>
-                  <Button variant="outline-primary" onClick={() => toggleFamilyCondition('High Cholesterol')} className={familyConditions.includes('High Cholesterol') ? 'selected' : ''}>High Cholesterol</Button>
-                  <Button variant="outline-primary" onClick={() => toggleFamilyCondition('Obesity')} className={familyConditions.includes('Obesity') ? 'selected' : ''}>Obesity</Button>
-                  <Button variant="outline-primary" onClick={() => toggleFamilyCondition('Diabetes')} className={familyConditions.includes('Diabetes') ? 'selected' : ''}>Diabetes</Button>
-                  <Button variant="outline-primary" onClick={() => toggleFamilyCondition('Heart Disease')} className={familyConditions.includes('Heart Disease') ? 'selected' : ''}>Heart Disease</Button>
-                  <Button variant="outline-primary" onClick={() => toggleFamilyCondition('Cancer')} className={familyConditions.includes('Cancer') ? 'selected' : ''}>Cancer</Button>
-                  <Button variant="outline-primary" onClick={() => toggleFamilyCondition('Lung Disease')} className={familyConditions.includes('Lung Disease') ? 'selected' : ''}>Lung Disease</Button>
-                  <Button variant="outline-primary" onClick={() => toggleFamilyCondition('Thyroid Disease')} className={familyConditions.includes('Thyroid Disease') ? 'selected' : ''}>Thyroid Disease</Button>
-                  <Button variant="outline-primary" onClick={() => toggleFamilyCondition('Gastric Disease')} className={familyConditions.includes('Gastric Disease') ? 'selected' : ''}>Gastric Disease</Button>
-                  <Button variant="outline-primary" onClick={() => toggleFamilyCondition('None')} className={familyConditions.includes('None') ? 'selected' : ''}>None</Button>
+                  <Button variant="outline-primary" onClick={() => setFamilyConditions(['None'])} className={familyConditions.includes('None') ? 'selected' : ''}>None</Button>
                 </div>
+                {!familyConditions.includes('None') && familyConditions.length > 0 && (
+                  <div className="added-medications-list">
+                    {familyConditions.map((condition, index) => (
+                      <div key={index} className="added-medication-item">
+                        <Button className="remove-medication-button" size="sm" onClick={() => handleRemoveFamilyCondition(index)}>x</Button>
+                        <li>{condition}</li>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div className="button-group">
                   <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
                   <Button type="submit" className="next-button">Next</Button>
