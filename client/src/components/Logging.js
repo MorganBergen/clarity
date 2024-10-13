@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Drawer, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemText, Typography, Button } from '@mui/material';
 import './MainDashboard.css';
 import PocketBase from 'pocketbase';
 
@@ -38,7 +38,7 @@ const Logging = () => {
       console.error('Error uploading image:', error);
     }
   };
-  
+
   return (
     <Box sx={{ display: 'flex' }}>
       <Drawer
@@ -73,6 +73,8 @@ const Logging = () => {
       >
         <Typography variant="h4">Logging</Typography>
         <Typography variant="body1">Upload images, or upload scanned barcode of your food</Typography>
+        <input type="file" onChange={handleFileChange} />
+        <Button variant="contained" onClick={handleUpload}>Upload Image</Button>
       </Box>
     </Box>
   );
