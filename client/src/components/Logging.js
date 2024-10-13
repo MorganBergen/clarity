@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Drawer, List, ListItem, ListItemText, Typography, Button, IconButton } from '@mui/material';
-import { AttachFile, CloudUpload } from '@mui/icons-material'; // 
+import { Box, Drawer, List, ListItem, ListItemText, Typography, IconButton, Button } from '@mui/material';
+import { AttachFile, CloudUpload } from '@mui/icons-material'; 
 import './MainDashboard.css';
 import PocketBase from 'pocketbase';
-import { UserContext } from '../context/UserContext'; // import user context
+import { UserContext } from '../context/UserContext';
 import { analyzeImage } from '../services/clarifaiService';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
@@ -12,8 +12,7 @@ const pb = new PocketBase('http://127.0.0.1:8090');
 const Logging = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null)
-  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState(null);
   const { userId } = useContext(UserContext);
 
   const mainItems = [
@@ -33,7 +32,7 @@ const Logging = () => {
   };
 
   const handleUpload = async () => {
-    if (!selectedFile || !userId) return; // ensure userId is available
+    if (!selectedFile || !userId) return;
 
     const formData = new FormData();
     formData.append('item', selectedFile);
@@ -54,10 +53,20 @@ const Logging = () => {
       const imageUrl = `http://127.0.0.1:8090/api/files/food/${id}/${record.item[0]}`;
       setImageUrl(imageUrl);
       console.log('Fetched image URL:', imageUrl);
-      const analysisResult = await analyzeImage(imageUrl);
-      console.log('Clarifai analysis result:', analysisResult);
     } catch (error) {
       console.error('Error fetching image:', error);
+    }
+  };
+
+  const handleAnalyze = async () => {
+    if (!imageUrl) return;
+
+    try {
+      const result = await analyzeImage(imageUrl);
+      setAnalysisResult(result);
+      console.log('Clarifai analysis result:', result);
+    } catch (error) {
+      console.error('Error analyzing image:', error);
     }
   };
 
@@ -111,19 +120,21 @@ const Logging = () => {
             <CloudUpload />
           </IconButton>
         </Box>
-        {previewUrl && (
-          <Box sx={{ mb: 2, textAlign: 'center' }}>
-            <Typography variant="h6">Image Preview:</Typography>
-            <img src={previewUrl} alt="Preview" style={{ maxWidth: '200px', height: 'auto', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }} />
-          </Box>
-        )}
-        {uploadSuccess && (
-          <Typography variant="body1" color="success.main">Upload successful!</Typography>
-        )}
         {imageUrl && (
           <Box sx={{ mt: 3, textAlign: 'center' }}>
             <Typography variant="h6">Uploaded Image:</Typography>
             <img src={imageUrl} alt="Uploaded" style={{ maxWidth: '200px', height: 'auto', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }} />
+            <Button variant="contained" color="primary" onClick={handleAnalyze} sx={{ mt: 2 }}>
+              Analyze Image
+            </Button>
+          </Box>
+        )}
+        {analysisResult && (
+          <Box sx={{ mt: 3, textAlign: 'center' }}>
+            <Typography variant="h6">Analysis Result:</Typography>
+            <pre style={{ textAlign: 'left', maxWidth: '400px', margin: '0 auto', overflowX: 'auto' }}>
+              {JSON.stringify(analysisResult, null, 2)}
+            </pre>
           </Box>
         )}
       </Box>
