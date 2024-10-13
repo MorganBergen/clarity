@@ -188,6 +188,12 @@ const Questionnaire = () => {
     }
   }, [conditionInput]);
 
+  const handleAddCondition = () => {
+    if (conditionInput && !conditions.includes(conditionInput)) {
+      setConditions([...conditions, conditionInput]);
+      setConditionInput('');
+    }
+  }
   
 
 
