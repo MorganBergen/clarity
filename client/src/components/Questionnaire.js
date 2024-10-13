@@ -5,10 +5,7 @@ import axios from 'axios';
 import './Questionnaire.css';
 import './MainDashboard.js';
 import PocketBase from 'pocketbase';
-<<<<<<< HEAD
 import { UserContext } from '../context/UserContext';
-=======
->>>>>>> cf07be8 (imported libary, declared new instance of pb and created new data to questionnaire collection)
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -43,16 +40,11 @@ const Questionnaire = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-<<<<<<< HEAD
     let record = await pb.collection('users').getOne(userId);
 
     try {
       const data = {
         userId: record.id,
-=======
-    try {
-      const data = {
->>>>>>> cf07be8 (imported libary, declared new instance of pb and created new data to questionnaire collection)
         firstName,
         lastName,
         age,
@@ -71,12 +63,8 @@ const Questionnaire = () => {
         alcoholUse,
         tobaccoUse,
       };
-<<<<<<< HEAD
       console.log(`creating questionnaire data records into pb collection.....`);
       console.log(data);
-=======
-
->>>>>>> cf07be8 (imported libary, declared new instance of pb and created new data to questionnaire collection)
       await pb.collection('questionnaire').create(data);
       navigate('/MainDashboard');
     } catch (error) {
