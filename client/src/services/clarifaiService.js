@@ -24,12 +24,19 @@ export const analyzeImage = async (imageUrl) => {
     });
 
     const requestOption = {
-        
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Key ' + PAT
+        },
+        data: raw
     };
 
     try {
-
+        const response = await axios(`https://api.clarifai.com/v2/models/${MODEL_ID}/versions/${MODEL_VERSION_ID}/outputs`, requestOptions);
+        return response.data;
     } catch (error) {
-
+        console.error('Error analyzing image:', error);
+        throw error;
     } 
 };
