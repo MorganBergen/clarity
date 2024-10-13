@@ -176,10 +176,16 @@ const Questionnaire = () => {
     if (conditionInput.length > 2) {
       const fetchConditions = async () => {
         try {
-          const response = axios.get(`https://clinicaltables.nlm.gov/api/conditions/v3/search?terms=${conditionInput}&maxList=10`);
-          setConditionSuggestions(response.data[3]);
+          const response = await axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${conditionInput}&maxList=10`);
+          if (response.data && Array.isArray(response.data[3])) {
+            setConditionSuggestions(response.data[3]);
+          } else {
+            console.error('Unexpected response structure:', response.data);
+            setConditionSuggestions([]);
+          }
         } catch (error) {
-          console.log('Error fetching condition data:', error);
+          console.error('Error fetching condition data:', error);
+          setConditionSuggestions([]);
         }
       };
       fetchConditions();
