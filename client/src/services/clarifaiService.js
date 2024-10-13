@@ -8,11 +8,23 @@ const MODEL_VERSION_ID = '1d5fd481e0cf4826aa72ec3ff049e044';
 
 export const analyzeImage = async (imageUrl) => {
     const raw = JSON.stringify({
-
+        "user_app_id": {
+            "user_id": USER_ID,
+            "app_id": APP_ID
+        },
+        "inputs": [
+            {
+                "data": {
+                    "image": {
+                        "url": imageUrl
+                    }
+                }
+            }
+        ]
     });
 
     const requestOption = {
-
+        
     };
 
     try {
