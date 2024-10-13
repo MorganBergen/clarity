@@ -50,16 +50,16 @@ const Questionnaire = () => {
         age,
         sex,
         activityLevel,
-        medications: addedMedications,
+        medications: isNoneSelected ? 'None' : addedMedications.join(', '),
         currentWeight,
         targetWeight,
-        conditions,
-        familyConditions,
+        conditions: conditions.length === 0 ? 'None' : conditions.join(', '),
+        familyConditions: familyConditions.length === 0 ? 'None' : familyConditions.join(', '),
         dietaryPreference,
-        allergies: addedAllergies,
-        fitnessGoals,
+        allergies: addedAllergies.length === 0 ? 'None' : addedAllergies.join(', '),
+        fitnessGoals: fitnessGoals.length === 0 ? 'None' : fitnessGoals.join(', '),
         dietHistory,
-        vitamins: addedVitamins,
+        vitamins: addedVitamins.length === 0 ? 'None' : addedVitamins.join(', '),
         alcoholUse,
         tobaccoUse,
       };
@@ -146,7 +146,7 @@ const Questionnaire = () => {
   const handleSetMedicationsNone = () => {
     setIsNoneSelected((prev) => !prev);
     if (!isNoneSelected) {
-      setMedications('');
+      setMedications('None');
       setAddedMedications([]);
     }
   };
@@ -513,7 +513,7 @@ const Questionnaire = () => {
                   <Button variant="outline-primary" onClick={() => setDietaryPreference('pescatarian')} className={dietaryPreference === 'pescatarian' ? 'selected' : ''}>Pescatarian</Button>
                   <Button variant="outline-primary" onClick={() => setDietaryPreference('gluten-free')} className={dietaryPreference === 'gluten-free' ? 'selected' : ''}>Gluten-free</Button>
                   <Button variant="outline-primary" onClick={() => setDietaryPreference('dairy-free')} className={dietaryPreference === 'dairy-free' ? 'selected' : ''}>Dairy-free</Button>
-                  <Button variant="outline-primary" onClick={() => setDietaryPreference('none')} className={dietaryPreference === 'none' ? 'selected' : ''}>None</Button>
+                  <Button variant="outline-primary" onClick={() => setDietaryPreference('None')} className={dietaryPreference === 'None' ? 'selected' : ''}>None</Button>
                 </div>
                 <div className="button-group">
                   <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
