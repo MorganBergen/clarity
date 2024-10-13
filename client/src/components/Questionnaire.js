@@ -23,7 +23,7 @@ const Questionnaire = () => {
   const [targetWeight, setTargetWeight] = useState('');
   const weightInputRef = useRef(null);
   const targetWeightInputRef = useRef(null);
-  
+
   const [conditions, setConditions] = useState([]);
   const [conditionInput, setConditionInput] = useState('');
   const [conditionSuggestions, setConditionSuggestions] = useState([]);
@@ -194,9 +194,21 @@ const Questionnaire = () => {
       setConditionInput('');
     }
   }
-  
 
+  const handleRemoveCondition = (index) => {
+    setConditions(conditions.filter((_, i) => i !== index));
+  };
 
+  const handleSetConditionsNone = () => {
+    setIsNoneSelected((prev) => !prev);
+    if (!isNoneSelected) {
+      setConditions(['None']);
+    } else {
+      setConditions([]);
+    }
+  }
+
+  /*
   const toggleCondition = (condition) => {
     setConditions((prevConditions) =>
       prevConditions.includes(condition)
@@ -204,6 +216,7 @@ const Questionnaire = () => {
         : [...prevConditions, condition]
     );
   };
+  */
 
   const toggleFamilyCondition = (familyCondition) => {
     setFamilyConditions((prevfamilyConditions) =>
@@ -482,20 +495,37 @@ const Questionnaire = () => {
               <Form.Group controlId="formMedicalConditions" className="mt-4">
                 <Form.Label>What are your current medical conditions?</Form.Label>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <p>Select all that apply or none</p>
+                  <p>As you type, suggestions will appear below</p>
+                  <Button className='add-medication-button' onClick={handleAddCondition} disabled={!conditionInput || isNoneSelected}>Add</Button>
                 </div>
+                <Form.Control
+                  type="text"
+                  placeholder="List your conditions"
+                  value={conditionInput}
+                  onChange={(e) => setConditionInput(e.target.value)}
+                />
+                {conditionSuggestions.length > 0 && (
+                  <ul className="suggestions-list">
+                    {conditionSuggestions.map((suggestion, index) => (
+                      <li key={index} onClick={() => setConditionInput(suggestion)}>
+                        {suggestion}
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <div className="button-group-vertical">
-                  <Button variant="outline-primary" onClick={() => toggleCondition('Hypertension')} className={conditions.includes('Hypertension') ? 'selected' : ''}>Hypertension</Button>
-                  <Button variant="outline-primary" onClick={() => toggleCondition('High Cholesterol')} className={conditions.includes('High Cholesterol') ? 'selected' : ''}>High Cholesterol</Button>
-                  <Button variant="outline-primary" onClick={() => toggleCondition('Obesity')} className={conditions.includes('Obesity') ? 'selected' : ''}>Obesity</Button>
-                  <Button variant="outline-primary" onClick={() => toggleCondition('Diabetes')} className={conditions.includes('Diabetes') ? 'selected' : ''}>Diabetes</Button>
-                  <Button variant="outline-primary" onClick={() => toggleCondition('Heart Disease')} className={conditions.includes('Heart Disease') ? 'selected' : ''}>Heart Disease</Button>
-                  <Button variant="outline-primary" onClick={() => toggleCondition('Cancer')} className={conditions.includes('Cancer') ? 'selected' : ''}>Cancer</Button>
-                  <Button variant="outline-primary" onClick={() => toggleCondition('Lung Disease')} className={conditions.includes('Lung Disease') ? 'selected' : ''}>Lung Disease</Button>
-                  <Button variant="outline-primary" onClick={() => toggleCondition('Thyroid Disease')} className={conditions.includes('Thyroid Disease') ? 'selected' : ''}>Thyroid Disease</Button>
-                  <Button variant="outline-primary" onClick={() => toggleCondition('Gastric Disease')} className={conditions.includes('Gastric Disease') ? 'selected' : ''}>Gastric Disease</Button>
-                  <Button variant="outline-primary" onClick={() => toggleCondition('None')} className={conditions.includes('None') ? 'selected' : ''}>None</Button>
+                  <Button variant="outline-primary" onClick={handleSetConditionsNone} className={isNoneSelected ? 'selected' : ''}>None</Button>
                 </div>
+                {!isNoneSelected && conditions.length > 0 && (
+                  <div className="added-medications-list">
+                    {conditions.map((condition, index) => (
+                      <div key={index} className="added-medication-item">
+                        <Button className="remove-medication-button" size="sm" onClick={() => handleRemoveCondition(index)}>x</Button>
+                        <li>{condition}</li>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div className="button-group">
                   <Button variant="secondary" onClick={handleBack} className="back-button">Back</Button>
                   <Button type="submit" className="next-button">Next</Button>
