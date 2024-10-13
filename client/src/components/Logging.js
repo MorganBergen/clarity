@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Drawer, List, ListItem, ListItemText, Typography, Button } from '@mui/material';
 import './MainDashboard.css';
 import PocketBase from 'pocketbase';
+import { UserContext } from '../context/UserContext'; // import user context
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
 const Logging = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const { userId } = useContext(UserContext); //  get userid from context
 
   const mainItems = [
     { text: 'Dashboard' },
@@ -27,10 +29,11 @@ const Logging = () => {
   };
 
   const handleUpload = async () => {
-    if (!selectedFile) return;
+    if (!selectedFile || !userId) return; // ensure userId is available
 
     const formData = new FormData();
     formData.append('item', selectedFile);
+    formData.append('userId', userId);
 
     try {
       const response = await pb.collection('food').create(formData);
