@@ -29,6 +29,9 @@ const Questionnaire = () => {
   const [conditionSuggestions, setConditionSuggestions] = useState([]);
 
   const [familyConditions, setFamilyConditions] = useState([]);
+  const [familyConditionInput, setFamilyConditionInput] = useState('');
+  const [familyConditionSuggestions, setFamilyConditionSuggestions] = useState([]);
+
   const [dietaryPreference, setDietaryPreference] = useState('');
   const [allergies, setAllergies] = useState('');
   const [addedAllergies, setAddedAllergies] = useState([]);
@@ -224,13 +227,35 @@ const Questionnaire = () => {
   };
   */
 
-  const toggleFamilyCondition = (familyCondition) => {
-    setFamilyConditions((prevfamilyConditions) =>
-      prevfamilyConditions.includes(familyCondition)
-        ? prevfamilyConditions.filter((fc) => fc !== familyCondition)
-        : [...prevfamilyConditions, familyCondition]
-    );
-  };
+  useEffect(() => {
+    if (familyConditionInput.length > 2) {
+      const fetchFamilyConditions = async () => {
+        try {
+          const response = await axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${familyConditionInput}&maxList=10`);
+          if (response.data && Array.isArray(response.data[3])) {
+            setFamilyConditionSuggestions(response.data[3]);
+          } else {  
+            console.error('Unexpected response structure:', response.data);
+            setFamilyConditionSuggestions([]);
+          }
+        } catch (error) {
+          console.error('Error fetching family condition data:', error);
+          setFamilyConditionSuggestions([]);
+        }
+      };
+      fetchFamilyConditions();
+    } else {
+      setFamilyConditionSuggestions([]);
+    }
+  }, [familyConditionInput]);
+
+  // const toggleFamilyCondition = (familyCondition) => {
+  //   setFamilyConditions((prevfamilyConditions) =>
+  //     prevfamilyConditions.includes(familyCondition)
+  //       ? prevfamilyConditions.filter((fc) => fc !== familyCondition)
+  //       : [...prevfamilyConditions, familyCondition]
+  //   );
+  // };
 
   const handleAllergyChange = (e) => {
     setAllergies(e.target.value);
