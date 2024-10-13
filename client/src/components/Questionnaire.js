@@ -645,14 +645,14 @@ const Questionnaire = () => {
               <Form.Group controlId="formAllergies" className="mt-4">
                 <Form.Label>Any allergies to medications or foods?</Form.Label>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <p>As you type, add your allergies to the list or select none if you do not have any allergies</p>
+                  <p>Type your allergies and press add to include them in the list</p>
                   <Button className='add-allergy-button' onClick={handleAddAllergy} disabled={!allergies}>Add</Button>
                 </div>
                 <Form.Control
                   type="text"
                   placeholder="List your allergies"
                   value={allergies}
-                  onChange={handleAllergyChange}
+                  onChange={(e) => setAllergies(e.target.value)}
                 />
                 <div className="button-group-vertical">
                   <Button variant="outline-primary" onClick={handleSetAllergiesNone} className={isNoneSelected ? 'selected' : ''}>None</Button>
