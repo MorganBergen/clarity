@@ -2,8 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Drawer, List, ListItem, ListItemText, Typography } from '@mui/material';
 import './MainDashboard.css';
+import PocketBase from 'pocketbase';
+
+const pb = new PocketBase('http://127.0.0.1:8090');
 
 const Logging = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const mainItems = [
     { text: 'Dashboard' },
     { text: 'Analysis' },
