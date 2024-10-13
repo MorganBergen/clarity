@@ -8,6 +8,7 @@ const pb = new PocketBase('http://127.0.0.1:8090');
 
 const Logging = () => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
   const mainItems = [
     { text: 'Dashboard' },
@@ -29,13 +30,25 @@ const Logging = () => {
     if (!selectedFile) return;
 
     const formData = new FormData();
-    formData.append('file', selectedFile);
+    formData.append('item', selectedFile);
 
     try {
       const response = await pb.collection('food').create(formData);
       console.log('Image uploaded successfully:', response);
+      fetchImage(response.id);
     } catch (error) {
       console.error('Error uploading image:', error);
+    }
+  };
+
+  const fetchImage = async (id) => {
+    try {
+      const record = await pb.collection('food').getOne(id);
+      const imageUrl = `http://127.0.0.1:8090/api/files/food/${id}/${record.item[0]}`;
+      setImageUrl(imageUrl);
+      console.log('Fetched image URL:', imageUrl);
+    } catch (error) {
+      console.error('Error fetching image:', error);
     }
   };
 
@@ -75,6 +88,12 @@ const Logging = () => {
         <Typography variant="body1">Upload images, or upload scanned barcode of your food</Typography>
         <input type="file" onChange={handleFileChange} />
         <Button variant="contained" onClick={handleUpload}>Upload Image</Button>
+        {imageUrl && (
+          <Box sx={{ mt: 3 }}>
+            <Typography variant="h6">Uploaded Image:</Typography>
+            <img src={imageUrl} alt="Uploaded" style={{ maxWidth: '100%', height: 'auto' }} />
+          </Box>
+        )}
       </Box>
     </Box>
   );
