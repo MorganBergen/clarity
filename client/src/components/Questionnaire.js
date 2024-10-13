@@ -32,9 +32,10 @@ const Questionnaire = () => {
   const [familyConditionInput, setFamilyConditionInput] = useState('');
   const [familyConditionSuggestions, setFamilyConditionSuggestions] = useState([]);
 
-  const [dietaryPreference, setDietaryPreference] = useState('');
   const [allergies, setAllergies] = useState('');
   const [addedAllergies, setAddedAllergies] = useState([]);
+
+  const [dietaryPreference, setDietaryPreference] = useState('');
   const [fitnessGoals, setFitnessGoals] = useState([]);
   const [isNoneSelected, setIsNoneSelected] = useState(false);
   const [dietHistory, setDietHistory] = useState('');
@@ -267,10 +268,6 @@ const Questionnaire = () => {
   //       : [...prevfamilyConditions, familyCondition]
   //   );
   // };
-
-  const handleAllergyChange = (e) => {
-    setAllergies(e.target.value);
-  };
 
   const handleAddAllergy = () => {
     if (allergies && !addedAllergies.includes(allergies)) {
