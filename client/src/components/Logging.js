@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Drawer, List, ListItem, ListItemText, Typography, Button } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemText, Typography, Button, IconButton } from '@mui/material';
+import { AttachFile, CloudUpload } from '@mui/icons-material'; // 
 import './MainDashboard.css';
 import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext'; // import user context
@@ -10,7 +11,9 @@ const pb = new PocketBase('http://127.0.0.1:8090');
 const Logging = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-  const { userId } = useContext(UserContext); //  get userid from context
+  const [previewUrl, setPreviewUrl] = useState(null)
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const { userId } = useContext(UserContext);
 
   const mainItems = [
     { text: 'Dashboard' },
@@ -85,16 +88,39 @@ const Logging = () => {
       </Drawer>
       <Box
         component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}
       >
-        <Typography variant="h4">Logging</Typography>
-        <Typography variant="body1">Upload images, or upload scanned barcode of your food</Typography>
-        <input type="file" onChange={handleFileChange} />
-        <Button variant="contained" onClick={handleUpload}>Upload Image</Button>
+        <Typography variant="h4" sx={{ mb: 2 }}>Logging</Typography>
+        <Typography variant="body1" sx={{ mb: 4 }}>Upload images, or upload scanned barcode of your food</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+          <input
+            type="file"
+            id="file-input"
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+          <label htmlFor="file-input">
+            <IconButton color="primary" component="span">
+              <AttachFile />
+            </IconButton>
+          </label>
+          <IconButton color="primary" onClick={handleUpload} disabled={!selectedFile}>
+            <CloudUpload />
+          </IconButton>
+        </Box>
+        {previewUrl && (
+          <Box sx={{ mb: 2, textAlign: 'center' }}>
+            <Typography variant="h6">Image Preview:</Typography>
+            <img src={previewUrl} alt="Preview" style={{ maxWidth: '200px', height: 'auto', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }} />
+          </Box>
+        )}
+        {uploadSuccess && (
+          <Typography variant="body1" color="success.main">Upload successful!</Typography>
+        )}
         {imageUrl && (
-          <Box sx={{ mt: 3 }}>
+          <Box sx={{ mt: 3, textAlign: 'center' }}>
             <Typography variant="h6">Uploaded Image:</Typography>
-            <img src={imageUrl} alt="Uploaded" style={{ maxWidth: '100%', height: 'auto' }} />
+            <img src={imageUrl} alt="Uploaded" style={{ maxWidth: '200px', height: 'auto', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }} />
           </Box>
         )}
       </Box>
