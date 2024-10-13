@@ -5,6 +5,7 @@ import { AttachFile, CloudUpload } from '@mui/icons-material'; //
 import './MainDashboard.css';
 import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext'; // import user context
+import { analyzeImage } from '../services/clarifaiService';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -53,6 +54,8 @@ const Logging = () => {
       const imageUrl = `http://127.0.0.1:8090/api/files/food/${id}/${record.item[0]}`;
       setImageUrl(imageUrl);
       console.log('Fetched image URL:', imageUrl);
+      const analysisResult = await analyzeImage(imageUrl);
+      console.log('Clarifai analysis result:', analysisResult);
     } catch (error) {
       console.error('Error fetching image:', error);
     }
