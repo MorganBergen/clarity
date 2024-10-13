@@ -23,7 +23,7 @@ export const analyzeImage = async (imageUrl) => {
         ]
     });
 
-    const requestOption = {
+    const requestOptions = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
