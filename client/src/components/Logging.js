@@ -21,6 +21,24 @@ const Logging = () => {
     { text: 'Sign Out', link: '/' },
   ];
 
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile) return;
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    try {
+      const response = await pb.collection('food').create(formData);
+      console.log('Image uploaded successfully:', response);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+  };
+  
   return (
     <Box sx={{ display: 'flex' }}>
       <Drawer
@@ -34,9 +52,9 @@ const Logging = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           <List className="main-list">
             {mainItems.map(({ text }) => (
-            <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}`}>
-              <ListItemText primary={text} className="page-text-color" />
-            </ListItem>
+              <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}`}>
+                <ListItemText primary={text} className="page-text-color" />
+              </ListItem>
             ))}
           </List>
           <div className="separator-line"></div>
