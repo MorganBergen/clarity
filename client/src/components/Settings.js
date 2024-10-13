@@ -25,7 +25,7 @@ const Settings = () => {
           let id = userRecord.id;
 
           const questionnaireRecord = await pb.collection('questionnaire').getFirstListItem(`userId="${id}"`);
-
+          console.log(questionnaireRecord);
           setQuestionnaireData(questionnaireRecord);
         } catch (error) {
           console.error('Error fetching user data:', error);
