@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -23,7 +23,11 @@ const Questionnaire = () => {
   const [targetWeight, setTargetWeight] = useState('');
   const weightInputRef = useRef(null);
   const targetWeightInputRef = useRef(null);
+  
   const [conditions, setConditions] = useState([]);
+  const [conditionInput, setConditionInput] = useState('');
+  const [conditionSuggestions, setConditionSuggestions] = useState([]);
+
   const [familyConditions, setFamilyConditions] = useState([]);
   const [dietaryPreference, setDietaryPreference] = useState('');
   const [allergies, setAllergies] = useState('');
@@ -167,6 +171,25 @@ const Questionnaire = () => {
       setTimeout(() => input.setSelectionRange(position, position), 0);
     }
   };
+
+  useEffect(() => {
+    if (conditionInput.length > 2) {
+      const fetchConditions = async () => {
+        try {
+          const response = axios.get(`https://clinicaltables.nlm.gov/api/conditions/v3/search?terms=${conditionInput}&maxList=10`);
+          setConditionSuggestions(response.data[3]);
+        } catch (error) {
+          console.log('Error fetching condition data:', error);
+        }
+      };
+      fetchConditions();
+    } else {
+      setConditionSuggestions([]);
+    }
+  }, [conditionInput]);
+
+  
+
 
   const toggleCondition = (condition) => {
     setConditions((prevConditions) =>
