@@ -1,18 +1,17 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Drawer, List, ListItem, ListItemText, Typography, Button, IconButton } from '@mui/material';
-import { AttachFile, CloudUpload } from '@mui/icons-material'; // 
+import { Box, Drawer, List, ListItem, ListItemText, Typography, IconButton, Button } from '@mui/material';
+import { AttachFile, CloudUpload } from '@mui/icons-material'; 
 import './MainDashboard.css';
 import PocketBase from 'pocketbase';
-import { UserContext } from '../context/UserContext'; // import user context
+import { UserContext } from '../context/UserContext';
+import axios from 'axios';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
 const Logging = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null)
-  const [uploadSuccess, setUploadSuccess] = useState(false);
   const { userId } = useContext(UserContext);
 
   const mainItems = [
@@ -32,7 +31,7 @@ const Logging = () => {
   };
 
   const handleUpload = async () => {
-    if (!selectedFile || !userId) return; // ensure userId is available
+    if (!selectedFile || !userId) return;
 
     const formData = new FormData();
     formData.append('item', selectedFile);
@@ -108,15 +107,6 @@ const Logging = () => {
             <CloudUpload />
           </IconButton>
         </Box>
-        {previewUrl && (
-          <Box sx={{ mb: 2, textAlign: 'center' }}>
-            <Typography variant="h6">Image Preview:</Typography>
-            <img src={previewUrl} alt="Preview" style={{ maxWidth: '200px', height: 'auto', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }} />
-          </Box>
-        )}
-        {uploadSuccess && (
-          <Typography variant="body1" color="success.main">Upload successful!</Typography>
-        )}
         {imageUrl && (
           <Box sx={{ mt: 3, textAlign: 'center' }}>
             <Typography variant="h6">Uploaded Image:</Typography>

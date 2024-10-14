@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "clarifai-nodejs": "^0.0.3",
     "mongodb": "^6.9.0"
-  },
-  "devDependencies": {}
+  }
 }
