@@ -214,28 +214,6 @@ const Questionnaire = () => {
     }
   }
 
-  // useEffect(() => {
-  //   if (familyConditionInput.length > 2) {
-  //     const fetchFamilyConditions = async () => {
-  //       try {
-  //         const response = await axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${familyConditionInput}&maxList=10`);
-  //         if (response.data && Array.isArray(response.data[3])) {
-  //           setFamilyConditionSuggestions(response.data[3]);
-  //         } else {
-  //           console.error('Unexpected response structure:', response.data);
-  //           setFamilyConditionSuggestions([]);
-  //         }
-  //       } catch (error) {
-  //         console.error('Error fetching family condition data:', error);
-  //         setFamilyConditionSuggestions([]);
-  //       }
-  //     };
-  //     fetchFamilyConditions();
-  //   } else {
-  //     setFamilyConditionSuggestions([]);
-  //   }
-  // }, [familyConditionInput]);
-
   useEffect(() => {
     if (familyConditionInput.length > 2) {
       const fetchFamilyConditions = async () => {
