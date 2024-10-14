@@ -11,7 +11,12 @@ const cors = require('cors');
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+}));
 
 // Routes
 const apiRoutes = require('./routes/api');
