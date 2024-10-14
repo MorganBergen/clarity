@@ -13,11 +13,13 @@ import Settings from './components/Settings';
 import Logging from './components/Logging';
 import Reports from './components/Reports';
 import { UserProvider } from './context/UserContext';
+import ApiTest from './components/ApiTest';
 
 function App() {
   return (
     <Provider store={store}>
       <UserProvider>
+        <ApiTest />
         <Router>
           <Routes>
             <Route path="/" element={<Login />} />

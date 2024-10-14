@@ -114,28 +114,23 @@ const Questionnaire = () => {
     setCurrentQuestion(currentQuestion - 1);
   };
 
-
   const handleMedicationChange = async (e) => {
     const query = e.target.value;
     setMedications(query);
-
+    
     if (query.length > 2) {
       try {
-        const response = await axios.get(`https://api.fda.gov/drug/label.json?search=openfda.brand_name:${query}*&limit=10`);
-        setMedicationSuggestions(response.data.results.map(result => result.openfda.brand_name[0]));
+        const response = await axios.get(`http://localhost:5001/api/medications?q=${query}`);
+        setMedicationSuggestions(response.data);
       } catch (error) {
-        if (error.response && error.response.status === 404) {
-          // console.error('No matches found for the query:', query);
-          setMedicationSuggestions([]);
-        } else {
-          console.error('Error fetching medication data:', error);
-        }
+        console.error('Error fetching medication data:', error);
+        setMedicationSuggestions([]);
       }
     } else {
       setMedicationSuggestions([]);
     }
   };
-  
+
   const handleMedicationSelect = (medication) => {
     setMedications(medication);
     setMedicationSuggestions([]);
@@ -219,27 +214,12 @@ const Questionnaire = () => {
     }
   }
 
-  /*
-  const toggleCondition = (condition) => {
-    setConditions((prevConditions) =>
-      prevConditions.includes(condition)
-        ? prevConditions.filter((c) => c !== condition)
-        : [...prevConditions, condition]
-    );
-  };
-  */
-
   useEffect(() => {
     if (familyConditionInput.length > 2) {
       const fetchFamilyConditions = async () => {
         try {
-          const response = await axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${familyConditionInput}&maxList=10`);
-          if (response.data && Array.isArray(response.data[3])) {
-            setFamilyConditionSuggestions(response.data[3]);
-          } else {
-            console.error('Unexpected response structure:', response.data);
-            setFamilyConditionSuggestions([]);
-          }
+          const response = await axios.get(`http://localhost:5001/api/conditions?q=${familyConditionInput}`);
+          setFamilyConditionSuggestions(response.data);
         } catch (error) {
           console.error('Error fetching family condition data:', error);
           setFamilyConditionSuggestions([]);
@@ -251,6 +231,25 @@ const Questionnaire = () => {
     }
   }, [familyConditionInput]);
 
+  useEffect(() => {
+
+    if (conditionInput.length > 2) {
+      const fetchConditions = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5001/api/conditions?q=${conditionInput}`);
+          setConditionSuggestions(response.data);
+        } catch (error) {
+          console.error('Error fetching condition data:', error);
+          setConditionSuggestions([]);
+        }
+      };
+      fetchConditions();
+    } else {
+      setConditionSuggestions([]);
+    }
+
+  }, [conditionInput]);
+
   const handleAddFamilyCondition = () => {
     if (familyConditionInput && !familyConditions.includes(familyConditionInput)) {
       setFamilyConditions([...familyConditions, familyConditionInput]);
@@ -261,14 +260,6 @@ const Questionnaire = () => {
   const handleRemoveFamilyCondition = (index) => {
     setFamilyConditions(familyConditions.filter((_, i) => i !== index));
   };
-
-  // const toggleFamilyCondition = (familyCondition) => {
-  //   setFamilyConditions((prevfamilyConditions) =>
-  //     prevfamilyConditions.includes(familyCondition)
-  //       ? prevfamilyConditions.filter((fc) => fc !== familyCondition)
-  //       : [...prevfamilyConditions, familyCondition]
-  //   );
-  // };
 
   const handleAddAllergy = () => {
     if (allergies && !addedAllergies.includes(allergies)) {
