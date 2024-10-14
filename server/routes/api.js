@@ -26,5 +26,24 @@ router.get('/medications', async (req, res) => {
   }
 });
 
+//  new route for clinical conditions api call
+router.get('/conditions', async (req, res) => {
+
+  const query = req.query.q;
+
+  if (!query || query.length <= 2) {
+    return res.status(400).json({ error: 'Query parameter must be longer than 2 characters' });
+  }
+
+  try {
+    const response = await axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${query}&maxList=10`);
+    const suggestions = response.data[3];
+    res.json(suggestions);
+  } catch (error) {
+    console.error('Error fetching condition data:', error);
+    res.status(500).json({ error: 'Error fetching condition data'});
+  }
+
+})
 
 module.exports = router;
