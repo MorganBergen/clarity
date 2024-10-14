@@ -114,6 +114,9 @@ const Questionnaire = () => {
     setCurrentQuestion(currentQuestion - 1);
   };
 
+
+//  original block of code to fetch medication data from api directly
+  /*
   const handleMedicationChange = async (e) => {
     const query = e.target.value;
     setMedications(query);
@@ -134,7 +137,28 @@ const Questionnaire = () => {
       setMedicationSuggestions([]);
     }
   };
+  */
+  
+  //  api route to fetch medication data
+  const handleMedicationChange = async (e) => {
+    const query = e.target.value;
 
+    setMedications(query);
+
+    if (query.length > 2) {
+      try {
+        const response = await axios.get(`http://localhost:5001/api/medications?q=${query}`);
+        setMedicationSuggestions(response.data);
+      } catch (error) {
+        console.error('Error fetching medication data:', error);
+        setMedicationSuggestions([]);
+      }
+    } else {
+      setMedicationSuggestions([]);
+    }
+  };
+
+  
   const handleMedicationSelect = (medication) => {
     setMedications(medication);
     setMedicationSuggestions([]);
