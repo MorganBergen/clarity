@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Drawer, List, ListItem, ListItemText, Typography, IconButton, Button } from '@mui/material';
-import { AttachFile, CloudUpload } from '@mui/icons-material'; 
+import { Button, Box, Drawer, List, ListItem, ListItemText, Typography, IconButton } from '@mui/material';
+import { AttachFile, CloudUpload } from '@mui/icons-material';
 import './MainDashboard.css';
 import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext';
@@ -13,7 +13,6 @@ const Logging = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [showFileOptions, setShowFileOptions] = useState(false);
   const { userId } = useContext(UserContext);
 
   const mainItems = [
@@ -95,40 +94,33 @@ const Logging = () => {
           component="main"
           sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'left', justifyContent: 'center' }}
         >
-
           <Typography variant="h4" sx={{ mb: 2, textAlign: 'left' }}>Logging</Typography>
           <Typography variant="h6" sx={{ mb: 2, textAlign: 'left' }}>Upload Images or Scanned Barcode of Your Food</Typography>
-          <Button variant="contained" color="primary" onClick={() => setShowFileOptions(!showFileOptions)}>
-            Add Food
-          </Button>
-          {showFileOptions && (
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 4, mt: 2 }}>
-              <input
-                type="file"
-                id="file-input"
-                style={{ display: 'none' }}
-                onChange={handleFileChange}
-              />
-              <label htmlFor="file-input">
-                <IconButton color="primary" component="span">
-                  <AttachFile />
-                </IconButton>
-              </label>
-              <IconButton color="primary" onClick={handleUpload} disabled={!selectedFile}>
-                <CloudUpload />
-              </IconButton>
-            </Box>
-          )}
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 4, mt: 2 }}>
+            <input
+              type="file"
+              id="file-input"
+              style={{ display: 'none' }}
+              onChange={handleFileChange}
+            />
+            <label htmlFor="file-input">
+              <Button variant="contained" color="primary" component="span">
+                Add Food
+              </Button>
+            </label>
+            <IconButton color="primary" onClick={handleUpload} disabled={!selectedFile}>
+
+              <CloudUpload />
+            </IconButton>
+          </Box>
           {previewUrl && (
             <Box sx={{ mt: 3, textAlign: 'center' }}>
-              <Typography variant="h6">File Preview:</Typography>
-              <img src={previewUrl} alt="Preview" style={{ maxWidth: '200px', height: 'auto', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }} />
+              <img src={previewUrl} alt="Preview" style={{ maxWidth: '100px', height: 'auto', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} />
             </Box>
           )}
           {imageUrl && (
             <Box sx={{ mt: 3, textAlign: 'center' }}>
               <Typography variant="h6">Uploaded Image:</Typography>
-              <img src={imageUrl} alt="Uploaded" style={{ maxWidth: '200px', height: 'auto', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }} />
               {uploadSuccess && <Typography variant="body2" sx={{ mt: 2, color: 'green' }}>Upload successful!</Typography>}
             </Box>
           )}
