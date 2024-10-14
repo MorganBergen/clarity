@@ -115,27 +115,46 @@ const Questionnaire = () => {
   };
 
 
+  // const handleMedicationChange = async (e) => {
+  //   const query = e.target.value;
+  //   setMedications(query);
+
+  //   if (query.length > 2) {
+  //     try {
+  //       const response = await axios.get(`https://api.fda.gov/drug/label.json?search=openfda.brand_name:${query}*&limit=10`);
+  //       setMedicationSuggestions(response.data.results.map(result => result.openfda.brand_name[0]));
+  //     } catch (error) {
+  //       if (error.response && error.response.status === 404) {
+  //         // console.error('No matches found for the query:', query);
+  //         setMedicationSuggestions([]);
+  //       } else {
+  //         console.error('Error fetching medication data:', error);
+  //       }
+  //     }
+  //   } else {
+  //     setMedicationSuggestions([]);
+  //   }
+  // };
+
   const handleMedicationChange = async (e) => {
     const query = e.target.value;
     setMedications(query);
-
+    
+    
     if (query.length > 2) {
       try {
-        const response = await axios.get(`https://api.fda.gov/drug/label.json?search=openfda.brand_name:${query}*&limit=10`);
-        setMedicationSuggestions(response.data.results.map(result => result.openfda.brand_name[0]));
+        const response = await axios.get(`http://localhost:5001/api/medications?q=${query}`);
+        setMedicationSuggestions(response.data);
       } catch (error) {
-        if (error.response && error.response.status === 404) {
-          // console.error('No matches found for the query:', query);
-          setMedicationSuggestions([]);
-        } else {
-          console.error('Error fetching medication data:', error);
-        }
+        console.error('Error fetching medication data:', error);
+        setMedicationSuggestions([]);
       }
     } else {
       setMedicationSuggestions([]);
     }
   };
-  
+
+
   const handleMedicationSelect = (medication) => {
     setMedications(medication);
     setMedicationSuggestions([]);
