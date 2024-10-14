@@ -12,7 +12,6 @@ const pb = new PocketBase('http://127.0.0.1:8090');
 const Logging = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-  const [analysisResult, setAnalysisResult] = useState(null);
   const { userId } = useContext(UserContext);
 
   const mainItems = [
