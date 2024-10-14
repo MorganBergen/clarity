@@ -5,7 +5,7 @@ import { AttachFile, CloudUpload } from '@mui/icons-material';
 import './MainDashboard.css';
 import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext';
-import { analyzeImage } from '../services/clarifaiService';
+import axios from 'axios';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -55,18 +55,6 @@ const Logging = () => {
       console.log('Fetched image URL:', imageUrl);
     } catch (error) {
       console.error('Error fetching image:', error);
-    }
-  };
-
-  const handleAnalyze = async () => {
-    if (!imageUrl) return;
-
-    try {
-      const result = await analyzeImage(imageUrl);
-      setAnalysisResult(result);
-      console.log('Clarifai analysis result:', result);
-    } catch (error) {
-      console.error('Error analyzing image:', error);
     }
   };
 
@@ -124,17 +112,6 @@ const Logging = () => {
           <Box sx={{ mt: 3, textAlign: 'center' }}>
             <Typography variant="h6">Uploaded Image:</Typography>
             <img src={imageUrl} alt="Uploaded" style={{ maxWidth: '200px', height: 'auto', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }} />
-            <Button variant="contained" color="primary" onClick={handleAnalyze} sx={{ mt: 2 }}>
-              Analyze Image
-            </Button>
-          </Box>
-        )}
-        {analysisResult && (
-          <Box sx={{ mt: 3, textAlign: 'center' }}>
-            <Typography variant="h6">Analysis Result:</Typography>
-            <pre style={{ textAlign: 'left', maxWidth: '400px', margin: '0 auto', overflowX: 'auto' }}>
-              {JSON.stringify(analysisResult, null, 2)}
-            </pre>
           </Box>
         )}
       </Box>
