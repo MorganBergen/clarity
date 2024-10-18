@@ -1,10 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Box, Drawer, List, ListItem, ListItemText, Typography, IconButton } from '@mui/material';
-import { CloudUpload } from '@mui/icons-material'; //  AttachFile import
+import { Button, Box, Drawer, List, ListItem, ListItemText, Typography } from '@mui/material'; // TextField
+//  import { CloudUpload } from '@mui/icons-material';
 import './MainDashboard.css';
 import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext';
+// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+// import { LocalizationProvider } from '@mui/x-date-pickers';
+// import { DatePicker } from '@mui/x-date-pickers';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -97,73 +100,77 @@ const Logging = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <Box sx={{ display: 'flex' }}>
-        <Drawer
-          variant="permanent"
-          sx={{
-            width: 240,
-            flexShrink: 0,
-            [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' },
-          }}
-        >
-          <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <List className="main-list">
-              {mainItems.map(({ text }) => (
-                <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}`}>
-                  <ListItemText primary={text} className="page-text-color" />
-                </ListItem>
-              ))}
-            </List>
-            <List className="bottom-list">
-              {bottomItems.map(({ text }) => (
-                <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
-                  <ListItemText primary={text} className="page-text-color" />
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-        </Drawer>
+    
+      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+        <Box sx={{ display: 'flex' }}>
+          <Drawer
+            variant="permanent"
+            sx={{
+              width: 240,
+              flexShrink: 0,
+              [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' },
+            }}
+          >
+            <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+              <List className="main-list">
+                {mainItems.map(({ text }) => (
+                  <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}`}>
+                    <ListItemText primary={text} className="page-text-color" />
+                  </ListItem>
+                ))}
+              </List>
+              <List className="bottom-list">
+                {bottomItems.map(({ text }) => (
+                  <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
+                    <ListItemText primary={text} className="page-text-color" />
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          </Drawer>
 
-        <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-            <Typography variant="h4" sx={{ mb: 2, textAlign: 'left' }}>Logging</Typography>
-            <input type="file" id="file-input" style={{ display: 'none' }} onChange={handleFileChange} />
-            <label htmlFor="file-input">
-              <Button variant="contained" color="primary" component="span">
-                Add Food
+          <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+              <Typography variant="h4" sx={{ mb: 2, textAlign: 'left' }}>Logging</Typography>
+              <input type="file" id="file-input" style={{ display: 'none' }} onChange={handleFileChange} />
+              <label htmlFor="file-input">
+                <Button variant="contained" color="primary" component="span">
+                  Add Food
+                </Button>
+              </label>
+            </Box>
+
+            <Typography variant="h6" sx={{ mb: 2, textAlign: 'left' }}>Upload Images or Scanned Barcode of Your Food</Typography>
+            <Typography variant="body1" sx={{ mb: 2, textAlign: 'left' }}>{currentDate} {currentTime}</Typography>
+
+            {selectedFile && (
+              <Button variant="contained" color="primary" component="span" onClick={handleUpload}>
+                Upload
               </Button>
-            </label>
-          </Box>
+            )}
 
-          <Typography variant="h6" sx={{ mb: 2, textAlign: 'left' }}>Upload Images or Scanned Barcode of Your Food</Typography>
-          <Typography variant="body1" sx={{ mb: 2, textAlign: 'left' }}>{currentDate} {currentTime}</Typography>
+            
 
-          {selectedFile && (
-            <Button variant="contained" color="primary" component="span" onClick={handleUpload}>
-              Upload
-            </Button>
-          )}
+            <Box sx={{ mt: 3 }}>
 
-          <Box sx={{ mt: 3 }}>
+              {previewUrl && (<img src={previewUrl} alt="Preview" className="preview-image" />)}
 
-            {previewUrl && (<img src={previewUrl} alt="Preview" className="preview-image" />)}
-
-            <Typography variant="h6">Your Uploaded Images:</Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-              {userImages.map((url, index) => (
-                <img
-                  key={index}
-                  src={url}
-                  alt={`Uploaded ${index}`}
-                  className="uploaded-image"
-                />
-              ))}
+              <Typography variant="h6">Your Uploaded Images:</Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                {userImages.map((url, index) => (
+                  <img
+                    key={index}
+                    src={url}
+                    alt={`Uploaded ${index}`}
+                    className="uploaded-image"
+                  />
+                ))}
+              </Box>
             </Box>
           </Box>
         </Box>
       </Box>
-    </Box>
+    
   );
 };
 
