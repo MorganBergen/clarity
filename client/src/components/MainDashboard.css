@@ -25,3 +25,18 @@
   background-color: rgb(156, 156, 156); /* Color of the line */
   margin: 10px 20px; /* Add margin to push the line away from the edges */
 }
+
+.preview-image {
+  width: 200px; /* Increase the width */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 10px; /* Add some space between the button and the image */
+}
+
+.uploaded-image {
+  max-width: 100px;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

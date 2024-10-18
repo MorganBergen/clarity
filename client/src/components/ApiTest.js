@@ -6,7 +6,7 @@ const ApiCalls = () => {
         const fetchApiMessage = async () => {
             try {
                 const response = await axios.get('http://localhost:5001/api');
-                console.log('API response:', response.data);
+                console.log('API response from APITest:', response.data);
             } catch (error) {
                 console.error('Error fetching api message:', error);
             }
