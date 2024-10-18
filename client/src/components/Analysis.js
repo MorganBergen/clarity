@@ -34,7 +34,6 @@ const Analysis = () => {
               </ListItem>
             ))}
           </List>
-          <div className="separator-line"></div>
           <List className="bottom-list">
             {bottomItems.map(({ text }) => (
               <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
