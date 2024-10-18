@@ -3,6 +3,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { signIn } from '../pocketbaseService';
 import { UserContext } from '../context/UserContext';
+import PocketBase from 'pocketbase';
+
+const pb = new PocketBase('http://127.0.0.1:8090');
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -12,6 +15,47 @@ const Login = () => {
   const { setUserId } = useContext(UserContext);
   // const [isClicked, setIsClicked] = useState(false);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault(); 
+    setError('');
+
+    if (!email || !password) {
+      setError('Please enter both email and password.');
+      return;
+    } 
+
+    try {
+
+      const { user } = await signIn(email, password);
+
+      setUserId(user);
+
+      const questionnaireRecord = await pb.collection('questionnaire').getFirstListItem(`userId="${user}"`);
+
+      if (questionnaireRecord.userId === user) {
+        navigate('/MainDashboard');
+      }
+      
+    } catch (err) {
+      
+      if (err.message.includes("The requested resource wasn't found.")) {
+        
+        navigate('/Dashboard');
+
+      } else if (err.message.includes("Failed to authenticate.")) {
+        
+        setError(`Login failed. Please check your credentials and try again. ${err}`);
+
+      } else {
+
+        setError(`Login failed. ${err}`);
+
+      }
+      
+    }
+  };
+
+  /*
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
@@ -27,6 +71,7 @@ const Login = () => {
       setError(`Login failed. Please check your credentials and try again. ${err}`);
     }
   };
+  */
 
   return (
     <div className="login-wrapper">
