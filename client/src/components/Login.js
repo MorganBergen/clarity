@@ -13,7 +13,6 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { setUserId } = useContext(UserContext);
-  // const [isClicked, setIsClicked] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault(); 
