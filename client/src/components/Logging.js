@@ -122,6 +122,7 @@ const Logging = () => {
                     </ListItem>
                   ))}
                 </List>
+                
               </Box>
             </Drawer>
 
