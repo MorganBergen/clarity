@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Box, Drawer, List, ListItem, ListItemText, Typography, IconButton } from '@mui/material';
-import { AttachFile, CloudUpload } from '@mui/icons-material';
+import { CloudUpload } from '@mui/icons-material'; //  AttachFile import
 import './MainDashboard.css';
 import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext';
