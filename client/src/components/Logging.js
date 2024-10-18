@@ -145,7 +145,9 @@ const Logging = () => {
 
 
           <Box sx={{ mt: 3 }}>
+
           {previewUrl && (<img src={previewUrl} alt="Preview" className="preview-image" />)}
+          
 
             <Typography variant="h6">Your Uploaded Images:</Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
