@@ -139,15 +139,15 @@ const Logging = () => {
           <Typography variant="h6" sx={{ mb: 2, textAlign: 'left' }}>Upload Images or Scanned Barcode of Your Food</Typography>
           <Typography variant="body1" sx={{ mb: 2, textAlign: 'left' }}>{currentDate} {currentTime}</Typography>
 
-          <Button variant="contained" color="primary" component="span" onClick={handleUpload} disabled={!selectedFile}>
-            Upload
-          </Button>
-
+          {selectedFile && (
+            <Button variant="contained" color="primary" component="span" onClick={handleUpload}>
+              Upload
+            </Button>
+          )}
 
           <Box sx={{ mt: 3 }}>
 
-          {previewUrl && (<img src={previewUrl} alt="Preview" className="preview-image" />)}
-          
+            {previewUrl && (<img src={previewUrl} alt="Preview" className="preview-image" />)}
 
             <Typography variant="h6">Your Uploaded Images:</Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
