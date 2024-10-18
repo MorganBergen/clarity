@@ -23,17 +23,19 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 <br>
 
 1.  `cd ./clarity` -  navigate to the clarity root directory
-2.  `npm init-y` -  initialize npm in the clarity root directory
+2.  `npm init -y` -  initialize npm in the clarity root directory
 3.  `cd ./clarity/client` -  navigate to the client directory
 4.  `npm install --save-dev nodemon` - install nodemon as dev dependency
 5.  `npm init-y` -  initialize npm in the client directory
 6.  `npm install @mui/material @emotion/react @emotion/styled redux react-redux axios` -  install dependencies
 7.  `npm install @mui/icons-material` -  install material ui icons
 8.  `npm install clarifai-nodejs` -  install clarifai dependencies
-9.  `cd ./clarity/server` -  navigate to the server directory
-10. `npm init-y` -  initialize npm in the server directory
-11.  `npm install express pocketbase` -  install dependencies
-12. `npm install --save-dev nodemon` -  install nodemon as a development dependency
+9.  `npm install @mui/lab @mui/x-date-pickers` -  install material ui lab dependencies
+10. `npm install date-fns@2.x` -  install date-fns dependencies
+11. `cd ./clarity/server` -  navigate to the server directory
+12. `npm init-y` -  initialize npm in the server directory
+13.  `npm install express pocketbase` -  install dependencies
+14. `npm install --save-dev nodemon` -  install nodemon as a development dependency
 
 `./backend/pocketbase`
 
