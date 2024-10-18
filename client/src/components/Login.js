@@ -110,8 +110,9 @@ const Login = () => {
                   Login
                 </Button>
               </Form>
-              <div className="mt-3 text-center">
+              <div className="link-container">
                 <Link to="/register" className="small-link">Don't have an account? Register</Link>
+                <Link to="/forgot-password" className="small-link">Forgot Password?</Link>
               </div>
             </div>
           </Col>

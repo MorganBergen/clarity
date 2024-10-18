@@ -100,8 +100,9 @@ const Register = () => {
                   Register
                 </Button>
               </Form>
-              <div className="mt-3 text-center">
+              <div className="link-container">
                 <Link to="/" className="small-link">Already have an account? Login</Link>
+                <Link to="/forgot-password" className="small-link">Forgot Password?</Link>
               </div>
             </div>
           </Col>
