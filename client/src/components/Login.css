@@ -109,7 +109,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px; /* Add some space above the links */
+  margin-top: 20px; /* Add some space above the links */
+  margin-bottom: 10px; /* Add some space above the links */
 }
 
 .text-container {
