@@ -32,7 +32,7 @@ const Login = () => {
 
       const questionnaireRecord = await pb.collection('questionnaire').getFirstListItem(`userId="${user}"`);
 
-      if (questionnaireRecord.userId == user) {
+      if (questionnaireRecord.userId === user) {
         navigate('/MainDashboard');
       }
       
@@ -49,7 +49,7 @@ const Login = () => {
       } else {
 
         setError(`Login failed. ${err}`);
-        
+
       }
       
     }
