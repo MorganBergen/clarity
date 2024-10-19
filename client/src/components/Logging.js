@@ -15,6 +15,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import Navigation from './Navigation';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -28,19 +29,7 @@ const Logging = () => {
   const [currentDate, setCurrentDate] = useState(new Date().toLocaleDateString());
   const [userImages, setUserImages] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const mainItems = [
-    { text: 'Dashboard' },
-    { text: 'Analysis' },
-    { text: 'Logging' },
-    { text: 'Reports' },
-  ];
-
-  const bottomItems = [
-    { text: 'Settings' },
-    { text: 'Sign Out', link: '/' },
-  ];
-
+  
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString());
@@ -151,32 +140,7 @@ const Logging = () => {
 return (
   <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
     <Box sx={{ display: 'flex' }}>
-      <Drawer
-        anchor="left"
-        variant="permanent"
-        sx={{
-          width: 240,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' },
-        }}
-      >
-        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-          <List className="main-list">
-            {mainItems.map(({ text }) => (
-              <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}`}>
-                <ListItemText primary={text} className="page-text-color" />
-              </ListItem>
-            ))}
-          </List>
-          <List className="bottom-list">
-            {bottomItems.map(({ text }) => (
-              <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
-                <ListItemText primary={text} className="page-text-color" />
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
+      <Navigation />
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
           <Typography variant="h4" sx={{ mb: 2, textAlign: 'left' }}>Logging</Typography>
