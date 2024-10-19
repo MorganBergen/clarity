@@ -163,6 +163,26 @@ react components to the redux store, enabling them to read state and dispatch ac
 
 </details>
 
+<details><summary>Project Overview</summary>
+<br>
+
+| file | description |
+|:-----|:------------|
+| `./client/public/index.html` | entry point for the react application, it contains a `<div id="root></div>` element where the react application is mounted and will be rendered |
+| `./client/src/index.js` | responsible for rendering the react application into DOM document object model.  it imports the `App` component and uses `ReactDOM.render()` to mount it to the `root` div in `index.html` |
+| `./client/src/App.js` | is the main component of the react application using `react-router-dom` and provides the redux store and user context to the rest of the app |
+| `./client/src/components` | contain the individual react components that make up the ui of the application.  they ae used within `App.js` to define different routes and views |
+| `./client/src/redux` | this directory contains the react setup for state management `store.js` creates the redux store, and `reducers/index.js` combines all the reducers | 
+| `./client/src/pocketbaseService.js` | this is the handles authentication and account management using pocketbase | 
+
+| file | description |
+|:-----|:------------|
+| `./server/server.js` | this is the entry point for the backend server, it sets up the server to listen on a specified port, and uses the `app.js` file to define middleware and routes |
+| `./server/app.js` | this file sets up middleware like `body-parser` and `cors` and defines the api routes using `routes/api.js` |
+| `./server/routes/api.js` | defines the api endpoints that the client can interact with, it uses `axios` to make external api calls and handles requests and responses from the client |
+
+</details>
+
 ##  Introduction
 
 <details><summary>Summary</summary>
