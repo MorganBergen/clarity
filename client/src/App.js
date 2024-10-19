@@ -26,8 +26,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/MainDashboard" element={<MainDashboard />} />
             <Route path="/_/#/auth/confirm-verification/:token" element={<EmailVerification />} />
+            <Route path="/MainDashboard" element={<MainDashboard />} />
             <Route path="/Analysis" element={<Analysis />} />
             <Route path="/Settings" element={<Settings />} />
             <Route path="/Logging" element={<Logging />} />
