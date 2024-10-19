@@ -123,7 +123,18 @@ const Logging = () => {
       {previewUrl && (
         <Box sx={{ marginBottom: 2 }}>
           <Typography variant="h6" align="center">Image Preview</Typography>
-          <img src={previewUrl} alt="Preview" className="preview-image" />
+          <img 
+            src={previewUrl} 
+            alt="Preview" 
+            className="preview-image" 
+            style={{
+                width: 200, /* Increase the width */
+                height: 'auto', /* Maintain aspect ratio */
+                borderRadius: 4,
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                marginLeft: 10, /* Add some space between the button and the image */
+            }}
+          />
         </Box>
       )}
       {selectedFile && (
@@ -198,6 +209,10 @@ return (
                     src={`${url}?w=164&h=164&fit=crop&auto=format`}
                     alt={`Uploaded ${index}`}
                     loading="lazy"
+                    style={{
+                        borderRadius: 4,
+                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                    }}
                   />
                 </ImageListItem>
               ))}
@@ -221,3 +236,6 @@ return (
 };
 
 export default Logging;
+
+
+
