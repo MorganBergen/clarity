@@ -35,45 +35,8 @@ const Settings = () => {
     fetchUserData();
   }, [userId]);
 
-  const mainItems = [
-    { text: 'Dashboard' },
-    { text: 'Analysis' },
-    { text: 'Logging' },
-    { text: 'Reports' },
-  ];
-
-  const bottomItems = [
-    { text: 'Settings' },
-    { text: 'Sign Out' },
-  ];
-
   return (
     <Box sx={{ display: 'flex' }}>
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: 240,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' },
-        }}
-      >
-        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-          <List className="main-list">
-            {mainItems.map(({ text }) => (
-              <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}`}>
-                <ListItemText primary={text} className="page-text-color" />
-              </ListItem>
-            ))}
-          </List>
-          <List className="bottom-list">
-            {bottomItems.map(({ text }) => (
-              <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
-                <ListItemText primary={text} className="page-text-color" />
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
       {userData && (
         <Box sx={{ padding: 2 }}>
           <h3>User Information</h3>

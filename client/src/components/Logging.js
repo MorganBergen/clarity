@@ -15,7 +15,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import Navigation from './Navigation';
+
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -140,7 +140,7 @@ const Logging = () => {
 return (
   <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
     <Box sx={{ display: 'flex' }}>
-      <Navigation />
+      
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
           <Typography variant="h4" sx={{ mb: 2, textAlign: 'left' }}>Logging</Typography>
