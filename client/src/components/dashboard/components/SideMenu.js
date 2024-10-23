@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../../../context/UserContext';
 import { styled } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import MuiDrawer, { drawerClasses } from '@mui/material/Drawer';
@@ -10,13 +8,10 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import SelectContent from './SelectContent';
 import MenuContent from './MenuContent';
+import CardAlert from './CardAlert';
 import OptionsMenu from './OptionsMenu';
-import PocketBase from 'pocketbase';
-import MenuButton from './MenuButton';
-import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 
-const drawerWidth = 300;
-const pb = new PocketBase('http://127.0.0.1:8090');
+const drawerWidth = 240;
 
 const Drawer = styled(MuiDrawer)({
   width: drawerWidth,
@@ -30,35 +25,9 @@ const Drawer = styled(MuiDrawer)({
 });
 
 export default function SideMenu() {
-  const { userId } = useContext(UserContext);
-  const [userData, setUserData] = useState(null);
-  const [open, setOpen] = React.useState(true);
-
-  const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
-  };
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (userId) {
-        try {
-          const userRecord = await pb.collection('users').getOne(userId);
-          setUserData(userRecord);
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        }
-      }
-    };
-    fetchUserData();
-  }, [userId]);
-
-  
-
   return (
     <Drawer
-      variant="fixed"
-      open={open}
-      onClose={toggleDrawer(false)}
+      variant="permanent"
       sx={{
         display: { xs: 'none', md: 'block' },
         [`& .${drawerClasses.paper}`]: {
@@ -66,20 +35,6 @@ export default function SideMenu() {
         },
       }}
     >
-      <Stack
-        direction="row"
-        sx={{
-          p: 2,
-          gap: 1,
-          alignItems: 'center',
-          borderTop: '1px solid',
-          borderColor: 'divider',
-        }}
-      >
-        <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
-          <MenuRoundedIcon />
-        </MenuButton>
-      </Stack>
       <Box
         sx={{
           display: 'flex',
@@ -87,8 +42,11 @@ export default function SideMenu() {
           p: 1.5,
         }}
       >
+        <SelectContent />
       </Box>
+      <Divider />
       <MenuContent />
+      <CardAlert />
       <Stack
         direction="row"
         sx={{
@@ -101,16 +59,16 @@ export default function SideMenu() {
       >
         <Avatar
           sizes="small"
-          alt={userData ? userData.name : 'User'}
-          src={userData?.avatar || '/static/images/default-avatar.png'} // Default avatar path
+          alt="Riley Carter"
+          src="/static/images/avatar/7.jpg"
           sx={{ width: 36, height: 36 }}
         />
         <Box sx={{ mr: 'auto' }}>
-        <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
-            {userData ? userData.name : 'User Name'}
+          <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
+            Riley Carter
           </Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            {userData ? userData.email : 'user@example.com'}
+            riley@email.com
           </Typography>
         </Box>
         <OptionsMenu />

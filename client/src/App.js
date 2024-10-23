@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import Dashboard from './components/Dashboard';
-import Interface from './components/dashboard/interface';
 import MainDashboard from './components/MainDashboard';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -14,78 +13,6 @@ import Settings from './components/Settings';
 import Logging from './components/Logging';
 import Reports from './components/Reports';
 import { UserProvider } from './context/UserContext';
-// import DashboardIcon from '@mui/icons-material/Dashboard';
-// import AnalysisIcon from '@mui/icons-material/QueryStats';
-// import SettingsIcon from '@mui/icons-material/Settings';
-// import LoggingIcon from '@mui/icons-material/Today';
-// import ReportsIcon from '@mui/icons-material/FolderCopy';
-
-// import { createTheme } from '@mui/material/styles';
-// import DashboardIcon from '@mui/icons-material/Dashboard';
-// import AnalysisIcon from '@mui/icons-material/QueryStats';
-// import SettingsIcon from '@mui/icons-material/Settings';
-// import LoggingIcon from '@mui/icons-material/Today';
-// import ReportsIcon from '@mui/icons-material/FolderCopy';
-// import { DashboardLayout } from '@toolpad/core/DashboardLayout';
-
-/*
-const NAVIGATION = [
-  {
-    segment: 'MainDashboard',
-    title: 'Dashboard',
-    icon: <DashboardIcon />,
-    kind: 'page',
-  },
-  {
-    segment: 'Analysis',
-    title: 'Analysis',
-    icon: <AnalysisIcon />,
-    kind: 'page',
-  },
-  {
-    segment: 'logging',
-    title: 'Logging',
-    icon: <LoggingIcon />,
-    kind: 'page',
-  },
-  {
-    segment: 'reports',
-    title: 'Reports',
-    icon: <ReportsIcon />,
-    kind: 'page',
-  },
-  {
-    kind: 'divider',
-  },
-  {
-    kind: 'header',
-    title: 'Settings',
-  },
-  {
-    segment: 'settings',
-    title: 'Settings',
-    icon: <SettingsIcon />,
-    kind: 'page',
-  },
-];
-*/
-
-
-// const Theme = createTheme({
-//   cssVariables: {
-//     colorSchemeSelector: 'data-toolpad-color-scheme',
-//   },
-//   colorSchemes: { light: true, dark: true },
-//   breakpoints: {
-//     values: {
-//       xs: 0,
-//       sm: 600,
-//       md: 600,
-//       lg: 1200,
-//       xl: 1536,
-//     },
-//   },
-// });
 
 function App() {
   return (
@@ -108,7 +35,6 @@ function App() {
                 <Route path="/Settings" element={<Settings />} />
                 <Route path="/Logging" element={<Logging />} />
                 <Route path="/Reports" element={<Reports />} />
-                <Route path="/Interface" element={<Interface />} />
               </Routes>
             </Router>
           </UserProvider>

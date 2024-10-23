@@ -12,22 +12,18 @@ import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 
 const mainListItems = [
   { text: 'Home', icon: <HomeRoundedIcon /> },
-  { text: 'Analysis', icon: <AnalyticsRoundedIcon /> },
-  { text: 'Timeline', icon: <PeopleRoundedIcon /> },
-  { text: 'Reports', icon: <PeopleRoundedIcon /> },
-  { text: 'Upload', icon: <AssignmentRoundedIcon /> },
+  { text: 'Analytics', icon: <AnalyticsRoundedIcon /> },
+  { text: 'Clients', icon: <PeopleRoundedIcon /> },
+  { text: 'Tasks', icon: <AssignmentRoundedIcon /> },
 ];
 
 const secondaryListItems = [
   { text: 'Settings', icon: <SettingsRoundedIcon /> },
   { text: 'About', icon: <InfoRoundedIcon /> },
   { text: 'Feedback', icon: <HelpRoundedIcon /> },
-  { text: 'Support', icon: <HelpRoundedIcon /> },
-  { text: 'Logout', icon: <LogoutRoundedIcon /> },
 ];
 
 export default function MenuContent() {
