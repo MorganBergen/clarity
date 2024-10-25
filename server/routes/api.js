@@ -1,15 +1,29 @@
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+const corsOptions = {
+  origin: 'http://localhost:3000', // Replace with your client's URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+router.use(cors(corsOptions));
+
+router.use(bodyParser.json({ limit: '50mb' }));
+router.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // example route
 router.get('/', (req, res) => {
   res.send('API is working');
 });
 
+
 //  new route for fda api call
 router.get('/medications', async (req, res) => {
-  
+
   const query = req.query.q; //  get the query parameter from the request
 
   if (!query || query.length <= 2) {
@@ -41,7 +55,7 @@ router.get('/conditions', async (req, res) => {
     res.json(suggestions);
   } catch (error) {
     console.error('Error fetching condition data:', error);
-    res.status(500).json({ error: 'Error fetching condition data'});
+    res.status(500).json({ error: 'Error fetching condition data' });
   }
 
 })

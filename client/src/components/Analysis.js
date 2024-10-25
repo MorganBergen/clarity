@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Drawer, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Container, Card, CardContent } from '@mui/material';
+import { Button, Box, Drawer, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Container } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
@@ -17,6 +17,12 @@ import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext';
 import './MainDashboard.css';
 import AttachmentIcon from '@mui/icons-material/Attachment';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+
+// API_KEY = 'ba1a79a08c8b429fac27697167885767';
+// MODEL_ID = 'food-item-recognition';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -30,6 +36,10 @@ const Analysis = () => {
   const [fileName, setFileName] = useState(null);
   const [fileSize, setFileSize] = useState(null);
   const { userId } = useContext(UserContext); // Get userId from context
+  const [itemData, setItemData] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [analysisResult, setAnalysisResult] = useState(null);
+  // const [selectedImageUrl, setSelectedImageUrl] = useState(null);
 
   const mainItems = [
     { text: 'Dashboard', icon: <DashboardIcon /> },
@@ -43,23 +53,6 @@ const Analysis = () => {
     { text: 'Settings', icon: <SettingsIcon /> },
     { text: 'Sign Out', icon: <LogoutIcon /> },
   ];
-
-
-  const card = {
-    title: 'Sample Data',
-    value: '55',
-    interval: 'Random information here',
-    trend: 'neutral',
-    data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40], // Example data
-  };
-
-  const second_card = {
-    title: 'More Sample Data',
-    value: '9,999',
-    interval: 'Small but relevant',
-    trend: 'neutral',
-    data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40], // Example data
-  };
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -106,6 +99,24 @@ const Analysis = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const records = await pb.collection('food').getFullList();
+        const formattedData = records.map(record => ({
+          img: `http://127.0.0.1:8090/api/files/food/${record.id}/${record.item[0]}`,
+          title: record.title || 'Untitled',
+        }));
+
+        setItemData(formattedData);
+      } catch (error) {
+        console.error('Error fetching items:', error);
+      }
+    };
+
+    fetchItems();
+  }, [userId]);
+
   const fetchImage = async (id) => {
     try {
       const record = await pb.collection('food').getOne(id);
@@ -114,6 +125,58 @@ const Analysis = () => {
       // You can set the image URL to state if needed
     } catch (error) {
       console.error('Error fetching image:', error);
+    }
+  };
+
+  const handleImageClick = async (item) => {
+    setSelectedImage(item);
+    // setSelectedImageUrl(item.img);
+  };
+
+  const handleBackToList = () => {
+    setSelectedImage(null);
+  };
+
+  const handleAnalyzeImage = async (imageUrl) => {
+    try {
+      // Fetch the image as a blob
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+
+      // Convert blob to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onloadend = async () => {
+        const base64data = reader.result.split(',')[1];
+
+        const raw = JSON.stringify({
+          "inputs": [
+            {
+              "data": {
+                "image": {
+                  "base64": base64data
+                }
+              }
+            }
+          ]
+        });
+
+        const requestOptions = {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Key 6bd0b7c74ee84bcc9d3b8219fc1f4865'
+          },
+          body: raw
+        };
+
+        const apiResponse = await fetch("/v2/users/clarifai/apps/main/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs", requestOptions);
+        const result = await apiResponse.json();
+        setAnalysisResult(result);
+      };
+    } catch (error) {
+      console.error('Error:', error);
+      setAnalysisResult(null);
     }
   };
 
@@ -149,7 +212,7 @@ const Analysis = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-          
+
           <List className="main-list">
             {mainItems.map(({ text, icon }) => (
               <ListItem
@@ -163,16 +226,16 @@ const Analysis = () => {
                 {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="page-text-color" />}
               </ListItem>
             ))}
-          
-          <input
-            id="file-input"
-            type="file"
-            accept=".img,.jpeg,.jpg,.heic"
-            onChange={(event) => {
-              handleFileChange(event);
-            }}
-            style={{ display: 'none' }}
-          />
+
+            <input
+              id="file-input"
+              type="file"
+              accept=".img,.jpeg,.jpg,.heic"
+              onChange={(event) => {
+                handleFileChange(event);
+              }}
+              style={{ display: 'none' }}
+            />
 
           </List>
 
@@ -194,8 +257,63 @@ const Analysis = () => {
           </List>
         </Box>
       </Drawer>
-      <Container sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: '64px', padding: 0, marginLeft: drawerOpen ? '0px' : '0px' }}>
-        
+      <Container sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: '90px', padding: 0, marginLeft: drawerOpen ? '0px' : '0px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '90px' }}>
+          {selectedImage ? (
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start' }}>
+              <Box sx={{ width: '50%', marginRight: '20px' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                  <IconButton onClick={handleBackToList} sx={{ marginRight: '10px' }}>
+                    <ArrowBackIosIcon />
+                  </IconButton>
+                  <Typography variant="h6">Uploaded Images</Typography>
+                </Box>
+                <img
+                  src={selectedImage.img}
+                  alt={selectedImage.title}
+                  style={{ width: '100%', height: 'auto', borderRadius: '4px' }}
+                />
+                <Button
+                  variant="contained"
+                  size="small"
+                  sx={{ marginTop: '10px' }}
+                  onClick={() => handleAnalyzeImage(selectedImage.img)}
+                >
+                  Analyze
+                </Button>
+              </Box>
+              {analysisResult && (
+                <Box sx={{ width: '50%' }}>
+                  <Typography variant="h6" sx={{ marginBottom: '10px' }}>Analysis Results:</Typography>
+                  {analysisResult.outputs[0].data.concepts.map((concept, index) => (
+                    <Box key={index} sx={{ marginBottom: '5px' }}>
+                      <Typography variant="body2">
+                        {concept.name}: {(concept.value * 100).toFixed(2)}%
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+              )}
+            </Box>
+          ) : (
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
+              <Typography variant="h6" sx={{ marginBottom: '10px', alignContent: 'center' }}>Uploaded Images</Typography>
+              <ImageList sx={{ width: 450, height: 450, border: '1px solid #E0E0E0' }} cols={3} rowHeight={164}>
+                {itemData.map((item) => (
+                  <ImageListItem key={item.img} onClick={() => handleImageClick(item)}>
+                    <img
+                      className="uploaded-image"
+                      srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                      src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                      alt={item.title}
+                      loading="lazy"
+                    />
+                  </ImageListItem>
+                ))}
+              </ImageList>
+            </Box>
+          )}
+        </Box>
       </Container>
     </Box>
   );
@@ -204,23 +322,43 @@ const Analysis = () => {
 export default Analysis;
 
 /*
-    <Container
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-start', // Aligns content to the left
-          alignItems: 'flex-start', // Aligns content to the top
-          padding: 0, // Removes default padding
-          margin: 0, // Removes default margin
-        }}
-      >
-        <Box
-          sx={{
-            transform: 'scale(0.7)', // Scale the StatCard as needed
-            transformOrigin: 'left', // Ensure scaling happens from the left side
-            ml: drawerOpen ? '20px' : '10px', // Adjust this to control left alignment when drawer is open
-          }}
-        >
-          
-          
+
+# Model version ID is optional. It defaults to the latest model version, if omitted
+
+curl -X POST "https://api.clarifai.com/v2/users/clarifai/apps/main/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs"   
+-H "Authorization: Key 6bd0b7c74ee84bcc9d3b8219fc1f4865"  
+-H "Content-Type: application/json"  
+-d '{
+    "inputs": [
+      {
+        "data": {
+          "image": {
+            "url": "https://samples.clarifai.com/metro-north.jpg"
+          }
+        }
+      }
+    ]
+  }'
+
+POST request url - 
+
+https://api.clarifai.com/v2/users/clarifai/apps/main/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs
+
+headers - 
+
+Authorization: Key 6bd0b7c74ee84bcc9d3b8219fc1f4865
+Content-Type: application/json
+
+body - 
+
+"inputs": [
+      {
+        "data": {
+          "image": {
+            "url": "https://samples.clarifai.com/metro-north.jpg"
+          }
+        }
+      }
+    ]
 
 */

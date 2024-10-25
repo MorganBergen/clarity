@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Drawer, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Container, Card, CardContent } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,10 +18,22 @@ import { UserContext } from '../context/UserContext';
 import './MainDashboard.css';
 import { Grid2 } from '@mui/material';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-import { BarChart } from '@mui/x-charts/BarChart';
-import StatCard from './StatCard';
-import { Gauge } from '@mui/x-charts/Gauge';
 
+// import { BarChart } from '@mui/x-charts/BarChart';
+// import StatCard from './StatCard';
+// import { Gauge } from '@mui/x-charts/Gauge';
+
+
+// const { Model } = clarifai;
+
+// const model = new Model({
+//   authConfig: {
+//     userId: "clarifai",
+//     appId: "main",
+//     pat: "1b2ea09d706a4be48ae4a0a2717f7ddf",
+//   },
+//   modelId: "food-item-recognition",
+// });
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -35,6 +47,9 @@ const MainDashboard = () => {
   const [fileName, setFileName] = useState(null);
   const [fileSize, setFileSize] = useState(null);
   const { userId } = useContext(UserContext); // Get userId from context
+  const [itemData, setItemData] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [prediction, setPredictionData] = useState(null);
 
   const mainItems = [
     { text: 'Dashboard', icon: <DashboardIcon /> },
@@ -74,6 +89,8 @@ const MainDashboard = () => {
     setDarkMode(!darkMode);
   };
 
+
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file && /\.(img|jpeg|jpg|heic)$/i.test(file.name)) {
@@ -110,6 +127,23 @@ const MainDashboard = () => {
       console.error('Error uploading image:', error);
     }
   };
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const records = await pb.collection('food').getFullList();
+        const formattedData = records.map(record => ({
+          img: `http://127.0.0.1:8090/api/files/food/${record.id}/${record.item[0]}`,
+          title: record.title || 'Untitled',
+        }));
+        setItemData(formattedData);
+      } catch (error) {
+        console.error('Error fetching items:', error);
+      }
+    };
+
+    fetchItems();
+  }, [userId]);
 
   const fetchImage = async (id) => {
     try {
@@ -154,7 +188,7 @@ const MainDashboard = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-          
+
           <List className="main-list">
             {mainItems.map(({ text, icon }) => (
               <ListItem
@@ -168,16 +202,16 @@ const MainDashboard = () => {
                 {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="page-text-color" />}
               </ListItem>
             ))}
-          
-          <input
-            id="file-input"
-            type="file"
-            accept=".img,.jpeg,.jpg,.heic"
-            onChange={(event) => {
-              handleFileChange(event);
-            }}
-            style={{ display: 'none' }}
-          />
+
+            <input
+              id="file-input"
+              type="file"
+              accept=".img,.jpeg,.jpg,.heic"
+              onChange={(event) => {
+                handleFileChange(event);
+              }}
+              style={{ display: 'none' }}
+            />
 
           </List>
 
@@ -210,10 +244,9 @@ const MainDashboard = () => {
             marginLeft: drawerOpen ? '-90px' : '-120px', // Adjust this to control left alignment when drawer is open
           }}
         >
-          <StatCard {...card} /> {/* Render the StatCard */}
-          <StatCard {...second_card} /> {/* Render the StatCard */}
 
-          <Gauge width={100} height={100} value={60} startAngle={-90} endAngle={90} />
+
+          {/* <Gauge width={100} height={100} value={60} startAngle={-90} endAngle={90} /> */}
         </Box>
       </Container>
     </Box>
@@ -239,7 +272,4 @@ export default MainDashboard;
             ml: drawerOpen ? '20px' : '10px', // Adjust this to control left alignment when drawer is open
           }}
         >
-          
-          
-
 */
