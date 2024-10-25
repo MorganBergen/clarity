@@ -16,19 +16,19 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext';
 import './MainDashboard.css';
-import { Grid2 } from '@mui/material';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-import { BarChart } from '@mui/x-charts/BarChart';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
-const MainDashboard = () => {
+const Analysis = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [buttonText, setButtonText] = useState('Upload');
   const [uploadIcon, setUploadIcon] = useState(<AttachmentIcon />);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [fileName, setFileName] = useState(null);
+  const [fileSize, setFileSize] = useState(null);
   const { userId } = useContext(UserContext); // Get userId from context
 
   const mainItems = [
@@ -45,16 +45,21 @@ const MainDashboard = () => {
   ];
 
 
-  const nutrientData = [
-    { nutrient: 'Vitamins', value: 30 },
-    { nutrient: 'Protein', value: 50 },
-    { nutrient: 'Carbohydrates', value: 70 },
-    { nutrient: 'Fatty Acids', value: 20 },
-    { nutrient: 'Fats', value: 40 },
-    { nutrient: 'Minerals', value: 60 },
-    { nutrient: 'Other', value: 10 },
-  ];
+  const card = {
+    title: 'Sample Data',
+    value: '55',
+    interval: 'Random information here',
+    trend: 'neutral',
+    data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40], // Example data
+  };
 
+  const second_card = {
+    title: 'More Sample Data',
+    value: '9,999',
+    interval: 'Small but relevant',
+    trend: 'neutral',
+    data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40], // Example data
+  };
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -68,8 +73,11 @@ const MainDashboard = () => {
     const file = event.target.files[0];
     if (file && /\.(img|jpeg|jpg|heic)$/i.test(file.name)) {
       setSelectedFile(file);
-      setButtonText('Submit'); // Change button text to "Submit"
-      setUploadIcon(<CloudUploadIcon />); // Change icon to CloudUploadIcon
+      setFileName(file.name);
+      setFileSize((file.size / 1024).toFixed(2) + ' KB');
+      setPreviewUrl(URL.createObjectURL(file)); // Create a preview URL
+      setButtonText('Submit');
+      setUploadIcon(<CloudUploadIcon />);
     } else {
       alert('Please select a valid image file (.img, .jpeg, .jpg, .heic)');
     }
@@ -88,6 +96,9 @@ const MainDashboard = () => {
       console.log('Image uploaded successfully:', response);
       fetchImage(response.id); // Fetch the uploaded image
       setSelectedFile(null); // Reset selected file
+      setFileName('');
+      setFileSize('');
+      setPreviewUrl(null);
       setButtonText('Upload'); // Reset button text
       setUploadIcon(<AttachmentIcon />); // Reset icon to AttachmentIcon
     } catch (error) {
@@ -138,6 +149,7 @@ const MainDashboard = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+          
           <List className="main-list">
             {mainItems.map(({ text, icon }) => (
               <ListItem
@@ -151,7 +163,7 @@ const MainDashboard = () => {
                 {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="page-text-color" />}
               </ListItem>
             ))}
-          </List>
+          
           <input
             id="file-input"
             type="file"
@@ -161,6 +173,16 @@ const MainDashboard = () => {
             }}
             style={{ display: 'none' }}
           />
+
+          </List>
+
+          {previewUrl && (
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
+              <img src={previewUrl} alt="Preview" style={{ width: '100px', height: 'auto', borderRadius: '4px' }} />
+              <Typography variant="body2">{fileName}</Typography>
+              <Typography variant="body2">{fileSize}</Typography>
+            </Box>
+          )}
 
           <List className="bottom-list" sx={{ marginTop: 'auto' }}>
             {bottomItems.map(({ text, icon }) => (
@@ -172,11 +194,33 @@ const MainDashboard = () => {
           </List>
         </Box>
       </Drawer>
-      <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Container sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: '64px', padding: 0, marginLeft: drawerOpen ? '0px' : '0px' }}>
         
       </Container>
     </Box>
   );
 };
 
-export default MainDashboard;
+export default Analysis;
+
+/*
+    <Container
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-start', // Aligns content to the left
+          alignItems: 'flex-start', // Aligns content to the top
+          padding: 0, // Removes default padding
+          margin: 0, // Removes default margin
+        }}
+      >
+        <Box
+          sx={{
+            transform: 'scale(0.7)', // Scale the StatCard as needed
+            transformOrigin: 'left', // Ensure scaling happens from the left side
+            ml: drawerOpen ? '20px' : '10px', // Adjust this to control left alignment when drawer is open
+          }}
+        >
+          
+          
+
+*/
