@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Drawer, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Container, Card, CardContent } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,7 +18,8 @@ import { UserContext } from '../context/UserContext';
 import './MainDashboard.css';
 import { Grid2 } from '@mui/material';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-import { BarChart } from '@mui/x-charts/BarChart';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -30,6 +31,7 @@ const Logging = () => {
   const [uploadIcon, setUploadIcon] = useState(<AttachmentIcon />);
   const [previewUrl, setPreviewUrl] = useState(null);
   const { userId } = useContext(UserContext); // Get userId from context
+  const [itemData, setItemData] = useState([]);
 
   const mainItems = [
     { text: 'Dashboard', icon: <DashboardIcon /> },
@@ -83,6 +85,23 @@ const Logging = () => {
       console.error('Error uploading image:', error);
     }
   };
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const records = await pb.collection('food').getFullList();
+        const formattedData = records.map(record => ({
+          img: `http://127.0.0.1:8090/api/files/food/${record.id}/${record.item[0]}`,
+          title: record.title || 'Untitled', // Assuming there's a title field
+        }));
+        setItemData(formattedData);
+      } catch (error) {
+        console.error('Error fetching items:', error);
+      }
+    };
+
+    fetchItems();
+  }, [userId]);
 
   const fetchImage = async (id) => {
     try {
@@ -162,9 +181,19 @@ const Logging = () => {
         </Box>
       </Drawer>
       <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        
-
-
+        <ImageList sx={{ width: 450, height: 450 }} cols={3} rowHeight={164}>
+          {itemData.map((item) => (
+            <ImageListItem key={item.img}>
+              <img
+                className="uploaded-image"
+                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                alt={item.title}
+                loading="lazy"
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
       </Container>
     </Box>
   );

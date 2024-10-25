@@ -39,8 +39,10 @@
 }
 
 .uploaded-image {
-  max-width: 100px;
-  height: auto;
+  width: 150px; /* Set the desired width */
+  height: 150px; /* Set the desired height to make it square */
+  object-fit: cover; /* Ensures the image covers the area while maintaining aspect ratio */
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
