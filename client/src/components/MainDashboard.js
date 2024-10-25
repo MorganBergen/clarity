@@ -19,6 +19,8 @@ import './MainDashboard.css';
 import { Grid2 } from '@mui/material';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import { BarChart } from '@mui/x-charts/BarChart';
+import StatCard from './StatCard';
+import { Gauge } from '@mui/x-charts/Gauge';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -55,6 +57,21 @@ const MainDashboard = () => {
     { nutrient: 'Other', value: 10 },
   ];
 
+  const card = {
+    title: 'Sample Data',
+    value: '55',
+    interval: 'Random information here',
+    trend: 'neutral',
+    data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40], // Example data
+  };
+
+  const second_card = {
+    title: 'More Sample Data',
+    value: '9,999',
+    interval: 'Small but relevant',
+    trend: 'neutral',
+    data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40], // Example data
+  };
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -172,11 +189,47 @@ const MainDashboard = () => {
           </List>
         </Box>
       </Drawer>
-      <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        
+      <Container sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: '64px', padding: 0, marginLeft: drawerOpen ? '0px' : '0px' }}>
+        {/* Create a Box with transform scaling */}
+        <Box
+          sx={{
+            display: 'flex', // Use flexbox to align items side by side
+            gap: '20px',
+            transform: 'scale(0.7)', // Adjust this value to scale the StatCard uniformly (0.8 = 80% of original size)
+            transformOrigin: 'center', // Ensure the scaling happens from the center
+            marginLeft: drawerOpen ? '-90px' : '-120px', // Adjust this to control left alignment when drawer is open
+          }}
+        >
+          <StatCard {...card} /> {/* Render the StatCard */}
+          <StatCard {...second_card} /> {/* Render the StatCard */}
+          
+          <Gauge width={100} height={100} value={60} startAngle={-90} endAngle={90} />
+        </Box>
       </Container>
     </Box>
   );
 };
 
 export default MainDashboard;
+
+/*
+    <Container
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-start', // Aligns content to the left
+          alignItems: 'flex-start', // Aligns content to the top
+          padding: 0, // Removes default padding
+          margin: 0, // Removes default margin
+        }}
+      >
+        <Box
+          sx={{
+            transform: 'scale(0.7)', // Scale the StatCard as needed
+            transformOrigin: 'left', // Ensure scaling happens from the left side
+            ml: drawerOpen ? '20px' : '10px', // Adjust this to control left alignment when drawer is open
+          }}
+        >
+          
+          
+
+*/

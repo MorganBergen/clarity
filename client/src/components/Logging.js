@@ -1,95 +1,84 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Typography, ImageList, ImageListItem } from '@mui/material';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { Box, Drawer, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Container, Card, CardContent } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import ReportIcon from '@mui/icons-material/Report';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext';
-import DateCalendarComponent from './DateCalendarComponent';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import './MainDashboard.css';
+import { Grid2 } from '@mui/material';
+import AttachmentIcon from '@mui/icons-material/Attachment';
+import { BarChart } from '@mui/x-charts/BarChart';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
 const Logging = () => {
+  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
+  const [buttonText, setButtonText] = useState('Upload');
+  const [uploadIcon, setUploadIcon] = useState(<AttachmentIcon />);
   const [previewUrl, setPreviewUrl] = useState(null);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
-  const { userId } = useContext(UserContext);
-  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
-  const [currentDate, setCurrentDate] = useState(new Date().toLocaleDateString());
-  const [userImages, setUserImages] = useState([]);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const { userId } = useContext(UserContext); // Get userId from context
 
   const mainItems = [
-    { text: 'Dashboard' },
-    { text: 'Analysis' },
-    { text: 'Logging' },
-    { text: 'Reports' },
+    { text: 'Dashboard', icon: <DashboardIcon /> },
+    { text: 'Analysis', icon: <AssessmentIcon /> },
+    { text: 'Logging', icon: <CalendarMonthIcon /> },
+    { text: 'Reports', icon: <ReportIcon /> },
+    { text: buttonText, icon: uploadIcon }, // Use dynamic text and icon
   ];
 
   const bottomItems = [
-    { text: 'Settings' },
-    { text: 'Sign Out', link: '/' },
+    { text: 'Settings', icon: <SettingsIcon /> },
+    { text: 'Sign Out', icon: <LogoutIcon /> },
   ];
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date().toLocaleTimeString());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
-  useEffect(() => {
-    if (userId) {
-      fetchUserImages();
-    }
-  }, [userId]);
+  const toggleDrawer = () => {
+    setDrawerOpen(!drawerOpen);
+  };
 
-  const fetchUserImages = async () => {
-    try {
-      const records = await pb.collection('food').getFullList({
-        filter: `userId="${userId}"`,
-      });
-
-      const images = records.map(record => `http://127.0.0.1:8090/api/files/food/${record.id}/${record.item[0]}`);
-      setUserImages(images);
-
-    } catch (error) {
-      console.error('Error fetching user images:', error);
-    }
-  }
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setSelectedFile(file);
-    setPreviewUrl(URL.createObjectURL(file));
-    setDrawerOpen(true); // Open the drawer when a file is selected
+    if (file && /\.(img|jpeg|jpg|heic)$/i.test(file.name)) {
+      setSelectedFile(file);
+      setButtonText('Submit'); // Change button text to "Submit"
+      setUploadIcon(<CloudUploadIcon />); // Change icon to CloudUploadIcon
+    } else {
+      alert('Please select a valid image file (.img, .jpeg, .jpg, .heic)');
+    }
   };
 
   const handleUpload = async () => {
+
     if (!selectedFile || !userId) return;
 
     const formData = new FormData();
     formData.append('item', selectedFile);
-    formData.append('userId', userId);
+    formData.append('userId', userId); // Include userId in the form data
 
     try {
       const response = await pb.collection('food').create(formData);
       console.log('Image uploaded successfully:', response);
-      fetchImage(response.id);
-      setUploadSuccess(true);
-      fetchUserImages();
-      setPreviewUrl(null);
-
+      fetchImage(response.id); // Fetch the uploaded image
+      setSelectedFile(null); // Reset selected file
+      setButtonText('Upload'); // Reset button text
+      setUploadIcon(<AttachmentIcon />); // Reset icon to AttachmentIcon
     } catch (error) {
       console.error('Error uploading image:', error);
     }
@@ -99,125 +88,86 @@ const Logging = () => {
     try {
       const record = await pb.collection('food').getOne(id);
       const imageUrl = `http://127.0.0.1:8090/api/files/food/${id}/${record.item[0]}`;
-      setImageUrl(imageUrl);
       console.log('Fetched image URL:', imageUrl);
+      // You can set the image URL to state if needed
     } catch (error) {
       console.error('Error fetching image:', error);
     }
   };
 
-  const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-    setDrawerOpen(open);
-  };
-
-  const drawerList = () => (
-    <Box
-      sx={{ width: 250, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 2 }}
-      role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
-      {previewUrl && (
-        <Box sx={{ marginBottom: 2 }}>
-          <Typography variant="h6" align="center">Image Preview</Typography>
-          <img src={previewUrl} alt="Preview" className="preview-image" />
-        </Box>
-      )}
-      {selectedFile && (
-        <Button variant="contained" color="primary" component="span" onClick={handleUpload}>
-          Upload
-        </Button>
-      )}
-      <Button variant="outlined" color="secondary" onClick={toggleDrawer(false)} sx={{ marginTop: 2 }}>
-        Close Drawer
-      </Button>
-    </Box>
-  );
-
-return (
-  <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+  return (
     <Box sx={{ display: 'flex' }}>
+      <AppBar sx={{ backgroundColor: 'white', boxShadow: 'none', borderBottom: '1px solid #E0E0E0' }}>
+        <Toolbar>
+          <IconButton edge="start" color="primary" onClick={toggleDrawer}>
+            {drawerOpen ? <MenuOpenIcon /> : <MenuIcon />}
+          </IconButton>
+          <Typography className="title-text" variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+            Clarity
+          </Typography>
+          <IconButton onClick={toggleTheme} color="primary">
+            {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
+          <IconButton edge="end" color="primary">
+            <AccountCircle />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
       <Drawer
-        anchor="left"
         variant="permanent"
         sx={{
-          width: 240,
+          width: drawerOpen ? 240 : 60,
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' },
+          [`& .MuiDrawer-paper`]: {
+            width: drawerOpen ? 240 : 60,
+            boxSizing: 'border-box',
+            marginTop: '64px',
+            height: 'calc(100% - 64px)',
+          },
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           <List className="main-list">
-            {mainItems.map(({ text }) => (
-              <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}`}>
-                <ListItemText primary={text} className="page-text-color" />
+            {mainItems.map(({ text, icon }) => (
+              <ListItem
+                button={text.toString()}
+                key={text}
+                onClick={text === 'Upload' ? () => document.getElementById('file-input').click() : (text === 'Submit' ? handleUpload : null)}
+                component={((text !== 'Upload' && text !== 'Submit') ? Link : 'div')}
+                to={text !== 'Upload' ? `/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}` : undefined}
+              >
+                {icon}
+                {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="page-text-color" />}
               </ListItem>
             ))}
           </List>
-          <List className="bottom-list">
-            {bottomItems.map(({ text }) => (
+          <input
+            id="file-input"
+            type="file"
+            accept=".img,.jpeg,.jpg,.heic"
+            onChange={(event) => {
+              handleFileChange(event);
+            }}
+            style={{ display: 'none' }}
+          />
+
+          <List className="bottom-list" sx={{ marginTop: 'auto' }}>
+            {bottomItems.map(({ text, icon }) => (
               <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
-                <ListItemText primary={text} className="page-text-color" />
+                {icon}
+                {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="page-text-color" />}
               </ListItem>
             ))}
           </List>
         </Box>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-          <Typography variant="h4" sx={{ mb: 2, textAlign: 'left' }}>Logging</Typography>
-          <Button
-            component="label"
-            variant="contained"
-            startIcon={<CloudUploadIcon />}
-          >
-            Upload files
-            <input
-              type="file"
-              onChange={handleFileChange}
-              style={{ display: 'none' }}
-            />
-          </Button>
-        </Box>
+      <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        
 
-        <Typography variant="h6" sx={{ mb: 2, textAlign: 'left' }}>Upload Images or Scanned Barcode of Your Food</Typography>
-        <Typography variant="body1" sx={{ mb: 2, textAlign: 'left' }}>{currentDate} {currentTime}</Typography>
 
-        <Box sx={{ display: 'flex', width: '100%', height: '100%', mt: 3, alignItems: 'center', justifyContent: 'center' }}>
-          <Box sx={{ flex: 1 }}>
-            {previewUrl && (<img src={previewUrl} alt="Preview" className="preview-image" />)}
-            <Typography variant="h6">All images:</Typography>
-            <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
-              {userImages.map((url, index) => (
-                <ImageListItem key={index}>
-                  <img
-                    srcSet={`${url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                    src={`${url}?w=164&h=164&fit=crop&auto=format`}
-                    alt={`Uploaded ${index}`}
-                    loading="lazy"
-                  />
-                </ImageListItem>
-              ))}
-            </ImageList>
-          </Box>
-          <Box sx={{ flex: 1 }}>
-            <DateCalendarComponent />
-          </Box>
-        </Box>
-      </Box>
+      </Container>
     </Box>
-    <Drawer
-      anchor="right"
-      open={drawerOpen}
-      onClose={toggleDrawer(false)}
-    >
-      {drawerList()}
-    </Drawer>
-  </Box>
-);
+  );
 };
 
 export default Logging;
