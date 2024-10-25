@@ -11,4 +11,5 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });  
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
