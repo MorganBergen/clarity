@@ -18,55 +18,36 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 
 ##  Getting Started
 
-<details><summary>Install Dependencies</summary>
+<details><summary>Install Dependencies using <code>Bash</code> or <code>Zsh</code></summary>
 
-<br>
+####  command line instructions 
 
-1.  `cd ./clarity` -  navigate to the clarity root directory
-2.  `npm init -y` -  initialize npm in the clarity root directory
-3.  `cd ./clarity/client` -  navigate to the client directory
-4.  `npm install --save-dev nodemon` - install nodemon as dev dependency
-5.  `npm init-y` -  initialize npm in the client directory
-6.  `npm install @mui/material @emotion/react @emotion/styled redux react-redux axios` -  install dependencies
-7.  `npm install @mui/icons-material` -  install material ui icons
-8.  `npm install clarifai-nodejs` -  install clarifai dependencies
-9.  `npm install @mui/lab @mui/x-date-pickers` -  install material ui lab dependencies
-10. `npm install date-fns@2.x` -  install date-fns dependencies
-11. `cd ./clarity/server` -  navigate to the server directory
-12. `npm init-y` -  initialize npm in the server directory
-13.  `npm install express pocketbase` -  install dependencies
-14. `npm install --save-dev nodemon` -  install nodemon as a development dependency
-
-`./backend/pocketbase`
-
-1.  `wget https://github.com/pocketbase/pocketbase/releases/download/v0.23.0-rc3/pocketbase_0.23.0-rc3_linux_amd64.zip`
-
-2.  `unzip pocketbase_0.23.0-rc3_linux_amd64.zip`
-
-3.  `chmod +x pocketbase`
-
-4.  `./pocketbase serve`
+| steps   | command     | location to execute command |
+|:--------|:------------|:----------------------------|
+| 1       | `npm install` | `./clarity/server`        |
+| 2       | `npm install` | `./clarity/client`        |
+| 3 - linux machine      | `wget https://github.com/pocketbase/pocketbase/releases/download/v0.23.0-rc3/pocketbase_0.23.0-rc3_linux_amd64.zip` | `./clarity/backend/pocketbase` |
+| 3 - windows machine      | `https://github.com/pocketbase/pocketbase/releases/download/v0.22.22/pocketbase_0.22.22_windows_arm64.zip` | `./clarity/backend/pocketbase` |
+| 3 - mac machine | `https://github.com/pocketbase/pocketbase/releases/download/v0.22.22/pocketbase_0.22.22_darwin_amd64.zip` | `./clarity/backend/pocketbase` |
+| 4       | `unzip pocketbase_<version>_<platform>_<arch>.zip` | `./clarity/backend/pocketbase` |
+| 5       | `chmod +x pocketbase` | `./clarity/backend/pocketbase` |
 
 </details>
 
 <details><summary>Run the Application</summary>
+<br> 
 
-
-1.  `cd ./clarity/server` - navigate to the server directory
-2.  `npm run dev` - start the server
-3.  open a new terminal window
-4.  `cd ./clarity/backend/pocketbase` -  navigate to the pocketbase directory
-5.  `./pocketbase serve` -  execute the `pocketbase` executable file to start the server
-6.  open a new terminal window
-7.  `cd ./clarity/client` -  navigate to the client directory
-8.  `npm start` -  start the client
-9.  `grok http http://localhost:3000` -  view the application in the browser 
+| steps   | command     | location to execute command |
+|:--------|:------------|:----------------------------|
+| terminal 1       | `cd ./clarity/server` |  `./clarity/server` |
+| terminal 2       | `cd ./clarity/backend/pocketbase` |  `./clarity/backend/pocketbase` |
+| terminal 3       | `cd ./clarity/client` |  `./clarity/client` |
 
 </details>
 
 <details><summary>Output from successfully running the Application</summary>
 
-##****##  `npm run dev`  - terminal 1
+####  `npm run dev`  - terminal 1
 
 ```bash
 > clarity-backend@1.0.0 dev
@@ -160,6 +141,31 @@ react components to the redux store, enabling them to read state and dispatch ac
 [`axios`](https://axios-http.com/docs/intro) is a library that helps with making http requests, it's used to communication with the backend apis, making it easier to send and receive data from the server.
 
 [`cors`](https://fetch.spec.whatwg.org/#http-cors-protocol) is a middleware that allows for cross origin resource sharing, it enables the server to accept requests from different origins.
+
+
+`npm init -y` - is a command that initializes a new `Node.js` project by creating a `package.json` file in the current directory.  The `package.json` file is essential for managing the project's metadata, dependencies, scripts, and other configurations.   `-y` flag automatically answers "yes" to all the prompt that `npm init` would normally ask, using default values this ensures that the project is initialized quickly. 
+ 
+`npm install --save-dev nodemon` - `nodemon` is a utility that automatically restarts your `Node.js` application when file changes in the directory are detected.  it's useful for development to avoid manually restarting the server after every change. `npm install` is a command that installs a package and any packages that it depends on.  `--save-dev` flag adds the package to the `devDependencies` section of the `package.json`.  `devDependencies` are packages that are only needed during development and not in production.  
+
+</details>
+
+<details><summary>Project Overview</summary>
+<br>
+
+| file | description |
+|:-----|:------------|
+| `./client/public/index.html` | entry point for the react application, it contains a `<div id="root></div>` element where the react application is mounted and will be rendered |
+| `./client/src/index.js` | responsible for rendering the react application into DOM document object model.  it imports the `App` component and uses `ReactDOM.render()` to mount it to the `root` div in `index.html` |
+| `./client/src/App.js` | is the main component of the react application using `react-router-dom` and provides the redux store and user context to the rest of the app |
+| `./client/src/components` | contain the individual react components that make up the ui of the application.  they ae used within `App.js` to define different routes and views |
+| `./client/src/redux` | this directory contains the react setup for state management `store.js` creates the redux store, and `reducers/index.js` combines all the reducers | 
+| `./client/src/pocketbaseService.js` | this is the handles authentication and account management using pocketbase | 
+
+| file | description |
+|:-----|:------------|
+| `./server/server.js` | this is the entry point for the backend server, it sets up the server to listen on a specified port, and uses the `app.js` file to define middleware and routes |
+| `./server/app.js` | this file sets up middleware like `body-parser` and `cors` and defines the api routes using `routes/api.js` |
+| `./server/routes/api.js` | defines the api endpoints that the client can interact with, it uses `axios` to make external api calls and handles requests and responses from the client |
 
 </details>
 
