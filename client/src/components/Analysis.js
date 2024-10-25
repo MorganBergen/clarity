@@ -20,18 +20,9 @@ import AttachmentIcon from '@mui/icons-material/Attachment';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-// const clarifai = require("clarifai-nodejs");
 
-// const { Model } = clarifai;
-
-// const model = new Model({
-//   authConfig: {
-//     userId: "clarifai",
-//     appId: "main",
-//     pat: "1b2ea09d706a4be48ae4a0a2717f7ddf",
-//   },
-//   modelId: "food-item-recognition",
-// });
+// API_KEY = 'ba1a79a08c8b429fac27697167885767';
+// MODEL_ID = 'food-item-recognition';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -47,6 +38,8 @@ const Analysis = () => {
   const { userId } = useContext(UserContext); // Get userId from context
   const [itemData, setItemData] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [analysisResult, setAnalysisResult] = useState(null);
+  // const [selectedImageUrl, setSelectedImageUrl] = useState(null);
 
   const mainItems = [
     { text: 'Dashboard', icon: <DashboardIcon /> },
@@ -114,6 +107,7 @@ const Analysis = () => {
           img: `http://127.0.0.1:8090/api/files/food/${record.id}/${record.item[0]}`,
           title: record.title || 'Untitled',
         }));
+
         setItemData(formattedData);
       } catch (error) {
         console.error('Error fetching items:', error);
@@ -134,12 +128,56 @@ const Analysis = () => {
     }
   };
 
-  const handleImageClick = (item) => {
+  const handleImageClick = async (item) => {
     setSelectedImage(item);
+    // setSelectedImageUrl(item.img);
   };
 
   const handleBackToList = () => {
     setSelectedImage(null);
+  };
+
+  const handleAnalyzeImage = async (imageUrl) => {
+    try {
+      // Fetch the image as a blob
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+
+      // Convert blob to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onloadend = async () => {
+        const base64data = reader.result.split(',')[1];
+
+        const raw = JSON.stringify({
+          "inputs": [
+            {
+              "data": {
+                "image": {
+                  "base64": base64data
+                }
+              }
+            }
+          ]
+        });
+
+        const requestOptions = {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Key 6bd0b7c74ee84bcc9d3b8219fc1f4865'
+          },
+          body: raw
+        };
+
+        const apiResponse = await fetch("/v2/users/clarifai/apps/main/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs", requestOptions);
+        const result = await apiResponse.json();
+        setAnalysisResult(result);
+      };
+    } catch (error) {
+      console.error('Error:', error);
+      setAnalysisResult(null);
+    }
   };
 
   return (
@@ -222,19 +260,40 @@ const Analysis = () => {
       <Container sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: '90px', padding: 0, marginLeft: drawerOpen ? '0px' : '0px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '90px' }}>
           {selectedImage ? (
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
-              <Box sx={{ display: 'flex', alignItems: 'left', flexDirection: 'row' }}>
-                <IconButton onClick={handleBackToList} sx={{ marginRight: '10px' }}>
-                  <ArrowBackIosIcon />
-                </IconButton>
-                <Typography variant="h6" sx={{ marginBottom: '10px', alignContent: 'center' }}>Uploaded Images</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start' }}>
+              <Box sx={{ width: '50%', marginRight: '20px' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                  <IconButton onClick={handleBackToList} sx={{ marginRight: '10px' }}>
+                    <ArrowBackIosIcon />
+                  </IconButton>
+                  <Typography variant="h6">Uploaded Images</Typography>
+                </Box>
+                <img
+                  src={selectedImage.img}
+                  alt={selectedImage.title}
+                  style={{ width: '100%', height: 'auto', borderRadius: '4px' }}
+                />
+                <Button
+                  variant="contained"
+                  size="small"
+                  sx={{ marginTop: '10px' }}
+                  onClick={() => handleAnalyzeImage(selectedImage.img)}
+                >
+                  Analyze
+                </Button>
               </Box>
-              <img
-                src={selectedImage.img}
-                alt={selectedImage.title}
-                style={{ width: '100%', height: 450, width: 'auto', borderRadius: '4px' }}
-              />
-              <Button variant="text" sx={{ marginTop: '10px' }}>test</Button>
+              {analysisResult && (
+                <Box sx={{ width: '50%' }}>
+                  <Typography variant="h6" sx={{ marginBottom: '10px' }}>Analysis Results:</Typography>
+                  {analysisResult.outputs[0].data.concepts.map((concept, index) => (
+                    <Box key={index} sx={{ marginBottom: '5px' }}>
+                      <Typography variant="body2">
+                        {concept.name}: {(concept.value * 100).toFixed(2)}%
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+              )}
             </Box>
           ) : (
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
@@ -261,3 +320,45 @@ const Analysis = () => {
 };
 
 export default Analysis;
+
+/*
+
+# Model version ID is optional. It defaults to the latest model version, if omitted
+
+curl -X POST "https://api.clarifai.com/v2/users/clarifai/apps/main/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs"   
+-H "Authorization: Key 6bd0b7c74ee84bcc9d3b8219fc1f4865"  
+-H "Content-Type: application/json"  
+-d '{
+    "inputs": [
+      {
+        "data": {
+          "image": {
+            "url": "https://samples.clarifai.com/metro-north.jpg"
+          }
+        }
+      }
+    ]
+  }'
+
+POST request url - 
+
+https://api.clarifai.com/v2/users/clarifai/apps/main/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs
+
+headers - 
+
+Authorization: Key 6bd0b7c74ee84bcc9d3b8219fc1f4865
+Content-Type: application/json
+
+body - 
+
+"inputs": [
+      {
+        "data": {
+          "image": {
+            "url": "https://samples.clarifai.com/metro-north.jpg"
+          }
+        }
+      }
+    ]
+
+*/
