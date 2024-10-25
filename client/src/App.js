@@ -14,6 +14,7 @@ import Logging from './components/Logging';
 import Reports from './components/Reports';
 import { UserProvider } from './context/UserContext';
 import ApiTest from './components/ApiTest';
+import Upload from './Upload';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/Settings" element={<Settings />} />
             <Route path="/Logging" element={<Logging />} />
             <Route path="/Reports" element={<Reports />} />
+            {/* <Route path="/Upload" element={<MainLayout><Upload /></MainLayout>} /> */}
           </Routes>
         </Router>
       </UserProvider>
