@@ -16,10 +16,13 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import PocketBase from 'pocketbase';
 import './MainDashboard.css';
 
+const pb = new PocketBase('http://127.0.0.1:8090');
 
 const MainDashboard = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
-  const [darkMode, setDarkMode] = useState(false); // State for dark mode
+  const [darkMode, setDarkMode] = useState(false); // state for dark mode
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [buttonText, setButtonText] = useState('Upload');
 
   const mainItems = [
     { text: 'Dashboard', icon: <DashboardIcon /> },
@@ -40,7 +43,6 @@ const MainDashboard = () => {
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
-    // You can also add logic here to apply the theme of the app
   };
 
   const Upload = () => {
