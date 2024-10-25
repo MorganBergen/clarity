@@ -20,6 +20,18 @@ import AttachmentIcon from '@mui/icons-material/Attachment';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+// const clarifai = require("clarifai-nodejs");
+
+// const { Model } = clarifai;
+
+// const model = new Model({
+//   authConfig: {
+//     userId: "clarifai",
+//     appId: "main",
+//     pat: "1b2ea09d706a4be48ae4a0a2717f7ddf",
+//   },
+//   modelId: "food-item-recognition",
+// });
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
