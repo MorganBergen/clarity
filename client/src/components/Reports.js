@@ -16,9 +16,9 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext';
 import './MainDashboard.css';
-import { Grid2 } from '@mui/material';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-import { BarChart } from '@mui/x-charts/BarChart';
+// import { Grid2 } from '@mui/material';
+// import { BarChart } from '@mui/x-charts/BarChart';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
