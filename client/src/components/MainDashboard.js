@@ -18,9 +18,9 @@ import { UserContext } from '../context/UserContext';
 import './MainDashboard.css';
 import { Grid2 } from '@mui/material';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-import { BarChart } from '@mui/x-charts/BarChart';
-import StatCard from './StatCard';
-import { Gauge } from '@mui/x-charts/Gauge';
+// import { BarChart } from '@mui/x-charts/BarChart';
+// import StatCard from './StatCard';
+// import { Gauge } from '@mui/x-charts/Gauge';
 
 
 const pb = new PocketBase('http://127.0.0.1:8090');
@@ -73,6 +73,8 @@ const MainDashboard = () => {
   const toggleTheme = () => {
     setDarkMode(!darkMode);
   };
+
+
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -210,10 +212,9 @@ const MainDashboard = () => {
             marginLeft: drawerOpen ? '-90px' : '-120px', // Adjust this to control left alignment when drawer is open
           }}
         >
-          <StatCard {...card} /> {/* Render the StatCard */}
-          <StatCard {...second_card} /> {/* Render the StatCard */}
+     
 
-          <Gauge width={100} height={100} value={60} startAngle={-90} endAngle={90} />
+          {/* <Gauge width={100} height={100} value={60} startAngle={-90} endAngle={90} /> */}
         </Box>
       </Container>
     </Box>
