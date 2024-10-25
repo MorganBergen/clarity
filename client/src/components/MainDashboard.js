@@ -18,10 +18,21 @@ import { UserContext } from '../context/UserContext';
 import './MainDashboard.css';
 import { Grid2 } from '@mui/material';
 import AttachmentIcon from '@mui/icons-material/Attachment';
+import clarifai from "clarifai-nodejs";
 // import { BarChart } from '@mui/x-charts/BarChart';
 // import StatCard from './StatCard';
 // import { Gauge } from '@mui/x-charts/Gauge';
 
+const { Model } = clarifai;
+
+const model = new Model({
+  authConfig: {
+    userId: "clarifai",
+    appId: "main",
+    pat: "1b2ea09d706a4be48ae4a0a2717f7ddf",
+  },
+  modelId: "food-item-recognition",
+});
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -156,7 +167,7 @@ const MainDashboard = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-          
+
           <List className="main-list">
             {mainItems.map(({ text, icon }) => (
               <ListItem
@@ -170,16 +181,16 @@ const MainDashboard = () => {
                 {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="page-text-color" />}
               </ListItem>
             ))}
-          
-          <input
-            id="file-input"
-            type="file"
-            accept=".img,.jpeg,.jpg,.heic"
-            onChange={(event) => {
-              handleFileChange(event);
-            }}
-            style={{ display: 'none' }}
-          />
+
+            <input
+              id="file-input"
+              type="file"
+              accept=".img,.jpeg,.jpg,.heic"
+              onChange={(event) => {
+                handleFileChange(event);
+              }}
+              style={{ display: 'none' }}
+            />
 
           </List>
 
@@ -212,7 +223,7 @@ const MainDashboard = () => {
             marginLeft: drawerOpen ? '-90px' : '-120px', // Adjust this to control left alignment when drawer is open
           }}
         >
-     
+
 
           {/* <Gauge width={100} height={100} value={60} startAngle={-90} endAngle={90} /> */}
         </Box>
@@ -240,7 +251,4 @@ export default MainDashboard;
             ml: drawerOpen ? '20px' : '10px', // Adjust this to control left alignment when drawer is open
           }}
         >
-          
-          
-
 */
