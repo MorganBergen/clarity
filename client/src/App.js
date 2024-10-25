@@ -14,7 +14,6 @@ import Logging from './components/Logging';
 import Reports from './components/Reports';
 import { UserProvider } from './context/UserContext';
 import ApiTest from './components/ApiTest';
-import Upload from './Upload';
 
 function App() {
   return (
