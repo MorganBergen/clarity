@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Drawer, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Container, Card, CardContent } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Container } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
@@ -16,24 +16,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext';
 import './MainDashboard.css';
-import { Grid2 } from '@mui/material';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-
-// import { BarChart } from '@mui/x-charts/BarChart';
-// import StatCard from './StatCard';
-// import { Gauge } from '@mui/x-charts/Gauge';
-
-
-// const { Model } = clarifai;
-
-// const model = new Model({
-//   authConfig: {
-//     userId: "clarifai",
-//     appId: "main",
-//     pat: "1b2ea09d706a4be48ae4a0a2717f7ddf",
-//   },
-//   modelId: "food-item-recognition",
-// });
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -47,9 +30,6 @@ const MainDashboard = () => {
   const [fileName, setFileName] = useState(null);
   const [fileSize, setFileSize] = useState(null);
   const { userId } = useContext(UserContext); // Get userId from context
-  const [itemData, setItemData] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [prediction, setPredictionData] = useState(null);
 
   const mainItems = [
     { text: 'Dashboard', icon: <DashboardIcon /> },
@@ -63,23 +43,6 @@ const MainDashboard = () => {
     { text: 'Settings', icon: <SettingsIcon /> },
     { text: 'Sign Out', icon: <LogoutIcon /> },
   ];
-
-
-  const card = {
-    title: 'Sample Data',
-    value: '55',
-    interval: 'Random information here',
-    trend: 'neutral',
-    data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40], // Example data
-  };
-
-  const second_card = {
-    title: 'More Sample Data',
-    value: '9,999',
-    interval: 'Small but relevant',
-    trend: 'neutral',
-    data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40, 50, 40], // Example data
-  };
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -128,22 +91,6 @@ const MainDashboard = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const records = await pb.collection('food').getFullList();
-        const formattedData = records.map(record => ({
-          img: `http://127.0.0.1:8090/api/files/food/${record.id}/${record.item[0]}`,
-          title: record.title || 'Untitled',
-        }));
-        setItemData(formattedData);
-      } catch (error) {
-        console.error('Error fetching items:', error);
-      }
-    };
-
-    fetchItems();
-  }, [userId]);
 
   const fetchImage = async (id) => {
     try {
@@ -244,9 +191,7 @@ const MainDashboard = () => {
             marginLeft: drawerOpen ? '-90px' : '-120px', // Adjust this to control left alignment when drawer is open
           }}
         >
-
-
-          {/* <Gauge width={100} height={100} value={60} startAngle={-90} endAngle={90} /> */}
+          
         </Box>
       </Container>
     </Box>
@@ -254,22 +199,3 @@ const MainDashboard = () => {
 };
 
 export default MainDashboard;
-
-/*
-    <Container
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-start', // Aligns content to the left
-          alignItems: 'flex-start', // Aligns content to the top
-          padding: 0, // Removes default padding
-          margin: 0, // Removes default margin
-        }}
-      >
-        <Box
-          sx={{
-            transform: 'scale(0.7)', // Scale the StatCard as needed
-            transformOrigin: 'left', // Ensure scaling happens from the left side
-            ml: drawerOpen ? '20px' : '10px', // Adjust this to control left alignment when drawer is open
-          }}
-        >
-*/
