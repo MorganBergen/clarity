@@ -1,25 +1,26 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Box, Drawer, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Container } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import AssessmentIcon from '@mui/icons-material/Assessment';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import ReportIcon from '@mui/icons-material/Report';
-import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import PocketBase from 'pocketbase';
+import { Button, Box, Drawer, List, ListItemText, ListItemButton, Typography, AppBar, Toolbar, Container } from '@mui/material';
 import { UserContext } from '../context/UserContext';
-import './MainDashboard.css';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import PocketBase from 'pocketbase';
+import './MainDashboard.css';
+import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
+import { TbLayoutSidebarLeftExpandFilled } from "react-icons/tb";
+import { MdOutlineLightMode } from "react-icons/md";
+import { MdDarkMode } from "react-icons/md";
+import { FaUser } from "react-icons/fa";
+import { GoHomeFill } from "react-icons/go";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { IoBarChart } from "react-icons/io5";
+import { FaCalendarAlt } from "react-icons/fa";
+import { IoDocument } from "react-icons/io5";
+import { IoMdAttach } from "react-icons/io";
+import { IoSettingsSharp } from "react-icons/io5"; // https://react-icons.github.io/react-icons/search/#q=logout
+import { TbLogout2 } from "react-icons/tb";
 
 // API_KEY = 'ba1a79a08c8b429fac27697167885767';
 // MODEL_ID = 'food-item-recognition';
@@ -31,27 +32,50 @@ const Analysis = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [buttonText, setButtonText] = useState('Upload');
-  const [uploadIcon, setUploadIcon] = useState(<AttachmentIcon />);
+  const [uploadIcon, setUploadIcon] = useState(<IoMdAttach />);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [fileName, setFileName] = useState(null);
   const [fileSize, setFileSize] = useState(null);
-  const { userId } = useContext(UserContext); // Get userId from context
+  const { userId } = useContext(UserContext);
   const [itemData, setItemData] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [analysisResult, setAnalysisResult] = useState(null);
-  // const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+
+  const theme = createTheme({
+    components: {
+      MuiListItemText: {
+        styleOverrides: {
+          primary: {
+            fontSize: '12px',
+            color: '#414141',
+          },
+        },
+      },
+      MuiListItemButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: '10px',
+            '&:hover': {
+              backgroundColor: 'rgba(233, 234, 236, 0.8)',
+            },
+          },
+        },
+      },
+    },
+  },
+  );
 
   const mainItems = [
-    { text: 'Dashboard', icon: <DashboardIcon /> },
-    { text: 'Analysis', icon: <AssessmentIcon /> },
-    { text: 'Logging', icon: <CalendarMonthIcon /> },
-    { text: 'Reports', icon: <ReportIcon /> },
-    { text: buttonText, icon: uploadIcon }, // Use dynamic text and icon
+    { text: 'Dashboard', icon: <GoHomeFill color="#414141" /> },
+    { text: 'Analysis', icon: <IoBarChart color="#414141" /> },
+    { text: 'Logging', icon: <FaCalendarAlt color="#414141" /> },
+    { text: 'Reports', icon: <IoDocument color="#414141" /> },
+    { text: buttonText, icon: uploadIcon },
   ];
 
   const bottomItems = [
-    { text: 'Settings', icon: <SettingsIcon /> },
-    { text: 'Sign Out', icon: <LogoutIcon /> },
+    { text: 'Settings', icon: <IoSettingsSharp color="#414141" /> },
+    { text: 'Sign Out', icon: <TbLogout2 color="#414141" /> },
   ];
 
   const toggleDrawer = () => {
@@ -181,107 +205,155 @@ const Analysis = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <AppBar sx={{ backgroundColor: 'white', boxShadow: 'none', borderBottom: '1px solid #E0E0E0' }}>
-        <Toolbar>
-          <IconButton edge="start" color="primary" onClick={toggleDrawer}>
-            {drawerOpen ? <MenuOpenIcon /> : <MenuIcon />}
-          </IconButton>
-          <Typography className="title-text" variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            Clarity
-          </Typography>
-          <IconButton onClick={toggleTheme} color="primary">
-            {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
-          <IconButton edge="end" color="primary">
-            <AccountCircle />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerOpen ? 240 : 60,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
-            width: drawerOpen ? 240 : 60,
-            boxSizing: 'border-box',
-            marginTop: '64px',
-            height: 'calc(100% - 64px)',
-          },
-        }}
-      >
-        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <ThemeProvider theme={theme}>
+      <Box sx={{ display: 'flex' }}>
 
-          <List className="main-list">
-            {mainItems.map(({ text, icon }) => (
-              <ListItem
-                button={text.toString()}
-                key={text}
-                onClick={text === 'Upload' ? () => document.getElementById('file-input').click() : (text === 'Submit' ? handleUpload : null)}
-                component={((text !== 'Upload' && text !== 'Submit') ? Link : 'div')}
-                to={text !== 'Upload' ? `/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}` : undefined}
-              >
-                {icon}
-                {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="page-text-color" />}
-              </ListItem>
-            ))}
+        <AppBar sx={{ backgroundColor: 'white', boxShadow: 'none', border: 'none' }}>
+          <Toolbar>
+            <button className="menu-toggle-button" style={{ marginLeft: '-10px' }} onClick={toggleDrawer}>
+              {drawerOpen ? <TbLayoutSidebarLeftCollapseFilled size={20} /> : <TbLayoutSidebarLeftExpandFilled size={20} />}
+            </button>
+            <Typography className="title-text" noWrap component="div" sx={{ flexGrow: 1 }}>
+              Clarity
+            </Typography>
+            <button className="menu-toggle-button" onClick={toggleTheme}>
+              {darkMode ? <MdOutlineLightMode size={20} /> : <MdDarkMode size={20} />}
+            </button>
+            <button className="menu-toggle-button" style={{ marginLeft: '10px' }} >
+              <FaUser size={15} />
+            </button>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          variant="permanent"
+          sx={{
+            width: drawerOpen ? 150 : 60,
+            flexShrink: 0,
+            [`& .MuiDrawer-paper`]: {
+              width: drawerOpen ? 150 : 60,
+              boxSizing: 'border-box',
+              marginTop: '64px',
+              height: 'calc(100% - 64px)',
+              border: 'none',
+            },
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              marginLeft: '10px',
+              marginBottom: '10px',
+              height: '100%',
+              borderRadius: '10px',
+              backgroundColor: 'rgba(233, 234, 236, 0.5)',
+            }}>
 
-            <input
-              id="file-input"
-              type="file"
-              accept=".img,.jpeg,.jpg,.heic"
-              onChange={(event) => {
-                handleFileChange(event);
+            <List
+              sx={{
+                padding: 0,
+                '& .MuiListItemButton-root:first-of-type': {
+                  marginTop: '0px',
+                },
               }}
-              style={{ display: 'none' }}
-            />
+            >
+              {mainItems.map(({ text, icon }) => (
+                <ListItemButton
+                  key={text}
+                  onClick={() => {
+                    if (text === 'Upload') {
+                      document.getElementById('file-input').click();
+                    } else if (text === 'Submit' && selectedFile) {
+                      handleUpload();
+                    }
+                  }}
+                  component={((text === 'Upload' || text === 'Submit') ? 'div' : Link)}
+                  to={((text !== 'Upload' && text !== 'Submit') ? `/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}` : undefined)}
+                >
+                  {icon}
+                  {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} />}
+                </ListItemButton>
+              ))}
 
-          </List>
+              <input
+                id="file-input"
+                type="file"
+                accept=".img,.jpeg,.jpg,.heic"
+                onChange={(event) => {
+                  handleFileChange(event);
+                }}
+                style={{ display: 'none' }}
+              />
 
-          {previewUrl && (
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
-              <img src={previewUrl} alt="Preview" style={{ width: '100px', height: 'auto', borderRadius: '4px' }} />
-              <Typography variant="body2">{fileName}</Typography>
-              <Typography variant="body2">{fileSize}</Typography>
-            </Box>
-          )}
+            </List>
 
-          <List className="bottom-list" sx={{ marginTop: 'auto' }}>
-            {bottomItems.map(({ text, icon }) => (
-              <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
-                {icon}
-                {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="page-text-color" />}
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
-      <Container sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: '90px', padding: 0, marginLeft: drawerOpen ? '0px' : '0px' }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '90px' }}>
+            {previewUrl && (
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
+                <img src={previewUrl} alt="Preview" style={{ width: '100px', height: 'auto', borderRadius: '4px' }} />
+                <Typography variant="body2">{fileName}</Typography>
+                <Typography variant="body2">{fileSize}</Typography>
+              </Box>
+            )}
+
+            <List sx={{ marginTop: 'auto', padding: 0, marginBottom: '0px' }}>
+              {bottomItems.map(({ text, icon }) => (
+                <ListItemButton button={text.toString()} key={text} component={Link} to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
+                  {icon}
+                  {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="drawer-items" />}
+                </ListItemButton>
+              ))}
+            </List>
+          </Box>
+        </Drawer>
+
+        {/* ANALYSIS PAGE */}
+
+        <Container
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'left',
+            justifyContent: 'left',
+            marginTop: '64px',
+            padding: 0,
+            marginLeft: drawerOpen ? '0px' : '0px',
+            border: '5px solid red',
+            gap: '10px',
+          }}>
+          
+          <Box sx={{ border: '5px solid yellow' }}>
+            <p>Analysis</p>
+
+          </Box>
+
           {selectedImage ? (
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start' }}>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              border: '5px solid green',
+              backgroundColor: 'grey',
+            }}>
               <Box sx={{ width: '50%', marginRight: '20px' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                  <IconButton onClick={handleBackToList} sx={{ marginRight: '10px' }}>
-                    <ArrowBackIosIcon />
-                  </IconButton>
-                  <Typography variant="h6">Uploaded Images</Typography>
-                </Box>
+                <button onClick={handleBackToList} sx={{ marginRight: '10px' }}>
+                  back to list
+                </button>
+                
                 <img
                   src={selectedImage.img}
                   alt={selectedImage.title}
                   style={{ width: '100%', height: 'auto', borderRadius: '4px' }}
                 />
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   size="small"
-                  sx={{ marginTop: '10px' }}
+                  
                   onClick={() => handleAnalyzeImage(selectedImage.img)}
                 >
                   Analyze
                 </Button>
               </Box>
+
               {analysisResult && (
                 <Box sx={{ width: '50%' }}>
                   <Typography variant="h6" sx={{ marginBottom: '10px' }}>Analysis Results:</Typography>
@@ -296,9 +368,22 @@ const Analysis = () => {
               )}
             </Box>
           ) : (
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
-              <Typography variant="h6" sx={{ marginBottom: '10px', alignContent: 'center' }}>Uploaded Images</Typography>
-              <ImageList sx={{ width: 450, height: 450, border: '1px solid #E0E0E0' }} cols={3} rowHeight={164}>
+            <Box sx={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'left',
+              border: '5px solid blue',
+              borderRadius: '10px',
+            }}>
+              <ImageList sx={{ 
+                width: 450, 
+                height: 450, 
+                border: '5px solid orange',
+                borderRadius: '10px',
+              }} 
+              cols={3} 
+              rowHeight={164}
+              >
                 {itemData.map((item) => (
                   <ImageListItem key={item.img} onClick={() => handleImageClick(item)}>
                     <img
@@ -313,9 +398,11 @@ const Analysis = () => {
               </ImageList>
             </Box>
           )}
-        </Box>
-      </Container>
-    </Box>
+        </Container>
+
+
+      </Box>
+    </ThemeProvider>
   );
 };
 
