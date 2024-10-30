@@ -22,6 +22,14 @@ import { IoMdAttach } from "react-icons/io";
 import { IoSettingsSharp } from "react-icons/io5"; // https://react-icons.github.io/react-icons/search/#q=logout
 import { TbLogout2 } from "react-icons/tb";
 import { Stack } from 'react-bootstrap';
+import { BiSolidToggleLeft } from "react-icons/bi";
+import { BiSolidToggleRight } from "react-icons/bi";
+import { borderRadius } from '@mui/system';
+import { IoAlbums } from "react-icons/io5";
+import { MdCenterFocusStrong } from "react-icons/md";
+import { MdCenterFocusWeak } from "react-icons/md";
+
+// <IoAlbums size={} />
 
 // API_KEY = 'ba1a79a08c8b429fac27697167885767';
 // MODEL_ID = 'food-item-recognition';
@@ -41,6 +49,7 @@ const Analysis = () => {
   const [itemData, setItemData] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [analysisResult, setAnalysisResult] = useState(null);
+  const [showFirstSection, setShowFirstSection] = useState(null);
 
   const theme = createTheme({
     components: {
@@ -81,6 +90,10 @@ const Analysis = () => {
 
   const item_name = "Lay's Flamin Hot Potato Chips";
   const sub_name = "Flavored";
+
+  const toggleSection = () => {
+    setShowFirstSection(!showFirstSection);
+  };
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -159,6 +172,7 @@ const Analysis = () => {
   const handleImageClick = async (item) => {
     setSelectedImage(item);
     // setSelectedImageUrl(item.img);
+    console.log("image click");
   };
 
   const handleBackToList = () => {
@@ -170,6 +184,8 @@ const Analysis = () => {
       // Fetch the image as a blob
       const response = await fetch(imageUrl);
       const blob = await response.blob();
+
+      console.log("Image fetched successfully");
 
       // Convert blob to base64
       const reader = new FileReader();
@@ -198,12 +214,27 @@ const Analysis = () => {
           body: raw
         };
 
-        const apiResponse = await fetch("/v2/users/clarifai/apps/main/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs", requestOptions);
-        const result = await apiResponse.json();
-        setAnalysisResult(result);
+        try {
+          console.log(requestOptions);
+
+          const apiResponse = await fetch("/v2/users/clarifai/apps/main/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs", requestOptions);
+
+          console.log(apiResponse);
+
+          const result = await apiResponse.json();
+
+          if (apiResponse.ok) {
+            console.log("API request successful:", result);
+            setAnalysisResult(result);
+          } else {
+            console.error("API request failed:", result);
+          }
+        } catch (error) {
+          console.error("Error during API request:", error);
+        }
       };
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error fetching image or processing:', error);
       setAnalysisResult(null);
     }
   };
@@ -220,7 +251,19 @@ const Analysis = () => {
             <Typography className="title-text" noWrap component="div" sx={{ flexGrow: 1 }}>
               Clarity
             </Typography>
-            <button className="menu-toggle-button" onClick={toggleTheme}>
+            {/* toggle between first and second sections */}
+            <button className="menu-toggle-button" onClick={toggleSection} style={{ marginLeft: '10px' }} >
+              {showFirstSection ? <BiSolidToggleRight size={20} /> : <BiSolidToggleLeft size={20} />}
+            </button>
+            {/* back to list */}
+            <button className="menu-toggle-button" onClick={handleBackToList} style={{ marginLeft: '10px' }}>
+              {selectedImage ? <IoAlbums size={20} /> : <IoAlbums size={20} /> }
+            </button>
+            {/* analyze image */}
+            <button className="menu-toggle-button" onClick={() => handleAnalyzeImage(selectedImage.img)}style={{ marginLeft: '10px' }}>
+              {selectedImage && analysisResult ? <MdCenterFocusStrong size={20} /> : <MdCenterFocusWeak  size={20} />}
+            </button>
+            <button className="menu-toggle-button" onClick={toggleTheme} style={{ marginLeft: '10px' }}>
               {darkMode ? <MdOutlineLightMode size={20} /> : <MdDarkMode size={20} />}
             </button>
             <button className="menu-toggle-button" style={{ marginLeft: '10px' }} >
@@ -301,7 +344,12 @@ const Analysis = () => {
 
             <List sx={{ marginTop: 'auto', padding: 0, marginBottom: '0px' }}>
               {bottomItems.map(({ text, icon }) => (
-                <ListItemButton button={text.toString()} key={text} component={Link} to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
+                <ListItemButton 
+                  button={text.toString()} 
+                  key={text} 
+                  component={Link} 
+                  to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}
+                >
                   {icon}
                   {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="drawer-items" />}
                 </ListItemButton>
@@ -311,19 +359,18 @@ const Analysis = () => {
         </Drawer>
 
         {/* ANALYSIS PAGE */}
-        <Stack sx={{
-          height: '100vh',
-          width: '100vw',
-        }}>
+
+
+        {showFirstSection ? (
           <Box
             sx={{
-              height: '80vh',
+              height: '100vh',
               width: '100%',
               overflow: 'auto',
-              border: '5px solid black',
+              // border: '5px solid black',
               display: 'flex',
-              flexDirection: 'column', // Changed to 'row' to allow wrapping into columns
-              flexWrap: 'wrap', // Allows items to wrap into a new column
+              flexDirection: 'column', 
+              flexWrap: 'wrap', 
               boxSizing: 'border-box',
               borderRadius: '10px',
               marginTop: '64px',
@@ -336,8 +383,8 @@ const Analysis = () => {
               sx={{
                 flexGrow: 0,
                 flexShrink: 1,
-                flexBasis: 'fit-content', // Takes half the container's width, minus the gap
-                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                flexBasis: 'fit-content',
+                // backgroundColor: 'rgba(233, 234, 236, 0.5)',
                 borderRadius: '10px',
                 height: 'fit-content',
               }}
@@ -469,31 +516,88 @@ const Analysis = () => {
             }}>
               <Typography>Nutrient Facts</Typography>
             </Box>
-
-
           </Box>
-
+        ) : (
+          /* second section */
           <Box
             sx={{
-              height: '13vh',
+              height: '100vh',
               width: '100%',
               overflow: 'auto',
               border: '5px solid black',
               display: 'flex',
-              flexDirection: 'column', // Changed to 'row' to allow wrapping into columns
-              flexWrap: 'wrap', // Allows items to wrap into a new column
-              gap: '10px',
+              flexDirection: 'column', 
+              flexWrap: 'wrap', 
               boxSizing: 'border-box',
               borderRadius: '10px',
+              marginTop: '64px',
               marginRight: '10px',
+              gap: '10px',
               marginLeft: drawerOpen ? '10px' : '10px',
             }}
           >
-            // add code here
-
-
+            {selectedImage ? (
+              <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '50%',
+                height: '50%',
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}>
+                <Typography variant='h4'>{selectedImage.title} image</Typography>
+                <img
+                  src={selectedImage.img}
+                  alt={selectedImage.title}
+                  style={{
+                    width: '100%',
+                    
+                    borderRadius: '4px'
+                  }}
+                />
+                <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '50%',
+                height: '50%',
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}>
+                {analysisResult && (
+                  <Box>
+                    {analysisResult.outputs[0].data.concepts.map((concept, index) => (
+                      <Typography key={index}>
+                        {concept.name}: {(concept.value * 100).toFixed(2)}%
+                      </Typography>
+                    ))}
+                  </Box>
+                )}
+                </Box>
+              </Box>
+            ) : (
+              <Box sx={{
+                width: '50%',
+                height: '50%',
+                marginTop: '0px'
+              }}>
+              <ImageList sx={{ width: 500, height: 450, borderRadius: '10px' }} cols={3} rowHeight={164}>
+                {itemData.map((item) => (
+                  <ImageListItem key={item.img} onClick={() => handleImageClick(item)}>
+                    <img
+                      srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                      src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                      alt={item.title}
+                      loading="lazy"
+                    />
+                  </ImageListItem>
+                ))}
+              </ImageList>
+              </Box>
+            )}
           </Box>
-        </Stack>
+        )}
       </Box>
 
     </ThemeProvider>
