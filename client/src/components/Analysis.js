@@ -78,6 +78,9 @@ const Analysis = () => {
     { text: 'Sign Out', icon: <TbLogout2 color="#414141" /> },
   ];
 
+  const item_name = "Lay's Flamin Hot Potato Chips";
+  const sub_name = "Flavored";
+
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
@@ -139,7 +142,7 @@ const Analysis = () => {
     };
 
     fetchItems();
-  }, [userId]);
+  }, [userId]); 
 
   const fetchImage = async (id) => {
     try {
@@ -308,99 +311,22 @@ const Analysis = () => {
 
         {/* ANALYSIS PAGE */}
 
-        <Container
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'left',
-            justifyContent: 'left',
-            marginTop: '64px',
-            padding: 0,
-            marginLeft: drawerOpen ? '0px' : '0px',
-            border: '5px solid red',
-            gap: '10px',
-          }}>
-          
-          <Box sx={{ border: '5px solid yellow' }}>
-            <p>Analysis</p>
-
-          </Box>
-
-          {selectedImage ? (
-            <Box sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'flex-start',
-              border: '5px solid green',
-              backgroundColor: 'grey',
-            }}>
-              <Box sx={{ width: '50%', marginRight: '20px' }}>
-                <button onClick={handleBackToList} sx={{ marginRight: '10px' }}>
-                  back to list
-                </button>
-                
-                <img
-                  src={selectedImage.img}
-                  alt={selectedImage.title}
-                  style={{ width: '100%', height: 'auto', borderRadius: '4px' }}
-                />
-                <Button
-                  variant="outlined"
-                  size="small"
-                  
-                  onClick={() => handleAnalyzeImage(selectedImage.img)}
-                >
-                  Analyze
-                </Button>
-              </Box>
-
-              {analysisResult && (
-                <Box sx={{ width: '50%' }}>
-                  <Typography variant="h6" sx={{ marginBottom: '10px' }}>Analysis Results:</Typography>
-                  {analysisResult.outputs[0].data.concepts.map((concept, index) => (
-                    <Box key={index} sx={{ marginBottom: '5px' }}>
-                      <Typography variant="body2">
-                        {concept.name}: {(concept.value * 100).toFixed(2)}%
-                      </Typography>
-                    </Box>
-                  ))}
-                </Box>
-              )}
-            </Box>
-          ) : (
-            <Box sx={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'left',
-              border: '5px solid blue',
-              borderRadius: '10px',
-            }}>
-              <ImageList sx={{ 
-                width: 450, 
-                height: 450, 
-                border: '5px solid orange',
-                borderRadius: '10px',
-              }} 
-              cols={3} 
-              rowHeight={164}
-              >
-                {itemData.map((item) => (
-                  <ImageListItem key={item.img} onClick={() => handleImageClick(item)}>
-                    <img
-                      className="uploaded-image"
-                      srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                      src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                      alt={item.title}
-                      loading="lazy"
-                    />
-                  </ImageListItem>
-                ))}
-              </ImageList>
-            </Box>
-          )}
-        </Container>
-
-
+        <Box sx={{
+          height: '1250px',
+          width: '100%',
+          overflow: 'auto',
+          border: '5px solid black',
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '10px',
+          boxSizing: 'border-box',
+          borderRadius: '10px',
+          marginTop: '64px',
+          marginRight: '10px',
+          marginBottom: '20px',
+          marginLeft: drawerOpen ? '10px' : '10px'
+        }}>
+        </Box>
       </Box>
     </ThemeProvider>
   );
@@ -409,6 +335,36 @@ const Analysis = () => {
 export default Analysis;
 
 /*
+<Container>
+      {selectedImage ? (
+        <Box>
+          <img src={selectedImage.img} alt={selectedImage.title} style={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
+          <Button variant="outlined" onClick={() => handleAnalyzeImage(selectedImage.img)}>Analyze</Button>
+          {analysisResult && (
+            <Box>
+              {analysisResult.outputs[0].data.concepts.map((concept, index) => (
+                <Typography key={index}>
+                  {concept.name}: {(concept.value * 100).toFixed(2)}%
+                </Typography>
+              ))}
+            </Box>
+          )}
+        </Box>
+      ) : (
+        <ImageList cols={3} rowHeight={164}>
+          {itemData.map((item) => (
+            <ImageListItem key={item.img} onClick={() => handleImageClick(item)}>
+              <img
+                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                alt={item.title}
+                loading="lazy"
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
+      )}
+    </Container>
 
 # Model version ID is optional. It defaults to the latest model version, if omitted
 
