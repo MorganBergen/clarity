@@ -21,6 +21,7 @@ import { IoDocument } from "react-icons/io5";
 import { IoMdAttach } from "react-icons/io";
 import { IoSettingsSharp } from "react-icons/io5"; // https://react-icons.github.io/react-icons/search/#q=logout
 import { TbLogout2 } from "react-icons/tb";
+import { Stack } from 'react-bootstrap';
 
 // API_KEY = 'ba1a79a08c8b429fac27697167885767';
 // MODEL_ID = 'food-item-recognition';
@@ -142,7 +143,7 @@ const Analysis = () => {
     };
 
     fetchItems();
-  }, [userId]); 
+  }, [userId]);
 
   const fetchImage = async (id) => {
     try {
@@ -310,24 +311,191 @@ const Analysis = () => {
         </Drawer>
 
         {/* ANALYSIS PAGE */}
-
-        <Box sx={{
-          height: '1250px',
-          width: '100%',
-          overflow: 'auto',
-          border: '5px solid black',
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '10px',
-          boxSizing: 'border-box',
-          borderRadius: '10px',
-          marginTop: '64px',
-          marginRight: '10px',
-          marginBottom: '20px',
-          marginLeft: drawerOpen ? '10px' : '10px'
+        <Stack sx={{
+          height: '100vh',
+          width: '100vw',
         }}>
-        </Box>
+          <Box
+            sx={{
+              height: '80vh',
+              width: '100%',
+              overflow: 'auto',
+              border: '5px solid black',
+              display: 'flex',
+              flexDirection: 'column', // Changed to 'row' to allow wrapping into columns
+              flexWrap: 'wrap', // Allows items to wrap into a new column
+              boxSizing: 'border-box',
+              borderRadius: '10px',
+              marginTop: '64px',
+              marginRight: '10px',
+              gap: '10px',
+              marginLeft: drawerOpen ? '10px' : '10px',
+            }}
+          >
+            <Box
+              sx={{
+                flexGrow: 0,
+                flexShrink: 1,
+                flexBasis: 'fit-content', // Takes half the container's width, minus the gap
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography variant="h4">Insights</Typography>
+              <Typography variant="body2">Nutrient Distribution</Typography>
+            </Box>
+
+            <Box
+              sx={{
+                flexGrow: 0,
+                flexShrink: 1,
+                flexBasis: 'auto',
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography variant="body2">August 28, 2024 9:41 PM</Typography>
+            </Box>
+
+            <Box
+              sx={{
+                flexGrow: 0,
+                flexShrink: 1,
+                flexBasis: 'auto',
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography variant="body2">Image</Typography>
+            </Box>
+
+            <Box
+              sx={{
+                flexGrow: 1,
+                flexShrink: 1,
+                flexBasis: 'calc(50% - 10px)',
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography variant="body2">Ingredients</Typography>
+            </Box>
+
+            {/* "Next Column" box, which will appear in the next column */}
+            <Box
+              sx={{
+                flexGrow: 0,
+                flexShrink: 1,
+                flexBasis: 'calc(50%)', // Ensure it starts on a new "column" or row
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography>Sodium Content</Typography>
+            </Box>
+            <Box
+              sx={{
+                flexGrow: 1,
+                flexShrink: 1,
+                flexBasis: 'content', // Ensure it starts on a new "column" or row
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography>Information Key 1</Typography>
+            </Box>
+            <Box
+              sx={{
+                flexGrow: 1,
+                flexShrink: 1,
+                flexBasis: 'content', // Ensure it starts on a new "column" or row
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography>Information Key 2</Typography>
+            </Box>
+
+            <Box
+              sx={{
+                flexGrow: 1,
+                flexShrink: 1,
+                flexBasis: 'content',
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography>Information Key 3</Typography>
+            </Box>
+
+            {/* next box in a new column */}
+            <Box sx={{
+              flexGrow: 0,
+              flexShrink: 1,
+              flexBasis: 'calc(50%)', // Ensure it starts on a new "column" or row
+              backgroundColor: 'rgba(233, 234, 236, 0.5)',
+              borderRadius: '10px',
+              height: 'fit-content',
+            }}>
+              <Typography>Macro-nutrient Profile</Typography>
+            </Box>
+
+            <Box sx={{
+              flexGrow: 1,
+              flexShrink: 1,
+              flexBasis: 'auto',
+              backgroundColor: 'rgba(233, 234, 236, 0.5)',
+              borderRadius: '10px',
+              height: 'fit-content',
+            }}>
+              <Typography>Process Level</Typography>
+            </Box>
+
+            <Box sx={{
+              flexGrow: 1,
+              flexShrink: 1,
+              flexBasis: 'calc(50%)',
+              backgroundColor: 'rgba(233, 234, 236, 0.5)',
+              borderRadius: '10px',
+              height: 'fit-content',
+            }}>
+              <Typography>Nutrient Facts</Typography>
+            </Box>
+
+
+          </Box>
+
+          <Box
+            sx={{
+              height: '13vh',
+              width: '100%',
+              overflow: 'auto',
+              border: '5px solid black',
+              display: 'flex',
+              flexDirection: 'column', // Changed to 'row' to allow wrapping into columns
+              flexWrap: 'wrap', // Allows items to wrap into a new column
+              gap: '10px',
+              boxSizing: 'border-box',
+              borderRadius: '10px',
+              marginRight: '10px',
+              marginLeft: drawerOpen ? '10px' : '10px',
+            }}
+          >
+            // add code here
+
+
+          </Box>
+        </Stack>
       </Box>
+
     </ThemeProvider>
   );
 };
