@@ -159,7 +159,7 @@ const MainDashboard = () => {
               boxSizing: 'border-box',
               marginTop: '64px',
               height: 'calc(100% - 64px)',
-              
+              border: 'none',
             },
           }}
         >
