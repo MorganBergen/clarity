@@ -21,6 +21,7 @@ import { IoDocument } from "react-icons/io5";
 import { IoMdAttach } from "react-icons/io";
 import { IoSettingsSharp } from "react-icons/io5"; // https://react-icons.github.io/react-icons/search/#q=logout
 import { TbLogout2 } from "react-icons/tb";
+import { Stack } from 'react-bootstrap';
 
 // API_KEY = 'ba1a79a08c8b429fac27697167885767';
 // MODEL_ID = 'food-item-recognition';
@@ -77,6 +78,9 @@ const Analysis = () => {
     { text: 'Settings', icon: <IoSettingsSharp color="#414141" /> },
     { text: 'Sign Out', icon: <TbLogout2 color="#414141" /> },
   ];
+
+  const item_name = "Lay's Flamin Hot Potato Chips";
+  const sub_name = "Flavored";
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -307,101 +311,191 @@ const Analysis = () => {
         </Drawer>
 
         {/* ANALYSIS PAGE */}
+        <Stack sx={{
+          height: '100vh',
+          width: '100vw',
+        }}>
+          <Box
+            sx={{
+              height: '80vh',
+              width: '100%',
+              overflow: 'auto',
+              border: '5px solid black',
+              display: 'flex',
+              flexDirection: 'column', // Changed to 'row' to allow wrapping into columns
+              flexWrap: 'wrap', // Allows items to wrap into a new column
+              boxSizing: 'border-box',
+              borderRadius: '10px',
+              marginTop: '64px',
+              marginRight: '10px',
+              gap: '10px',
+              marginLeft: drawerOpen ? '10px' : '10px',
+            }}
+          >
+            <Box
+              sx={{
+                flexGrow: 0,
+                flexShrink: 1,
+                flexBasis: 'fit-content', // Takes half the container's width, minus the gap
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography variant="h4">Insights</Typography>
+              <Typography variant="body2">Nutrient Distribution</Typography>
+            </Box>
 
-        <Container
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'left',
-            justifyContent: 'left',
-            marginTop: '64px',
-            padding: 0,
-            marginLeft: drawerOpen ? '0px' : '0px',
-            border: '5px solid red',
-            gap: '10px',
-          }}>
-          
-          <Box sx={{ border: '5px solid yellow' }}>
-            <p>Analysis</p>
+            <Box
+              sx={{
+                flexGrow: 0,
+                flexShrink: 1,
+                flexBasis: 'auto',
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography variant="body2">August 28, 2024 9:41 PM</Typography>
+            </Box>
+
+            <Box
+              sx={{
+                flexGrow: 0,
+                flexShrink: 1,
+                flexBasis: 'auto',
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography variant="body2">Image</Typography>
+            </Box>
+
+            <Box
+              sx={{
+                flexGrow: 1,
+                flexShrink: 1,
+                flexBasis: 'calc(50% - 10px)',
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography variant="body2">Ingredients</Typography>
+            </Box>
+
+            {/* "Next Column" box, which will appear in the next column */}
+            <Box
+              sx={{
+                flexGrow: 0,
+                flexShrink: 1,
+                flexBasis: 'calc(50%)', // Ensure it starts on a new "column" or row
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography>Sodium Content</Typography>
+            </Box>
+            <Box
+              sx={{
+                flexGrow: 1,
+                flexShrink: 1,
+                flexBasis: 'content', // Ensure it starts on a new "column" or row
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography>Information Key 1</Typography>
+            </Box>
+            <Box
+              sx={{
+                flexGrow: 1,
+                flexShrink: 1,
+                flexBasis: 'content', // Ensure it starts on a new "column" or row
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography>Information Key 2</Typography>
+            </Box>
+
+            <Box
+              sx={{
+                flexGrow: 1,
+                flexShrink: 1,
+                flexBasis: 'content',
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                height: 'fit-content',
+              }}
+            >
+              <Typography>Information Key 3</Typography>
+            </Box>
+
+            {/* next box in a new column */}
+            <Box sx={{
+              flexGrow: 0,
+              flexShrink: 1,
+              flexBasis: 'calc(50%)', // Ensure it starts on a new "column" or row
+              backgroundColor: 'rgba(233, 234, 236, 0.5)',
+              borderRadius: '10px',
+              height: 'fit-content',
+            }}>
+              <Typography>Macro-nutrient Profile</Typography>
+            </Box>
+
+            <Box sx={{
+              flexGrow: 1,
+              flexShrink: 1,
+              flexBasis: 'auto',
+              backgroundColor: 'rgba(233, 234, 236, 0.5)',
+              borderRadius: '10px',
+              height: 'fit-content',
+            }}>
+              <Typography>Process Level</Typography>
+            </Box>
+
+            <Box sx={{
+              flexGrow: 1,
+              flexShrink: 1,
+              flexBasis: 'calc(50%)',
+              backgroundColor: 'rgba(233, 234, 236, 0.5)',
+              borderRadius: '10px',
+              height: 'fit-content',
+            }}>
+              <Typography>Nutrient Facts</Typography>
+            </Box>
+
 
           </Box>
 
-          {selectedImage ? (
-            <Box sx={{
+          <Box
+            sx={{
+              height: '13vh',
+              width: '100%',
+              overflow: 'auto',
+              border: '5px solid black',
               display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'flex-start',
-              border: '5px solid green',
-              backgroundColor: 'grey',
-            }}>
-              <Box sx={{ width: '50%', marginRight: '20px' }}>
-                <button onClick={handleBackToList} sx={{ marginRight: '10px' }}>
-                  back to list
-                </button>
-                
-                <img
-                  src={selectedImage.img}
-                  alt={selectedImage.title}
-                  style={{ width: '100%', height: 'auto', borderRadius: '4px' }}
-                />
-                <Button
-                  variant="outlined"
-                  size="small"
-                  
-                  onClick={() => handleAnalyzeImage(selectedImage.img)}
-                >
-                  Analyze
-                </Button>
-              </Box>
-
-              {analysisResult && (
-                <Box sx={{ width: '50%' }}>
-                  <Typography variant="h6" sx={{ marginBottom: '10px' }}>Analysis Results:</Typography>
-                  {analysisResult.outputs[0].data.concepts.map((concept, index) => (
-                    <Box key={index} sx={{ marginBottom: '5px' }}>
-                      <Typography variant="body2">
-                        {concept.name}: {(concept.value * 100).toFixed(2)}%
-                      </Typography>
-                    </Box>
-                  ))}
-                </Box>
-              )}
-            </Box>
-          ) : (
-            <Box sx={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'left',
-              border: '5px solid blue',
+              flexDirection: 'column', // Changed to 'row' to allow wrapping into columns
+              flexWrap: 'wrap', // Allows items to wrap into a new column
+              gap: '10px',
+              boxSizing: 'border-box',
               borderRadius: '10px',
-            }}>
-              <ImageList sx={{ 
-                width: 450, 
-                height: 450, 
-                border: '5px solid orange',
-                borderRadius: '10px',
-              }} 
-              cols={3} 
-              rowHeight={164}
-              >
-                {itemData.map((item) => (
-                  <ImageListItem key={item.img} onClick={() => handleImageClick(item)}>
-                    <img
-                      className="uploaded-image"
-                      srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                      src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                      alt={item.title}
-                      loading="lazy"
-                    />
-                  </ImageListItem>
-                ))}
-              </ImageList>
-            </Box>
-          )}
-        </Container>
+              marginRight: '10px',
+              marginLeft: drawerOpen ? '10px' : '10px',
+            }}
+          >
+            // add code here
 
 
+          </Box>
+        </Stack>
       </Box>
+
     </ThemeProvider>
   );
 };
@@ -409,6 +503,36 @@ const Analysis = () => {
 export default Analysis;
 
 /*
+<Container>
+      {selectedImage ? (
+        <Box>
+          <img src={selectedImage.img} alt={selectedImage.title} style={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
+          <Button variant="outlined" onClick={() => handleAnalyzeImage(selectedImage.img)}>Analyze</Button>
+          {analysisResult && (
+            <Box>
+              {analysisResult.outputs[0].data.concepts.map((concept, index) => (
+                <Typography key={index}>
+                  {concept.name}: {(concept.value * 100).toFixed(2)}%
+                </Typography>
+              ))}
+            </Box>
+          )}
+        </Box>
+      ) : (
+        <ImageList cols={3} rowHeight={164}>
+          {itemData.map((item) => (
+            <ImageListItem key={item.img} onClick={() => handleImageClick(item)}>
+              <img
+                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                alt={item.title}
+                loading="lazy"
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
+      )}
+    </Container>
 
 # Model version ID is optional. It defaults to the latest model version, if omitted
 
