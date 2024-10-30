@@ -257,11 +257,11 @@ const Analysis = () => {
             </button>
             {/* back to list */}
             <button className="menu-toggle-button" onClick={handleBackToList} style={{ marginLeft: '10px' }}>
-              {selectedImage ? <IoAlbums size={20} /> : <IoAlbums size={20} /> }
+              {selectedImage ? <IoAlbums size={20} /> : <IoAlbums size={20} />}
             </button>
             {/* analyze image */}
-            <button className="menu-toggle-button" onClick={() => handleAnalyzeImage(selectedImage.img)}style={{ marginLeft: '10px' }}>
-              {selectedImage && analysisResult ? <MdCenterFocusStrong size={20} /> : <MdCenterFocusWeak  size={20} />}
+            <button className="menu-toggle-button" onClick={() => handleAnalyzeImage(selectedImage.img)} style={{ marginLeft: '10px' }}>
+              {selectedImage && analysisResult ? <MdCenterFocusStrong size={20} /> : <MdCenterFocusWeak size={20} />}
             </button>
             <button className="menu-toggle-button" onClick={toggleTheme} style={{ marginLeft: '10px' }}>
               {darkMode ? <MdOutlineLightMode size={20} /> : <MdDarkMode size={20} />}
@@ -344,10 +344,10 @@ const Analysis = () => {
 
             <List sx={{ marginTop: 'auto', padding: 0, marginBottom: '0px' }}>
               {bottomItems.map(({ text, icon }) => (
-                <ListItemButton 
-                  button={text.toString()} 
-                  key={text} 
-                  component={Link} 
+                <ListItemButton
+                  button={text.toString()}
+                  key={text}
+                  component={Link}
                   to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}
                 >
                   {icon}
@@ -369,8 +369,8 @@ const Analysis = () => {
               overflow: 'auto',
               // border: '5px solid black',
               display: 'flex',
-              flexDirection: 'column', 
-              flexWrap: 'wrap', 
+              flexDirection: 'column',
+              flexWrap: 'wrap',
               boxSizing: 'border-box',
               borderRadius: '10px',
               marginTop: '64px',
@@ -526,8 +526,8 @@ const Analysis = () => {
               overflow: 'auto',
               border: '5px solid black',
               display: 'flex',
-              flexDirection: 'column', 
-              flexWrap: 'wrap', 
+              flexDirection: 'column',
+              flexWrap: 'wrap',
               boxSizing: 'border-box',
               borderRadius: '10px',
               marginTop: '64px',
@@ -539,41 +539,52 @@ const Analysis = () => {
             {selectedImage ? (
               <Box sx={{
                 display: 'flex',
-                flexDirection: 'column',
-                width: '50%',
-                height: '50%',
-                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                flexDirection: 'row',
+                width: '100%',
                 borderRadius: '10px',
                 height: 'fit-content',
+                border: '1px solid green'
               }}>
+                <Box sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '50%',
+                  backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                  borderRadius: '10px',
+                  height: 'fit-content',
+                  alignItems: 'center',
+                  alignText: 'left',
+                  gap: '10px',
+                  padding: '20px'
+                }}>
                 <Typography variant='h4'>{selectedImage.title} image</Typography>
                 <img
                   src={selectedImage.img}
                   alt={selectedImage.title}
                   style={{
-                    width: '100%',
-                    
+                    width: '250px',
                     borderRadius: '4px'
                   }}
                 />
+                </Box>  
                 <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '50%',
-                height: '50%',
-                backgroundColor: 'rgba(233, 234, 236, 0.5)',
-                borderRadius: '10px',
-                height: 'fit-content',
-              }}>
-                {analysisResult && (
-                  <Box>
-                    {analysisResult.outputs[0].data.concepts.map((concept, index) => (
-                      <Typography key={index}>
-                        {concept.name}: {(concept.value * 100).toFixed(2)}%
-                      </Typography>
-                    ))}
-                  </Box>
-                )}
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '50%',
+                  height: '50%',
+                  backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                  borderRadius: '10px',
+                  height: 'fit-content',
+                }}>
+                  {analysisResult && (
+                    <Box>
+                      {analysisResult.outputs[0].data.concepts.map((concept, index) => (
+                        <Typography key={index}>
+                          {concept.name}: {(concept.value * 100).toFixed(2)}%
+                        </Typography>
+                      ))}
+                    </Box>
+                  )}
                 </Box>
               </Box>
             ) : (
@@ -582,18 +593,18 @@ const Analysis = () => {
                 height: '50%',
                 marginTop: '0px'
               }}>
-              <ImageList sx={{ width: 500, height: 450, borderRadius: '10px' }} cols={3} rowHeight={164}>
-                {itemData.map((item) => (
-                  <ImageListItem key={item.img} onClick={() => handleImageClick(item)}>
-                    <img
-                      srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                      src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                      alt={item.title}
-                      loading="lazy"
-                    />
-                  </ImageListItem>
-                ))}
-              </ImageList>
+                <ImageList sx={{ width: 500, height: 450, borderRadius: '10px' }} cols={3} rowHeight={164}>
+                  {itemData.map((item) => (
+                    <ImageListItem key={item.img} onClick={() => handleImageClick(item)}>
+                      <img
+                        srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                        src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                        alt={item.title}
+                        loading="lazy"
+                      />
+                    </ImageListItem>
+                  ))}
+                </ImageList>
               </Box>
             )}
           </Box>
