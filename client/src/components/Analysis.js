@@ -524,7 +524,7 @@ const Analysis = () => {
               height: '100vh',
               width: '100%',
               overflow: 'auto',
-              border: '5px solid black',
+              // border: '5px solid black',
               display: 'flex',
               flexDirection: 'column',
               flexWrap: 'wrap',
@@ -543,7 +543,9 @@ const Analysis = () => {
                 width: '100%',
                 borderRadius: '10px',
                 height: 'fit-content',
-                border: '1px solid green'
+                paddingLeft: '20px',
+                paddingRight: '20px',
+                gap: '20px'
               }}>
                 <Box sx={{
                   display: 'flex',
@@ -551,22 +553,21 @@ const Analysis = () => {
                   width: '50%',
                   backgroundColor: 'rgba(233, 234, 236, 0.5)',
                   borderRadius: '10px',
-                  height: 'fit-content',
-                  alignItems: 'center',
+                  height: '100%',
                   alignText: 'left',
                   gap: '10px',
                   padding: '20px'
                 }}>
-                <Typography variant='h4'>{selectedImage.title} image</Typography>
-                <img
-                  src={selectedImage.img}
-                  alt={selectedImage.title}
-                  style={{
-                    width: '250px',
-                    borderRadius: '4px'
-                  }}
-                />
-                </Box>  
+                  <Typography style={{ marginBottom: '10px' }} variant='h4'>Image to Analyze</Typography>
+                  <img
+                    src={selectedImage.img}
+                    alt={selectedImage.title}
+                    style={{
+                      width: '100%',
+                      borderRadius: '4px'
+                    }}
+                  />
+                </Box>
                 <Box sx={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -577,7 +578,19 @@ const Analysis = () => {
                   height: 'fit-content',
                 }}>
                   {analysisResult && (
-                    <Box>
+                    <Box sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      width: '100%',
+                      backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                      borderRadius: '10px',
+                      height: '100%',
+                      alignText: 'left',
+                      gap: '10px',
+                      padding: '20px'
+                    }}>
+                      <Typography style={{ marginBottom: '10px' }} variant='h4'>Analysis Results</Typography>
+                      <Typography>concept: confidence percentage %</Typography>
                       {analysisResult.outputs[0].data.concepts.map((concept, index) => (
                         <Typography key={index}>
                           {concept.name}: {(concept.value * 100).toFixed(2)}%
@@ -589,10 +602,27 @@ const Analysis = () => {
               </Box>
             ) : (
               <Box sx={{
-                width: '50%',
-                height: '50%',
-                marginTop: '0px'
+                display: 'flex',
+                flexDirection: 'row',
+                width: 'fit-content',
+                height: 'fit-content',
+                borderRadius: '10px',
+                paddingLeft: '20px',
+                paddingRight: '20px',
+                gap: '20px'
               }}>
+                <Box sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                  borderRadius: '10px',
+                  height: '100%',
+                  alignText: 'left',
+                  gap: '10px',
+                  padding: '20px'
+                }}>
+                <Typography variant='h4'>Select an Image</Typography>
                 <ImageList sx={{ width: 500, height: 450, borderRadius: '10px' }} cols={3} rowHeight={164}>
                   {itemData.map((item) => (
                     <ImageListItem key={item.img} onClick={() => handleImageClick(item)}>
@@ -605,6 +635,7 @@ const Analysis = () => {
                     </ImageListItem>
                   ))}
                 </ImageList>
+                </Box>
               </Box>
             )}
           </Box>
