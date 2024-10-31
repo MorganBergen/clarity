@@ -118,6 +118,8 @@ the scripts define custom commands for the project, such as `start`, `build`, `t
 
 `nodemon` is a utility that monitors for any changes in the source code and automatically restarts the server, it helps with the development process by reducing the need to manually restart the server for every change.
 
+[`openai`](https://platform.openai.com/docs/api-reference/introduction) you can interact with the API through HTTP requests from any language, via our official Python bindings, our official Node.js library, or through our HTTP REST API.
+
 [`npx`](https://docs.npmjs.com/cli/v8/commands/npx) is a package running tool that comes with npm, and allows you to run node.js packages without having to install them globally.
 
 [`create-react-app`](https://create-react-app.dev/docs/getting-started) is a used to create a single page react application and sets up the project with default configurations, including tools like webpack babel, eslint, and jest.
