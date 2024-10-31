@@ -28,12 +28,13 @@ import { borderRadius } from '@mui/system';
 import { IoAlbums } from "react-icons/io5";
 import { MdCenterFocusStrong } from "react-icons/md";
 import { MdCenterFocusWeak } from "react-icons/md";
+// import 'dotenv/config';
 // require('dotenv').config();
 // const apiKey = process.env.CLARIFAI_API_KEY;
 
 // <IoAlbums size={} />
 
-// API_KEY = 'ba1a79a08c8b429fac27697167885767';
+// API_KEY = '6bd0b7c74ee84bcc9d3b8219fc1f4865'
 // MODEL_ID = 'food-item-recognition';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
@@ -182,6 +183,9 @@ const Analysis = () => {
   };
 
   const handleAnalyzeImage = async (imageUrl) => {
+
+    // console.log(process.env.REACT_APP_CLARIFAI_API_KEY);
+
     try {
       // Fetch the image as a blob
       const response = await fetch(imageUrl);
