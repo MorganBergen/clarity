@@ -28,6 +28,8 @@ import { borderRadius } from '@mui/system';
 import { IoAlbums } from "react-icons/io5";
 import { MdCenterFocusStrong } from "react-icons/md";
 import { MdCenterFocusWeak } from "react-icons/md";
+// require('dotenv').config();
+// const apiKey = process.env.CLARIFAI_API_KEY;
 
 // <IoAlbums size={} />
 
@@ -209,7 +211,7 @@ const Analysis = () => {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
-            'Authorization': 'Key 6bd0b7c74ee84bcc9d3b8219fc1f4865'
+            'Authorization': `Key 6bd0b7c74ee84bcc9d3b8219fc1f4865`,
           },
           body: raw
         };
@@ -605,8 +607,8 @@ const Analysis = () => {
                 display: 'flex',
                 flexDirection: 'row',
                 width: 'fit-content',
-                height: 'fit-content',
                 borderRadius: '10px',
+                height: 'fit-content',
                 paddingLeft: '20px',
                 paddingRight: '20px',
                 gap: '20px'
