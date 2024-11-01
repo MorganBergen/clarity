@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Box, Drawer, List, ListItemText, ListItemButton, Typography, AppBar, Toolbar, Container } from '@mui/material';
+import { Box, Drawer, List, ListItemText, ListItemButton, Typography, AppBar, Toolbar } from '@mui/material';
 import { UserContext } from '../context/UserContext';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AttachmentIcon from '@mui/icons-material/Attachment';
@@ -21,13 +21,12 @@ import { IoDocument } from "react-icons/io5";
 import { IoMdAttach } from "react-icons/io";
 import { IoSettingsSharp } from "react-icons/io5"; // https://react-icons.github.io/react-icons/search/#q=logout
 import { TbLogout2 } from "react-icons/tb";
-import { Stack } from 'react-bootstrap';
 import { BiSolidToggleLeft } from "react-icons/bi";
 import { BiSolidToggleRight } from "react-icons/bi";
-import { borderRadius } from '@mui/system';
 import { IoAlbums } from "react-icons/io5";
 import { MdCenterFocusStrong } from "react-icons/md";
 import { MdCenterFocusWeak } from "react-icons/md";
+// import gracefulFs from 'graceful-fs';
 
 // <IoAlbums size={} />
 
@@ -87,9 +86,6 @@ const Analysis = () => {
     { text: 'Settings', icon: <IoSettingsSharp color="#414141" /> },
     { text: 'Sign Out', icon: <TbLogout2 color="#414141" /> },
   ];
-
-  const item_name = "Lay's Flamin Hot Potato Chips";
-  const sub_name = "Flavored";
 
   const toggleSection = () => {
     setShowFirstSection(!showFirstSection);
@@ -224,8 +220,19 @@ const Analysis = () => {
           const result = await apiResponse.json();
 
           if (apiResponse.ok) {
+
             console.log("API request successful:", result);
+
             setAnalysisResult(result);
+
+            // fs.writeFile('result.json', JSON.stringify(result, null, 2), (err) => {
+            //   if (err) {
+            //     console.log('Error writing into file:', err);
+            //   } else {
+            //     console.log('Analysis result saved to result.json');
+            //   }
+            // });
+
           } else {
             console.error("API request failed:", result);
           }
@@ -573,9 +580,7 @@ const Analysis = () => {
                   flexDirection: 'column',
                   width: '50%',
                   height: '50%',
-                  backgroundColor: 'rgba(233, 234, 236, 0.5)',
                   borderRadius: '10px',
-                  height: 'fit-content',
                 }}>
                   {analysisResult && (
                     <Box sx={{
@@ -584,7 +589,7 @@ const Analysis = () => {
                       width: '100%',
                       backgroundColor: 'rgba(233, 234, 236, 0.5)',
                       borderRadius: '10px',
-                      height: '100%',
+                      height: 'fit-content',
                       alignText: 'left',
                       gap: '10px',
                       padding: '20px'
