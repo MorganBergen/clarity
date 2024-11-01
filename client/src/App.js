@@ -32,7 +32,6 @@ function App() {
             <Route path="/Settings" element={<Settings />} />
             <Route path="/Logging" element={<Logging />} />
             <Route path="/Reports" element={<Reports />} />
-            {/* <Route path="/Upload" element={<MainLayout><Upload /></MainLayout>} /> */}
           </Routes>
         </Router>
       </UserProvider>
