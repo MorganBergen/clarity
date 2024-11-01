@@ -25,8 +25,7 @@ import { BiSolidToggleLeft } from "react-icons/bi";
 import { BiSolidToggleRight } from "react-icons/bi";
 import { IoAlbums } from "react-icons/io5";
 import { GiBullseye } from "react-icons/gi";
-import { FaBrain } from "react-icons/fa";
-import getImageID from './gpt';
+// import { FaBrain } from "react-icons/fa";
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -176,10 +175,6 @@ const Analysis = () => {
     setSelectedImage(null);
   };
 
-  //             [server address]/[api]/[files]/[collection_name]/[record_id]/[file_name]
-  //  imageUrl = http://127.0.0.1:8090/api/files/food/ysoi1nzrwpqfb29/2_meal_DyMOf5u1CF.jpeg
-  //  
-  
   const identify = async (imageUrl) => {
 
     const parts = imageUrl.split('/');
@@ -303,10 +298,7 @@ const Analysis = () => {
             <button className="menu-toggle-button" onClick={() => identify(selectedImage.img)} style={{ marginLeft: '10px' }}>
               {selectedImage && Array.isArray(analysisResult) ? <GiBullseye  size={20} /> : <GiBullseye size={20} />}
             </button>
-            {/* use the getImageID function to get the imageID */}
-            <button className="menu-toggle-button" onClick={() => getImageID(imageID)} style={{ marginLeft: '10px' }}>
-              {selectedImage && imageID ? <FaBrain size={20} /> : <FaBrain size={20} />}
-            </button>
+          
             {/* toggle theme */}
             <button className="menu-toggle-button" onClick={toggleTheme} style={{ marginLeft: '10px' }}>
               {darkMode ? <MdOutlineLightMode size={20} /> : <MdDarkMode size={20} />}
