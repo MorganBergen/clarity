@@ -26,12 +26,6 @@ import { BiSolidToggleRight } from "react-icons/bi";
 import { IoAlbums } from "react-icons/io5";
 import { MdCenterFocusStrong } from "react-icons/md";
 import { MdCenterFocusWeak } from "react-icons/md";
-// import gracefulFs from 'graceful-fs';
-
-// <IoAlbums size={} />
-
-// API_KEY = 'ba1a79a08c8b429fac27697167885767';
-// MODEL_ID = 'food-item-recognition';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -47,7 +41,7 @@ const Analysis = () => {
   const { userId } = useContext(UserContext);
   const [itemData, setItemData] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [analysisResult, setAnalysisResult] = useState(null);
+  const [analysisResult, setAnalysisResult] = useState([]);
   const [showFirstSection, setShowFirstSection] = useState(null);
 
   const theme = createTheme({
@@ -142,10 +136,11 @@ const Analysis = () => {
         const records = await pb.collection('food').getFullList();
         const formattedData = records.map(record => ({
           img: `http://127.0.0.1:8090/api/files/food/${record.id}/${record.item[0]}`,
-          title: record.title || 'Untitled',
+          recordId: record.id,
         }));
 
         setItemData(formattedData);
+
       } catch (error) {
         console.error('Error fetching items:', error);
       }
@@ -167,83 +162,112 @@ const Analysis = () => {
 
   const handleImageClick = async (item) => {
     setSelectedImage(item);
-    // setSelectedImageUrl(item.img);
-    console.log("image click");
   };
 
   const handleBackToList = () => {
     setSelectedImage(null);
   };
 
-  const handleAnalyzeImage = async (imageUrl) => {
+  //             [server address]/[api]/[files]/[collection_name]/[record_id]/[file_name]
+  //  imageUrl = http://127.0.0.1:8090/api/files/food/ysoi1nzrwpqfb29/2_meal_DyMOf5u1CF.jpeg
+  //  
+  
+  const identify = async (imageUrl) => {
+    console.log(imageUrl);
+    const parts = imageUrl.split('/');
+    const id = parts[parts.indexOf('food') + 1];
+
     try {
-      // Fetch the image as a blob
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
+      const record = await pb.collection('food').getOne(id);
 
-      console.log("Image fetched successfully");
+      if (record.clarifaiConfidence) {
 
-      // Convert blob to base64
-      const reader = new FileReader();
-      reader.readAsDataURL(blob);
-      reader.onloadend = async () => {
-        const base64data = reader.result.split(',')[1];
+        setAnalysisResult(record.clarifaiConfidence.concepts);
 
-        const raw = JSON.stringify({
-          "inputs": [
-            {
-              "data": {
-                "image": {
-                  "base64": base64data
-                }
-              }
-            }
-          ]
-        });
-
-        const requestOptions = {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Key 6bd0b7c74ee84bcc9d3b8219fc1f4865'
-          },
-          body: raw
-        };
+      } else {
 
         try {
-          console.log(requestOptions);
+          // Fetch the image as a blob
+          const response = await fetch(imageUrl);
+          const blob = await response.blob();
 
-          const apiResponse = await fetch("/v2/users/clarifai/apps/main/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs", requestOptions);
+          // Convert blob to base64
+          const reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = async () => {
+            const base64data = reader.result.split(',')[1];
 
-          console.log(apiResponse);
+            const raw = JSON.stringify({
+              "inputs": [
+                {
+                  "data": {
+                    "image": {
+                      "base64": base64data
+                    }
+                  }
+                }
+              ]
+            });
 
-          const result = await apiResponse.json();
+            const requestOptions = {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Key 6bd0b7c74ee84bcc9d3b8219fc1f4865'
+              },
+              body: raw
+            };
 
-          if (apiResponse.ok) {
+            try {
 
-            console.log("API request successful:", result);
+              const apiResponse = await fetch("/v2/users/clarifai/apps/main/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs", requestOptions);
 
-            setAnalysisResult(result);
+              const result = await apiResponse.json();
 
-            // fs.writeFile('result.json', JSON.stringify(result, null, 2), (err) => {
-            //   if (err) {
-            //     console.log('Error writing into file:', err);
-            //   } else {
-            //     console.log('Analysis result saved to result.json');
-            //   }
-            // });
+              console.log("API RESPONSE");
+              console.log(apiResponse);
 
-          } else {
-            console.error("API request failed:", result);
-          }
+              if (apiResponse.ok) {
+
+                const model_id = result.outputs[0].model.id;
+                const model_type = result.outputs[0].model.model_type_id;
+                const creator = result.outputs[0].model.creator;
+                const concepts = result.outputs[0].data.concepts;
+
+                const confidence = {
+                  clarifaiConfidence: JSON.stringify({
+                    model_id,
+                    model_type,
+                    creator,
+                    concepts,
+                  })
+                };
+
+                await pb.collection('food').update(id, confidence);
+
+                const record = await pb.collection('food').getOne(id);
+                
+                setAnalysisResult(record.clarifaiConfidence.concepts);
+
+              } else {
+                console.error("API request failed:", result);
+              }
+            } catch (error) {
+              console.error("Error during API request:", error);
+            }
+          };
         } catch (error) {
-          console.error("Error during API request:", error);
+          console.error('Error fetching image or processing:', error);
+          setAnalysisResult(null);
         }
-      };
+
+      }
+
     } catch (error) {
-      console.error('Error fetching image or processing:', error);
-      setAnalysisResult(null);
+      console.error('error fetching record:', error);
+
     }
+
   };
 
   return (
@@ -267,8 +291,8 @@ const Analysis = () => {
               {selectedImage ? <IoAlbums size={20} /> : <IoAlbums size={20} />}
             </button>
             {/* analyze image */}
-            <button className="menu-toggle-button" onClick={() => handleAnalyzeImage(selectedImage.img)} style={{ marginLeft: '10px' }}>
-              {selectedImage && analysisResult ? <MdCenterFocusStrong size={20} /> : <MdCenterFocusWeak size={20} />}
+            <button className="menu-toggle-button" onClick={() => identify(selectedImage.img)} style={{ marginLeft: '10px' }}>
+              {selectedImage && Array.isArray(analysisResult) ? <MdCenterFocusStrong size={20} /> : <MdCenterFocusWeak size={20} />}
             </button>
             <button className="menu-toggle-button" onClick={toggleTheme} style={{ marginLeft: '10px' }}>
               {darkMode ? <MdOutlineLightMode size={20} /> : <MdDarkMode size={20} />}
@@ -582,7 +606,7 @@ const Analysis = () => {
                   height: '50%',
                   borderRadius: '10px',
                 }}>
-                  {analysisResult && (
+                  {analysisResult.length > 0 && (
                     <Box sx={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -595,8 +619,7 @@ const Analysis = () => {
                       padding: '20px'
                     }}>
                       <Typography style={{ marginBottom: '10px' }} variant='h4'>Analysis Results</Typography>
-                      <Typography>concept: confidence percentage %</Typography>
-                      {analysisResult.outputs[0].data.concepts.map((concept, index) => (
+                      {analysisResult.map((concept, index) => (
                         <Typography key={index}>
                           {concept.name}: {(concept.value * 100).toFixed(2)}%
                         </Typography>
@@ -627,19 +650,19 @@ const Analysis = () => {
                   gap: '10px',
                   padding: '20px'
                 }}>
-                <Typography variant='h4'>Select an Image</Typography>
-                <ImageList sx={{ width: 500, height: 450, borderRadius: '10px' }} cols={3} rowHeight={164}>
-                  {itemData.map((item) => (
-                    <ImageListItem key={item.img} onClick={() => handleImageClick(item)}>
-                      <img
-                        srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                        src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                        alt={item.title}
-                        loading="lazy"
-                      />
-                    </ImageListItem>
-                  ))}
-                </ImageList>
+                  <Typography variant='h4'>Select an Image</Typography>
+                  <ImageList sx={{ width: 500, height: 450, borderRadius: '10px' }} cols={3} rowHeight={164}>
+                    {itemData.map((item) => (
+                      <ImageListItem key={item.img} onClick={() => handleImageClick(item)}>
+                        <img
+                          srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                          src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                          alt={item.title}
+                          loading="lazy"
+                        />
+                      </ImageListItem>
+                    ))}
+                  </ImageList>
                 </Box>
               </Box>
             )}
@@ -652,75 +675,3 @@ const Analysis = () => {
 };
 
 export default Analysis;
-
-/*
-<Container>
-      {selectedImage ? (
-        <Box>
-          <img src={selectedImage.img} alt={selectedImage.title} style={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
-          <Button variant="outlined" onClick={() => handleAnalyzeImage(selectedImage.img)}>Analyze</Button>
-          {analysisResult && (
-            <Box>
-              {analysisResult.outputs[0].data.concepts.map((concept, index) => (
-                <Typography key={index}>
-                  {concept.name}: {(concept.value * 100).toFixed(2)}%
-                </Typography>
-              ))}
-            </Box>
-          )}
-        </Box>
-      ) : (
-        <ImageList cols={3} rowHeight={164}>
-          {itemData.map((item) => (
-            <ImageListItem key={item.img} onClick={() => handleImageClick(item)}>
-              <img
-                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                alt={item.title}
-                loading="lazy"
-              />
-            </ImageListItem>
-          ))}
-        </ImageList>
-      )}
-    </Container>
-
-# Model version ID is optional. It defaults to the latest model version, if omitted
-
-curl -X POST "https://api.clarifai.com/v2/users/clarifai/apps/main/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs"   
--H "Authorization: Key 6bd0b7c74ee84bcc9d3b8219fc1f4865"  
--H "Content-Type: application/json"  
--d '{
-    "inputs": [
-      {
-        "data": {
-          "image": {
-            "url": "https://samples.clarifai.com/metro-north.jpg"
-          }
-        }
-      }
-    ]
-  }'
-
-POST request url - 
-
-https://api.clarifai.com/v2/users/clarifai/apps/main/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs
-
-headers - 
-
-Authorization: Key 6bd0b7c74ee84bcc9d3b8219fc1f4865
-Content-Type: application/json
-
-body - 
-
-"inputs": [
-      {
-        "data": {
-          "image": {
-            "url": "https://samples.clarifai.com/metro-north.jpg"
-          }
-        }
-      }
-    ]
-
-*/
