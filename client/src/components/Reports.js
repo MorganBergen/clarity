@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Drawer, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Container, Card, CardContent } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Container } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
@@ -28,7 +28,6 @@ const Reports = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [buttonText, setButtonText] = useState('Upload');
   const [uploadIcon, setUploadIcon] = useState(<AttachmentIcon />);
-  const [previewUrl, setPreviewUrl] = useState(null);
   const { userId } = useContext(UserContext); // Get userId from context
 
   const mainItems = [
@@ -43,18 +42,6 @@ const Reports = () => {
     { text: 'Settings', icon: <SettingsIcon /> },
     { text: 'Sign Out', icon: <LogoutIcon /> },
   ];
-
-
-  const nutrientData = [
-    { nutrient: 'Vitamins', value: 30 },
-    { nutrient: 'Protein', value: 50 },
-    { nutrient: 'Carbohydrates', value: 70 },
-    { nutrient: 'Fatty Acids', value: 20 },
-    { nutrient: 'Fats', value: 40 },
-    { nutrient: 'Minerals', value: 60 },
-    { nutrient: 'Other', value: 10 },
-  ];
-
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
