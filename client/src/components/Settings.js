@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Drawer, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Container, Card, CardContent } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Container } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
@@ -17,8 +17,6 @@ import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext';
 import './MainDashboard.css';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-// import { Grid2 } from '@mui/material';
-// import { BarChart } from '@mui/x-charts/BarChart'; 
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -28,7 +26,6 @@ const Settings = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [buttonText, setButtonText] = useState('Upload');
   const [uploadIcon, setUploadIcon] = useState(<AttachmentIcon />);
-  const [previewUrl, setPreviewUrl] = useState(null);
   const { userId } = useContext(UserContext); // Get userId from context
   const [userData, setUserData] = useState(null);
   const [questionnaireData, setQuestionnaireData] = useState(null);
