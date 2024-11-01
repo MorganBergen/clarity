@@ -20,7 +20,6 @@ router.get('/', (req, res) => {
   res.send('API is working');
 });
 
-
 //  new route for fda api call
 router.get('/medications', async (req, res) => {
 
@@ -59,5 +58,6 @@ router.get('/conditions', async (req, res) => {
   }
 
 })
+
 
 module.exports = router;
