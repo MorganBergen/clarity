@@ -24,8 +24,9 @@ import { TbLogout2 } from "react-icons/tb";
 import { BiSolidToggleLeft } from "react-icons/bi";
 import { BiSolidToggleRight } from "react-icons/bi";
 import { IoAlbums } from "react-icons/io5";
-import { MdCenterFocusStrong } from "react-icons/md";
-import { MdCenterFocusWeak } from "react-icons/md";
+import { GiBullseye } from "react-icons/gi";
+import { FaBrain } from "react-icons/fa";
+import getImageID from './gpt';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -43,6 +44,7 @@ const Analysis = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [analysisResult, setAnalysisResult] = useState([]);
   const [showFirstSection, setShowFirstSection] = useState(null);
+  const [imageID, setImageID] = useState(null); //  system field id for pocketbase collection food
 
   const theme = createTheme({
     components: {
@@ -162,6 +164,12 @@ const Analysis = () => {
 
   const handleImageClick = async (item) => {
     setSelectedImage(item);
+    
+    //  extract the id from the imageUrl and set it to a new variable called imageID
+    const parts = item.img.split('/');
+    const itemID = parts[parts.indexOf('food') + 1];
+
+    setImageID(itemID);
   };
 
   const handleBackToList = () => {
@@ -173,7 +181,7 @@ const Analysis = () => {
   //  
   
   const identify = async (imageUrl) => {
-    console.log(imageUrl);
+
     const parts = imageUrl.split('/');
     const id = parts[parts.indexOf('food') + 1];
 
@@ -271,6 +279,7 @@ const Analysis = () => {
   };
 
   return (
+    
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
 
@@ -290,10 +299,15 @@ const Analysis = () => {
             <button className="menu-toggle-button" onClick={handleBackToList} style={{ marginLeft: '10px' }}>
               {selectedImage ? <IoAlbums size={20} /> : <IoAlbums size={20} />}
             </button>
-            {/* analyze image */}
+            {/* identify and apply confidence */}
             <button className="menu-toggle-button" onClick={() => identify(selectedImage.img)} style={{ marginLeft: '10px' }}>
-              {selectedImage && Array.isArray(analysisResult) ? <MdCenterFocusStrong size={20} /> : <MdCenterFocusWeak size={20} />}
+              {selectedImage && Array.isArray(analysisResult) ? <GiBullseye  size={20} /> : <GiBullseye size={20} />}
             </button>
+            {/* use the getImageID function to get the imageID */}
+            <button className="menu-toggle-button" onClick={() => getImageID(imageID)} style={{ marginLeft: '10px' }}>
+              {selectedImage && imageID ? <FaBrain size={20} /> : <FaBrain size={20} />}
+            </button>
+            {/* toggle theme */}
             <button className="menu-toggle-button" onClick={toggleTheme} style={{ marginLeft: '10px' }}>
               {darkMode ? <MdOutlineLightMode size={20} /> : <MdDarkMode size={20} />}
             </button>
