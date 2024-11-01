@@ -279,7 +279,7 @@ const MainDashboard = () => {
                 height={200}
                 layout="horizontal"
                 xAxis={[{
-                  scaleType: 'continuous',
+                  scaleType: 'linear',
                   data: [0, 5, 10, 15, 20]
                 }]}
                 yAxis={[{
