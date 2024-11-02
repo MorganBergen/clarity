@@ -298,7 +298,7 @@ const MainDashboard = () => {
                   legend: {
                     direction: 'row',
                     hidden: true,
-                    position: { vertical: 'bottom', horizontal: 'bottom' },
+                    position: { vertical: 'bottom', horizontal: 'middle' },
                     padding: 0
                   }
                 }}
