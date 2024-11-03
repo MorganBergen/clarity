@@ -171,6 +171,20 @@ react components to the redux store, enabling them to read state and dispatch ac
 
 </details>
 
+
+<details><summary>Nutrient Analysis Tools</summary>
+
+<br>
+
+**Click to view the documentation**
+
+1.  [clarifai - `model: food-item-recognition`](https://old-docs.clarifai.com/guide/v7.1/api-guide/api-overview)
+2.  [openai - `model: gpt-4o-mini`](https://platform.openai.com/docs/overview)
+3.  [usda - `api: FoodData Central REST api`](https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1)
+4.  [aiy](https://www.kaggle.com/models/google/aiy/tfLite/vision-classifier-food-v1)
+
+</details>
+
 ##  Introduction
 
 <details><summary>Summary</summary>
