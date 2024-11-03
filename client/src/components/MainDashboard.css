@@ -5,6 +5,12 @@
   margin-left: 15px;
 }
 
+[data-theme='dark'] {
+  --primary-color: green;
+  --background-color: black;
+  --text-color: white;
+}
+
 .preview-image {
   width: 200px; /* Increase the width */
   height: auto; /* Maintain aspect ratio */
@@ -43,10 +49,6 @@
 
 .menu-toggle-button:active {
   background-color: rgba(233, 234, 236, 1);
-}
-
-* {
-  box-sizing: border-box;
 }
 
 body {

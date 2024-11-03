@@ -4,19 +4,28 @@
  *                  define routes for data retrieval and data submission
  */
 
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const cors = require('cors');
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import apiRoutes from './routes/api.js';
 
-// Middleware
-app.use(bodyParser.json());
+const app = express();
+
+dotenv.config();
+
+//  middleware
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 app.use(cors({
-    origin: 'http://localhost:3000'
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
 }));
 
-// Routes
-const apiRoutes = require('./routes/api');
+//  routes
 app.use('/api', apiRoutes);
 
-module.exports = app;
+export default app;
