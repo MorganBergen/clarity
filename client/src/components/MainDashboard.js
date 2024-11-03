@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Drawer, List, ListItemText, Typography, AppBar, Toolbar, ListItemButton } from '@mui/material';
+import { Drawer, List, ListItemText, Typography, AppBar, Toolbar, ListItemButton } from '@mui/material';
 import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext';
 import './MainDashboard.css';
@@ -10,7 +10,7 @@ import { MdOutlineLightMode } from "react-icons/md";
 import { MdDarkMode } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { GoHomeFill } from "react-icons/go";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import { IoBarChart } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoDocument } from "react-icons/io5";
@@ -23,12 +23,15 @@ import { Gauge } from '@mui/x-charts/Gauge';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import { Box, Button, Fab } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+
+import { blueGrey } from '@mui/material/colors';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
 const MainDashboard = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [buttonText, setButtonText] = useState('Upload');
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -36,30 +39,13 @@ const MainDashboard = () => {
   const [fileSize, setFileSize] = useState(null);
   const { userId } = useContext(UserContext);
   const [uploadIcon, setUploadIcon] = useState(<IoMdAttach />);
-
-  const theme = createTheme({
-    components: {
-      MuiListItemText: {
-        styleOverrides: {
-          primary: {
-            fontSize: '12px',
-            color: '#414141',
-          },
-        },
-      },
-      MuiListItemButton: {
-        styleOverrides: {
-          root: {
-            borderRadius: '10px',
-            '&:hover': {
-              backgroundColor: 'rgba(233, 234, 236, 0.8)',
-            },
-          },
-        },
-      },
-    },
-  },
-  );
+  const [darkMode, setDarkMode] = useState(false);
+  
+  const toggleTheme = () => {
+    const newTheme = darkMode ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    setDarkMode(!darkMode);
+  };
 
   const mainItems = [
     { text: 'Dashboard', icon: <GoHomeFill color="#414141" /> },
@@ -78,9 +64,6 @@ const MainDashboard = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
-  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -131,9 +114,9 @@ const MainDashboard = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    
       <Box sx={{ display: 'flex' }}>
-        <AppBar sx={{ backgroundColor: 'white', boxShadow: 'none', border: 'none' }}>
+        <AppBar sx={{ backgroundColor: 'white', boxShadow: 'none' }}>
           <Toolbar>
             <button className="menu-toggle-button" style={{ marginLeft: '-10px' }} onClick={toggleDrawer}>
               {drawerOpen ? <TbLayoutSidebarLeftCollapseFilled size={20} /> : <TbLayoutSidebarLeftExpandFilled size={20} />}
@@ -234,7 +217,7 @@ const MainDashboard = () => {
         {/* TOTAL PAGE */}
 
         <Box sx={{
-          marginTop: '64px',
+          marginTop: '65px',
           marginRight: '10px',
           marginBottom: '20px',
           marginLeft: drawerOpen ? '10px' : '10px',
@@ -351,7 +334,7 @@ const MainDashboard = () => {
               flexDirection: 'column',
               display: 'flex',
               width: 'calc(33.33% - 14px)', // This ensures 3 boxes per row with gap consideration
-              minWidth: '250px', // Minimum width to prevent boxes from becoming too narrow
+              minWidth: '170px', // Minimum width to prevent boxes from becoming too narrow
             }}>
               <Typography variant="h6">Carbohydrates</Typography>
               <ListItemText>
@@ -376,7 +359,7 @@ const MainDashboard = () => {
               flexDirection: 'column',
               display: 'flex',
               width: 'calc(33.33% - 14px)', // This ensures 3 boxes per row with gap consideration
-              minWidth: '250px', // Minimum width to prevent boxes from becoming too narrow
+              minWidth: '170px', // Minimum width to prevent boxes from becoming too narrow
             }}>
               <Typography variant="h6">Vitamins</Typography>
               <ListItemText>
@@ -402,7 +385,7 @@ const MainDashboard = () => {
               flexDirection: 'column',
               display: 'flex',
               width: 'calc(33.33% - 14px)', // This ensures 3 boxes per row with gap consideration
-              minWidth: '250px', // Minimum width to prevent boxes from becoming too narrow
+              minWidth: '170px', // Minimum width to prevent boxes from becoming too narrow
             }}>
               <Typography variant="h6">Minerals</Typography>
               <ListItemText>
@@ -430,7 +413,7 @@ const MainDashboard = () => {
               flexDirection: 'column',
               display: 'flex',
               width: 'calc(33.33% - 14px)', // This ensures 3 boxes per row with gap consideration
-              minWidth: '250px', // Minimum width to prevent boxes from becoming too narrow
+              minWidth: '170px', // Minimum width to prevent boxes from becoming too narrow
             }}>
               <Typography variant="h6">Proteins</Typography>
               <ListItemText>
@@ -448,7 +431,7 @@ const MainDashboard = () => {
               flexDirection: 'column',
               display: 'flex',
               width: 'calc(33.33% - 14px)', // This ensures 3 boxes per row with gap consideration
-              minWidth: '250px', // Minimum width to prevent boxes from becoming too narrow
+              minWidth: '170px', // Minimum width to prevent boxes from becoming too narrow
             }}>
               <Typography variant="h6">Fats</Typography>
               <ListItemText>
@@ -467,7 +450,7 @@ const MainDashboard = () => {
               flexDirection: 'column',
               display: 'flex',
               width: 'calc(33.33% - 14px)', // This ensures 3 boxes per row with gap consideration
-              minWidth: '250px', // Minimum width to prevent boxes from becoming too narrow
+              minWidth: '170px', // Minimum width to prevent boxes from becoming too narrow
             }}>
               <Typography variant="h6">Other</Typography>
               <ListItemText>
@@ -486,7 +469,7 @@ const MainDashboard = () => {
               flexDirection: 'column',
               display: 'flex',
               width: 'calc(33.33% - 14px)', // This ensures 3 boxes per row with gap consideration
-              minWidth: '250px', // Minimum width to prevent boxes from becoming too narrow
+              minWidth: '170px', // Minimum width to prevent boxes from becoming too narrowminWidth: '250px', // Minimum width to prevent boxes from becoming too narrow
             }}>
               <Typography variant="h6">Fatty Acids</Typography>
               <ListItemText>
@@ -514,7 +497,7 @@ const MainDashboard = () => {
         </Box>
       </Box>
 
-    </ThemeProvider>
+    
   );
 };
 
