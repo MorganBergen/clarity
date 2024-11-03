@@ -23,10 +23,8 @@ import { Gauge } from '@mui/x-charts/Gauge';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { Box, Button, Fab } from '@mui/material';
+import { Box } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
-
-import { blueGrey } from '@mui/material/colors';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -114,7 +112,8 @@ const MainDashboard = () => {
   };
 
   return (
-    
+    <>
+    <CssBaseline />
       <Box sx={{ display: 'flex' }}>
         <AppBar sx={{ backgroundColor: 'white', boxShadow: 'none' }}>
           <Toolbar>
@@ -496,7 +495,7 @@ const MainDashboard = () => {
 
         </Box>
       </Box>
-
+      </>
     
   );
 };
