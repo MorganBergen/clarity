@@ -17,10 +17,10 @@ import ApiTest from './components/ApiTest';
 
 function App() {
   return (
-    <Provider store={store}>
-      <UserProvider>
-        <ApiTest />
-        <Router>
+    <Provider store={store}> 
+        <UserProvider>
+          <ApiTest />
+          <Router>
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -33,8 +33,8 @@ function App() {
             <Route path="/Logging" element={<Logging />} />
             <Route path="/Reports" element={<Reports />} />
           </Routes>
-        </Router>
-      </UserProvider>
+          </Router>
+        </UserProvider>
     </Provider>
   );
 }

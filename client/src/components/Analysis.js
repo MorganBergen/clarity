@@ -25,7 +25,7 @@ import { BiSolidToggleLeft } from "react-icons/bi";
 import { BiSolidToggleRight } from "react-icons/bi";
 import { IoAlbums } from "react-icons/io5";
 import { GiBullseye } from "react-icons/gi";
-// import { FaBrain } from "react-icons/fa";
+import { FaBrain } from "react-icons/fa6";
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -43,7 +43,8 @@ const Analysis = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [analysisResult, setAnalysisResult] = useState([]);
   const [showFirstSection, setShowFirstSection] = useState(null);
-  const [imageID, setImageID] = useState(null); //  system field id for pocketbase collection food
+  const [imageID, setImageID] = useState(null);
+  const [gptResults, setGPTResults] = useState(null);
 
   const theme = createTheme({
     components: {
@@ -163,12 +164,13 @@ const Analysis = () => {
 
   const handleImageClick = async (item) => {
     setSelectedImage(item);
-    
-    //  extract the id from the imageUrl and set it to a new variable called imageID
-    const parts = item.img.split('/');
-    const itemID = parts[parts.indexOf('food') + 1];
 
-    setImageID(itemID);
+    //  extract the id from the imageUrl and set it to a new variable called imageID
+
+    console.log(item.recordId);
+
+    setImageID(item.recordId);
+
   };
 
   const handleBackToList = () => {
@@ -249,7 +251,7 @@ const Analysis = () => {
                 await pb.collection('food').update(id, confidence);
 
                 const record = await pb.collection('food').getOne(id);
-                
+
                 setAnalysisResult(record.clarifaiConfidence.concepts);
 
               } else {
@@ -273,32 +275,94 @@ const Analysis = () => {
 
   };
 
+  const handleGPTAnalysis = async () => {
+
+    if (!selectedImage || !imageID) return;
+
+    try {
+
+      const record = await pb.collection('food').getOne(imageID);
+
+      console.log(record);
+
+      if (record.gpt_mini) {
+
+        //  if e already have a gpt analysis result, parse and set them to the analysis result state
+        setGPTResults(record.gpt_mini);
+
+      } else {
+
+        //  fetch image data
+        const response = await fetch(selectedImage.img);
+        const imageBuffer = await response.arrayBuffer()
+        const base64data = btoa(
+          new Uint8Array(imageBuffer)
+            .reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
+
+        //  api call to backend endpoint 
+        const gptResponse = await fetch('http://localhost:5001/api/gpt/analyze-gpt', {
+
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            imageId: imageID,
+            imageBase64: base64data,
+            clarifaiConfidence: record.clarifaiConfidence
+          })
+        });
+
+        if (!gptResponse.ok) {
+          throw new Error('GPT analysis failed');
+        }
+
+        const updated_record = await pb.collection('food').getOne(imageID);
+
+        setGPTResults(updated_record.gpt_mini);
+
+      }
+
+    } catch (error) {
+      console.error('Error performing GPT analysis:', error);
+    }
+  };
+
+
   return (
-    
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
-
         <AppBar sx={{ backgroundColor: 'white', boxShadow: 'none', border: 'none' }}>
           <Toolbar>
+
             <button className="menu-toggle-button" style={{ marginLeft: '-10px' }} onClick={toggleDrawer}>
               {drawerOpen ? <TbLayoutSidebarLeftCollapseFilled size={20} /> : <TbLayoutSidebarLeftExpandFilled size={20} />}
             </button>
+
             <Typography className="title-text" noWrap component="div" sx={{ flexGrow: 1 }}>
               Clarity
             </Typography>
+
+            {/* identify and apply confidence */}
+            <button className="menu-toggle-button" onClick={() => identify(selectedImage.img)} style={{ marginLeft: '10px' }}>
+              {selectedImage && Array.isArray(analysisResult) ? <GiBullseye size={20} /> : <GiBullseye size={20} />}
+            </button>
+
+            <button className="menu-toggle-button" onClick={handleGPTAnalysis} style={{ marginLeft: '10px' }} disabled={!selectedImage}>
+              {selectedImage ? <FaBrain size={20} /> : <FaBrain size={20} />}
+            </button>
+
             {/* toggle between first and second sections */}
             <button className="menu-toggle-button" onClick={toggleSection} style={{ marginLeft: '10px' }} >
               {showFirstSection ? <BiSolidToggleRight size={20} /> : <BiSolidToggleLeft size={20} />}
             </button>
+
             {/* back to list */}
             <button className="menu-toggle-button" onClick={handleBackToList} style={{ marginLeft: '10px' }}>
               {selectedImage ? <IoAlbums size={20} /> : <IoAlbums size={20} />}
             </button>
-            {/* identify and apply confidence */}
-            <button className="menu-toggle-button" onClick={() => identify(selectedImage.img)} style={{ marginLeft: '10px' }}>
-              {selectedImage && Array.isArray(analysisResult) ? <GiBullseye  size={20} /> : <GiBullseye size={20} />}
-            </button>
-          
+
             {/* toggle theme */}
             <button className="menu-toggle-button" onClick={toggleTheme} style={{ marginLeft: '10px' }}>
               {darkMode ? <MdOutlineLightMode size={20} /> : <MdDarkMode size={20} />}
@@ -486,7 +550,7 @@ const Analysis = () => {
               sx={{
                 flexGrow: 1,
                 flexShrink: 1,
-                flexBasis: 'content', // Ensure it starts on a new "column" or row
+                flexBasis: 'content',
                 backgroundColor: 'rgba(233, 234, 236, 0.5)',
                 borderRadius: '10px',
                 height: 'fit-content',
@@ -568,9 +632,9 @@ const Analysis = () => {
               boxSizing: 'border-box',
               borderRadius: '10px',
               marginTop: '64px',
-              marginRight: '10px',
+              marginRight: '0px',
               gap: '10px',
-              marginLeft: drawerOpen ? '10px' : '10px',
+              marginLeft: drawerOpen ? '0px' : '0px',
             }}
           >
             {selectedImage ? (
@@ -612,6 +676,24 @@ const Analysis = () => {
                   height: '50%',
                   borderRadius: '10px',
                 }}>
+                  {gptResults && (
+                    <Box sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      width: '100%',
+                      backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                      borderRadius: '10px',
+                      height: 'fit-content',
+                      alignText: 'left',
+                      gap: '10px',
+                      padding: '20px',
+                    }}>
+                      <Typography style={{ marginBottom: '10px' }} variant='h4'>record.gpt_mini</Typography>
+                      <code style={{ whiteSpace: 'pre-wrap' }}>
+                        {JSON.stringify(gptResults, null, 2)}
+                      </code>
+                    </Box>
+                  )}
                   {analysisResult.length > 0 && (
                     <Box sx={{
                       display: 'flex',
@@ -622,14 +704,13 @@ const Analysis = () => {
                       height: 'fit-content',
                       alignText: 'left',
                       gap: '10px',
-                      padding: '20px'
+                      padding: '20px',
+                      marginTop: '20px'
                     }}>
                       <Typography style={{ marginBottom: '10px' }} variant='h4'>Analysis Results</Typography>
-                      {analysisResult.map((concept, index) => (
-                        <Typography key={index}>
-                          {concept.name}: {(concept.value * 100).toFixed(2)}%
-                        </Typography>
-                      ))}
+                      <code style={{ whiteSpace: 'pre-wrap' }}>
+                        {JSON.stringify(analysisResult, null, 2)}
+                      </code>
                     </Box>
                   )}
                 </Box>

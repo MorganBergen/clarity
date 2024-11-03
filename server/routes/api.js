@@ -1,19 +1,24 @@
-const express = require('express');
-const axios = require('axios');
+import express from 'express';
+import cors from 'cors';
+import axios from 'axios';
+import bodyParser from 'body-parser';
+import OpenAI from 'openai';
+import PocketBase from 'pocketbase';
+
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 const router = express.Router();
-const cors = require('cors');
-const bodyParser = require('body-parser');
 
-const corsOptions = {
-  origin: 'http://localhost:3000', // Replace with your client's URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-};
+const openai = new OpenAI({ 
+  organization: process.env.ORGANIZATION_ID,
+  project: process.env.PROJECT_ID,
+  apiKey: process.env.OPENAI_API_KEY,
+})
 
-router.use(cors(corsOptions));
+const pb = new PocketBase('http://127.0.0.1:8090');
 
-router.use(bodyParser.json({ limit: '50mb' }));
-router.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // example route
 router.get('/', (req, res) => {
@@ -56,8 +61,51 @@ router.get('/conditions', async (req, res) => {
     console.error('Error fetching condition data:', error);
     res.status(500).json({ error: 'Error fetching condition data' });
   }
+});
 
-})
+//  gpt analysis route
+router.post('/gpt/analyze-gpt', async (req, res) => {
+  
+  try {
+    const { imageId, imageBase64, clarifaiConfidence } = req.body;
+
+    //  expected structure of the response that i will tell it to return 
+    //  {   "food_items": [ { "name": "grapefruit", "portion_size": "1 medium", "calories": 42, "protein_g": 1, "fat_g": 0.1, "carbohydrates_g": 10.7 }, } ]
+    const structure = `{"food_items": [ { "name": "grapefruit", "portion_size": "1 medium", "calories": 42, "protein_g": 1, "fat_g": 0.1, "carbohydrates_g": 10.7 }, }]}`;
+
+    const not_allowed = "do not include anything else, do not include ```json or ``` and do not include any other text";
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "user",
+          content: [
+            { type: "text", text: "identify food objects in the image and consider the confidence scores provided for any guidance, approximate portion size of food object, determine calories, protein, fat, and carbohydrates" },
+            { type: "text", text: `provide your response in json in a format like this ${structure}, and ${not_allowed}` },
+            { type: "image_url", image_url: { url: `data:image/jpeg;base64,${imageBase64}` } },
+            { type: "text", text: `these are the results from a image classification model, it returns confidence scores for each concept/object in the image, ${JSON.stringify(clarifaiConfidence)}` },
+          ]
+        },
+      ]
+    });
+
+    const gpt_mini = response.choices[0].message.content;
+
+    await pb.collection('food').update(imageId, {
+      gpt_mini: gpt_mini
+    });
+
+    res.status(200).json({ success: true });
+
+  } catch (error) {
+    console.error('Error in GPT analysis:', error);
+    res.status(500).json({ 
+      error: 'Failed to perform GPT analysis',
+      details: error.message 
+    });
+  }
+});
 
 
-module.exports = router;
+export default router;
