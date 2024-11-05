@@ -147,5 +147,4 @@ router.post('/gpt/analyze-gpt', async (req, res) => {
   }
 });
 
-
 export default router;
