@@ -27,6 +27,8 @@ import { IoAlbums } from "react-icons/io5";
 import { GiBullseye } from "react-icons/gi";
 import { FaBrain } from "react-icons/fa6";
 
+import { RiGovernmentFill } from "react-icons/ri";
+
 const pb = new PocketBase('http://127.0.0.1:8090');
 
 const Analysis = () => {
@@ -329,6 +331,42 @@ const Analysis = () => {
     }
   };
 
+  const handleUSDAAnalysis = async () => {
+    const record = await pb.collection('food').getOne(imageID);
+  
+    let food_names = [];
+  
+    for (let i = 0; i < record.gpt_mini.food_items.length; i++) {
+      food_names.push(record.gpt_mini.food_items[i].name);
+      console.log(record.gpt_mini.food_items[i].name);
+    }
+  
+    if (food_names.length === 0) return;
+  
+    try {
+      const usda_responses = await Promise.all(
+        food_names.map(async (food) => {
+          const response = await fetch(`http://localhost:5001/api/usda?q=${encodeURIComponent(food)}`);
+  
+          if (!response.ok) {
+            throw new Error(`Failed to fetch USDA data for ${food}`);
+          }
+          return response.json();
+        })
+      );
+  
+      console.log('USDA data for all foods:', usda_responses);
+  
+      // Update the record with stringified USDA data
+      await pb.collection('food').update(imageID, {
+        usda_data: JSON.stringify(usda_responses)
+      });
+  
+    } catch (error) {
+      console.error('Error fetching USDA data:', error);
+    }
+  };
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -344,13 +382,23 @@ const Analysis = () => {
               Clarity
             </Typography>
 
-            {/* identify and apply confidence */}
+            {/* clarifai confidence */}
             <button className="menu-toggle-button" onClick={() => identify(selectedImage.img)} style={{ marginLeft: '10px' }}>
               {selectedImage && Array.isArray(analysisResult) ? <GiBullseye size={20} /> : <GiBullseye size={20} />}
             </button>
 
+            {/* gpt analysis */}
             <button className="menu-toggle-button" onClick={handleGPTAnalysis} style={{ marginLeft: '10px' }} disabled={!selectedImage}>
               {selectedImage ? <FaBrain size={20} /> : <FaBrain size={20} />}
+            </button>
+
+            {/* usda analysis */}
+            <button className="menu-toggle-button" onClick={handleUSDAAnalysis} style={{ marginLeft: '10px' }}>
+              <RiGovernmentFill size={20} />  
+            </button>
+
+            <button className="menu-toggle-button" onClick={google_vision} style={{ marginLeft: '10px' }}>
+              <FaBrain size={20} />
             </button>
 
             {/* toggle between first and second sections */}
