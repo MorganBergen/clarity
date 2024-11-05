@@ -17,12 +17,52 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
-const pb = new PocketBase('http://127.0.0.1:8090');
+const usdaApiKey = process.env.USDA_API_KEY;
 
+const pb = new PocketBase('http://127.0.0.1:8090');
 
 // example route
 router.get('/', (req, res) => {
   res.send('API is working');
+});
+
+//  route for usda api call, currently just testing console logs
+router.get('/usda', async (req, res) => {
+  const query = req.query.q;
+
+  if (!query) {
+    return res.status(400).json({ error: 'Query parameter is required' });
+  }
+
+  try {
+    const response = await fetch(`https://api.nal.usda.gov/fdc/v1/foods/search?query=${query}&api_key=${usdaApiKey}&dataType=Survey (FNDDS)`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // Filter for basic foods matching the query
+    const basicFoods = data.foods.filter(food => {
+      return food.description.toLowerCase().includes(query.toLowerCase()) &&
+             food.dataType === 'Survey (FNDDS)';
+    });
+
+    if (basicFoods.length === 0) {
+      return res.status(404).json({ error: 'No matching foods found' });
+    }
+
+    // Return the array of matching foods
+    return res.json(basicFoods);
+
+  } catch (error) {
+    console.error('Error fetching USDA data:', error.message);
+    if (error.cause) {
+      console.error('Cause:', error.cause.message);
+    }
+    return res.status(500).json({ error: 'Error fetching USDA data' });
+  }
 });
 
 //  new route for fda api call
