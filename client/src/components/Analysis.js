@@ -680,7 +680,7 @@ const Analysis = () => {
                     <Box sx={{
                       display: 'flex',
                       flexDirection: 'column',
-                      width: '100%',
+                      width: 'fit-content',
                       backgroundColor: 'rgba(233, 234, 236, 0.5)',
                       borderRadius: '10px',
                       height: 'fit-content',
@@ -698,7 +698,7 @@ const Analysis = () => {
                     <Box sx={{
                       display: 'flex',
                       flexDirection: 'column',
-                      width: '100%',
+                      width: 'fit-content',
                       backgroundColor: 'rgba(233, 234, 236, 0.5)',
                       borderRadius: '10px',
                       height: 'fit-content',
@@ -707,7 +707,7 @@ const Analysis = () => {
                       padding: '20px',
                       marginTop: '20px'
                     }}>
-                      <Typography style={{ marginBottom: '10px' }} variant='h4'>Analysis Results</Typography>
+                      <Typography style={{ marginBottom: '10px' }} variant='h4'>record.clarifaiConfidence.concepts</Typography>
                       <code style={{ whiteSpace: 'pre-wrap' }}>
                         {JSON.stringify(analysisResult, null, 2)}
                       </code>
