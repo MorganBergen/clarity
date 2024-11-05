@@ -26,6 +26,20 @@ router.get('/', (req, res) => {
   res.send('API is working');
 });
 
+router.get('/test-python', async (req, res) => {
+  
+  try {
+    const response = await axios.get('http://localhost:5002/hello');
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error calling python service:', error);
+    res.status(500).json({
+      error: 'Failed to call python service',
+      details: error.message
+    });
+  }
+});
+
 //  route for usda api call, currently just testing console logs
 router.get('/usda', async (req, res) => {
   const query = req.query.q;
