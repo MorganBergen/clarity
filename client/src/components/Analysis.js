@@ -26,6 +26,7 @@ import { BiSolidToggleRight } from "react-icons/bi";
 import { IoAlbums } from "react-icons/io5";
 import { GiBullseye } from "react-icons/gi";
 import { FaBrain } from "react-icons/fa6";
+import { FcGoogle } from "react-icons/fc";
 
 import { RiGovernmentFill } from "react-icons/ri";
 
@@ -47,6 +48,7 @@ const Analysis = () => {
   const [showFirstSection, setShowFirstSection] = useState(null);
   const [imageID, setImageID] = useState(null);
   const [gptResults, setGPTResults] = useState(null);
+  const [usdaResults, setUSDAResults] = useState(null);
 
   const theme = createTheme({
     components: {
@@ -361,12 +363,31 @@ const Analysis = () => {
       await pb.collection('food').update(imageID, {
         usda_data: JSON.stringify(usda_responses)
       });
+
+      setUSDAResults(usda_responses);
   
     } catch (error) {
       console.error('Error fetching USDA data:', error);
     }
   };
   
+  const testPythonService = async () => {
+    try {
+
+      const response = await fetch('http://localhost:5001/api/test-python');
+
+      if (!response.ok) {
+        throw new Error('Failed to call python service');
+      }
+
+      const data = await response.json();
+
+      console.log('Python service response:', data);
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -394,11 +415,11 @@ const Analysis = () => {
 
             {/* usda analysis */}
             <button className="menu-toggle-button" onClick={handleUSDAAnalysis} style={{ marginLeft: '10px' }}>
-              <RiGovernmentFill size={20} />  
+              {usdaResults ? <RiGovernmentFill size={20} /> : <RiGovernmentFill size={20} />}
             </button>
 
-            <button className="menu-toggle-button" onClick={google_vision} style={{ marginLeft: '10px' }}>
-              <FaBrain size={20} />
+            <button className="menu-toggle-button" onClick={testPythonService} style={{ marginLeft: '10px' }}>
+              <FcGoogle size={20} />
             </button>
 
             {/* toggle between first and second sections */}
@@ -724,6 +745,25 @@ const Analysis = () => {
                   height: '50%',
                   borderRadius: '10px',
                 }}>
+                  {usdaResults && (
+                    <Box sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      width: 'fit-content',
+                      backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                      borderRadius: '10px',
+                      height: 'fit-content',
+                      alignText: 'left',
+                      gap: '10px',
+                      padding: '20px',
+                    }}>
+                      <Typography style={{ marginBottom: '10px' }} variant='h4'>record.usda_data</Typography>
+                      <code style={{ whiteSpace: 'pre-wrap' }}>
+                        {JSON.stringify(usdaResults, null, 2)}
+                      </code>
+                    </Box>
+                  )}
+
                   {gptResults && (
                     <Box sx={{
                       display: 'flex',
