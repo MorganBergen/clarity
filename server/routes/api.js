@@ -27,12 +27,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/test-python', async (req, res) => {
-  
   try {
-    const response = await axios.get('http://localhost:5002/hello');
+    const response = await axios.get('http://127.0.0.1:5002/hello');
     res.json(response.data);
   } catch (error) {
-    console.error('Error calling python service:', error);
+    console.error('Error calling python service:', error.message);
     res.status(500).json({
       error: 'Failed to call python service',
       details: error.message
