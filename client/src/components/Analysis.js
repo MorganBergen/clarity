@@ -24,11 +24,12 @@ import { TbLogout2 } from "react-icons/tb";
 import { BiSolidToggleLeft } from "react-icons/bi";
 import { BiSolidToggleRight } from "react-icons/bi";
 import { IoAlbums } from "react-icons/io5";
-import { GiBullseye } from "react-icons/gi";
-import { FaBrain } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 
-import { RiGovernmentFill } from "react-icons/ri";
+
+import clarifaiIcon from './clarifai.svg';
+import gptIcon from './openai-dark.svg';
+import usdaIcon from './usda-logo-color.svg';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -49,6 +50,7 @@ const Analysis = () => {
   const [imageID, setImageID] = useState(null);
   const [gptResults, setGPTResults] = useState(null);
   const [usdaResults, setUSDAResults] = useState(null);
+  const [aiyResults, setAIYResults] = useState(null);
 
   const theme = createTheme({
     components: {
@@ -170,9 +172,6 @@ const Analysis = () => {
     setSelectedImage(item);
 
     //  extract the id from the imageUrl and set it to a new variable called imageID
-
-    console.log(item.recordId);
-
     setImageID(item.recordId);
 
   };
@@ -287,8 +286,6 @@ const Analysis = () => {
 
       const record = await pb.collection('food').getOne(imageID);
 
-      console.log(record);
-
       if (record.gpt_mini) {
 
         //  if e already have a gpt analysis result, parse and set them to the analysis result state
@@ -370,7 +367,8 @@ const Analysis = () => {
       console.error('Error fetching USDA data:', error);
     }
   };
-  
+
+  /*
   const testPythonService = async () => {
     try {
 
@@ -388,6 +386,79 @@ const Analysis = () => {
       console.error('Error:', error);
     }
   }
+  */
+
+  const handleAIYAnalysis = async () => {
+    if (!selectedImage) return;
+
+    console.log("handleAIYAnalysis");
+
+    try {
+
+      //  get the record from the database
+      const record = await pb.collection('food').getOne(selectedImage.recordId);
+
+      //  check the record for aiy_analysis
+      if (record.aiy_analysis) {
+        console.log('AIY analysis already exists', record.aiy_analysis);
+        setAIYResults(record.aiy_analysis);
+        
+      } else {
+
+        //  fetch(selectedImage.img) is a http get request to download the actual image data from pocketbase's file storage
+        //  response object contains the raw image data as a stream
+        //  selectedImage.img is the url of the image, response is the raw image data
+        const response = await fetch(selectedImage.img);
+
+        //  image data is then converted to an ArrayBuffer
+        const imageBuffer = await response.arrayBuffer();
+
+        //  the ArrayBuffer is then converted into a base64 string
+        const base64data = btoa(
+          new Uint8Array(imageBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
+
+        /**
+         * @param method: POST -  http method which is used to send data to the server
+         * @param headers: { 'Content-Type': 'application/json' } -  header is set to json so the server can parse the body as json
+         * @param body: { image: base64data } -  contains the image data converted to json with image as the base64 encoded string
+         * 
+         * @see  server/routes/api.js router.post('/api/aiy/analyze') - request handled by express middleware
+         * @see  server/services/aiy/server.py -  request is forwarded from express middleware to the python service
+         * 
+         * client ->  express (:5001/api/aiy)
+         * express -> python (:5002/analyze)
+         */
+        const aiyResponse = await fetch('http://localhost:5001/api/aiy', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            image: base64data
+          })
+        });
+
+        if (!aiyResponse.ok) {
+          throw new Error('Failed to perform AIY analysis');
+        }
+
+        const analysisData = await aiyResponse.json();
+
+        await pb.collection('food').update(selectedImage.recordId, {
+          aiy_analysis: analysisData
+        });
+
+        //  console.log('AIY analysis data:', analysisData);
+
+        setAIYResults(analysisData);
+
+      }
+
+    } catch (error) {
+      console.error('Error performing AIY analysis:', error);
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -405,20 +476,21 @@ const Analysis = () => {
 
             {/* clarifai confidence */}
             <button className="menu-toggle-button" onClick={() => identify(selectedImage.img)} style={{ marginLeft: '10px' }}>
-              {selectedImage && Array.isArray(analysisResult) ? <GiBullseye size={20} /> : <GiBullseye size={20} />}
+              {selectedImage && Array.isArray(analysisResult) ? <img src={clarifaiIcon} alt="Clarifai" style={{ width: '20px', height: '20px', objectFit: 'contain' }} /> : null }
             </button>
 
             {/* gpt analysis */}
             <button className="menu-toggle-button" onClick={handleGPTAnalysis} style={{ marginLeft: '10px' }} disabled={!selectedImage}>
-              {selectedImage ? <FaBrain size={20} /> : <FaBrain size={20} />}
+              {selectedImage ? <img src={gptIcon} alt="openai icon" style={{ width: '20px', height: '20px', objectFit: 'contain' }} /> : null}
             </button>
 
             {/* usda analysis */}
             <button className="menu-toggle-button" onClick={handleUSDAAnalysis} style={{ marginLeft: '10px' }}>
-              {usdaResults ? <RiGovernmentFill size={20} /> : <RiGovernmentFill size={20} />}
+              {selectedImage ? <img src={usdaIcon} alt="usda icon" style={{ width: '20px', height: '20px', objectFit: 'contain' }} /> : null }
             </button>
 
-            <button className="menu-toggle-button" onClick={testPythonService} style={{ marginLeft: '10px' }}>
+            {/* aiy by google analysis */}
+            <button className="menu-toggle-button" onClick={handleAIYAnalysis} style={{ marginLeft: '10px' }}>
               <FcGoogle size={20} />
             </button>
 
@@ -745,6 +817,28 @@ const Analysis = () => {
                   height: '50%',
                   borderRadius: '10px',
                 }}>
+
+                  {/* aiy results */}
+                  {aiyResults && ( 
+                    <Box sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      width: 'fit-content',
+                      backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                      borderRadius: '10px',
+                      height: 'fit-content',
+                      alignText: 'left',
+                      gap: '10px',
+                      padding: '20px',
+                    }}>
+                      <Typography style={{ marginBottom: '10px' }} variant='h4'>record.aiy</Typography>
+                      <code style={{ whiteSpace: 'pre-wrap' }}>
+                        {JSON.stringify(aiyResults, null, 2)}
+                      </code>
+                    </Box>
+                  )}
+
+                  {/* usda results */}
                   {usdaResults && (
                     <Box sx={{
                       display: 'flex',
@@ -793,7 +887,6 @@ const Analysis = () => {
                       alignText: 'left',
                       gap: '10px',
                       padding: '20px',
-                      marginTop: '20px'
                     }}>
                       <Typography style={{ marginBottom: '10px' }} variant='h4'>record.clarifaiConfidence.concepts</Typography>
                       <code style={{ whiteSpace: 'pre-wrap' }}>
