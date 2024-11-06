@@ -54,12 +54,18 @@ def classify_food_image(image):
 
         predictions.sort(key=lambda x: x['confidence'], reverse=True)
 
+        #  standardized output format
         return {
             "model_info": {
-                "model_path": str(model_path),
-                "input_shape": input_shape,
+                "model_name": "vision-classifier-food-v1",
+                "model_type": "tensorflow",
+                "creator": "google/aiy",
+                "documentation_url": "https://www.kaggle.com/models/google/aiy/tfLite/vision-classifier-food-v1",
             },
-            "predictions": predictions,
+            "predictions": [{
+                "confidence_value": pred["confidence"],
+                "food_item": pred["food_item"],
+            } for pred in predictions]
         }
 
     except Exception as e:
@@ -99,6 +105,7 @@ def analyze():
         except Exception as e:
             print("Error loading image:", str(e))
             return jsonify({"error": f"Image loading error: {str(e)}"}), 400
+        
         
         results = classify_food_image(image)
 
