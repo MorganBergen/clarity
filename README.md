@@ -32,6 +32,18 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 | 4       | `unzip pocketbase_<version>_<platform>_<arch>.zip` | `./clarity/backend/pocketbase` |
 | 5       | `chmod +x pocketbase` | `./clarity/backend/pocketbase` |
 
+include `.env` with the following variables in `./clarity/server` directory
+
+```.env
+ORGANIZATION_ID=
+PROJECT_ID=
+OPENAI_API_KEY=
+USDA_API_KEY=
+CLARIFAI_API_KEY=
+```
+
+
+
 </details>
 
 <details><summary>Run the Application</summary>
