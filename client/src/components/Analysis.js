@@ -26,7 +26,6 @@ import { BiSolidToggleRight } from "react-icons/bi";
 import { IoAlbums } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 
-
 import clarifaiIcon from './clarifai.svg';
 import gptIcon from './openai-dark.svg';
 import usdaIcon from './usda-logo-color.svg';
@@ -45,12 +44,12 @@ const Analysis = () => {
   const { userId } = useContext(UserContext);
   const [itemData, setItemData] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [analysisResult, setAnalysisResult] = useState([]);
   const [showFirstSection, setShowFirstSection] = useState(null);
   const [imageID, setImageID] = useState(null);
   const [gptResults, setGPTResults] = useState(null);
   const [usdaResults, setUSDAResults] = useState(null);
   const [aiyResults, setAIYResults] = useState(null);
+  const [clarifaiResults, setClarifaiResults] = useState([]);
 
   const theme = createTheme({
     components: {
@@ -121,12 +120,12 @@ const Analysis = () => {
 
     const formData = new FormData();
     formData.append('item', selectedFile);
-    formData.append('userId', userId); // Include userId in the form data
+    formData.append('userId', userId); 
 
     try {
       const response = await pb.collection('food').create(formData);
       console.log('Image uploaded successfully:', response);
-      fetchImage(response.id); // Fetch the uploaded image
+      
       setSelectedFile(null); // Reset selected file
       setFileName('');
       setFileSize('');
@@ -156,17 +155,7 @@ const Analysis = () => {
 
     fetchItems();
   }, [userId]);
-
-  const fetchImage = async (id) => {
-    try {
-      const record = await pb.collection('food').getOne(id);
-      const imageUrl = `http://127.0.0.1:8090/api/files/food/${id}/${record.item[0]}`;
-      console.log('Fetched image URL:', imageUrl);
-      // You can set the image URL to state if needed
-    } catch (error) {
-      console.error('Error fetching image:', error);
-    }
-  };
+  
 
   const handleImageClick = async (item) => {
     setSelectedImage(item);
@@ -180,100 +169,47 @@ const Analysis = () => {
     setSelectedImage(null);
   };
 
-  const identify = async (imageUrl) => {
+  const handleClarifaiAnalysis = async () => {
 
-    const parts = imageUrl.split('/');
-    const id = parts[parts.indexOf('food') + 1];
+    if (!selectedImage || !imageID) return;
 
     try {
-      const record = await pb.collection('food').getOne(id);
+
+      const record = await pb.collection('food').getOne(imageID);
 
       if (record.clarifaiConfidence) {
-
-        setAnalysisResult(record.clarifaiConfidence.concepts);
+        
+        setClarifaiResults(record.clarifaiConfidence);
 
       } else {
 
-        try {
-          // Fetch the image as a blob
-          const response = await fetch(imageUrl);
-          const blob = await response.blob();
+        const response = await fetch(selectedImage.img);
+        const imageBuffer = await response.arrayBuffer();
+        const base64data = btoa(
+          new Uint8Array(imageBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
 
-          // Convert blob to base64
-          const reader = new FileReader();
-          reader.readAsDataURL(blob);
-          reader.onloadend = async () => {
-            const base64data = reader.result.split(',')[1];
+        //  api call to backend endpoint
+        const clarifaiResponse = await fetch('http://localhost:5001/api/clarifai/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            imageId: imageID,
+            imageBase64: base64data
+          })
+        });
 
-            const raw = JSON.stringify({
-              "inputs": [
-                {
-                  "data": {
-                    "image": {
-                      "base64": base64data
-                    }
-                  }
-                }
-              ]
-            });
-
-            const requestOptions = {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Key 6bd0b7c74ee84bcc9d3b8219fc1f4865'
-              },
-              body: raw
-            };
-
-            try {
-
-              const apiResponse = await fetch("/v2/users/clarifai/apps/main/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs", requestOptions);
-
-              const result = await apiResponse.json();
-
-              console.log("API RESPONSE");
-              console.log(apiResponse);
-
-              if (apiResponse.ok) {
-
-                const model_id = result.outputs[0].model.id;
-                const model_type = result.outputs[0].model.model_type_id;
-                const creator = result.outputs[0].model.creator;
-                const concepts = result.outputs[0].data.concepts;
-
-                const confidence = {
-                  clarifaiConfidence: JSON.stringify({
-                    model_id,
-                    model_type,
-                    creator,
-                    concepts,
-                  })
-                };
-
-                await pb.collection('food').update(id, confidence);
-
-                const record = await pb.collection('food').getOne(id);
-
-                setAnalysisResult(record.clarifaiConfidence.concepts);
-
-              } else {
-                console.error("API request failed:", result);
-              }
-            } catch (error) {
-              console.error("Error during API request:", error);
-            }
-          };
-        } catch (error) {
-          console.error('Error fetching image or processing:', error);
-          setAnalysisResult(null);
+        if (!clarifaiResponse.ok) {
+          throw new Error('client - Clarifai analysis failed');
         }
 
+        const updated_record = await pb.collection('food').getOne(imageID);
+        setClarifaiResults(updated_record.clarifaiConfidence);
+
       }
-
+      
     } catch (error) {
-      console.error('error fetching record:', error);
-
+      console.error('Error performing clarifai analysis:', error);
     }
 
   };
@@ -288,7 +224,6 @@ const Analysis = () => {
 
       if (record.gpt_mini) {
 
-        //  if e already have a gpt analysis result, parse and set them to the analysis result state
         setGPTResults(record.gpt_mini);
 
       } else {
@@ -391,10 +326,7 @@ const Analysis = () => {
   const handleAIYAnalysis = async () => {
     if (!selectedImage) return;
 
-    console.log("handleAIYAnalysis");
-
     try {
-
       //  get the record from the database
       const record = await pb.collection('food').getOne(selectedImage.recordId);
 
@@ -475,8 +407,8 @@ const Analysis = () => {
             </Typography>
 
             {/* clarifai confidence */}
-            <button className="menu-toggle-button" onClick={() => identify(selectedImage.img)} style={{ marginLeft: '10px' }}>
-              {selectedImage && Array.isArray(analysisResult) ? <img src={clarifaiIcon} alt="Clarifai" style={{ width: '20px', height: '20px', objectFit: 'contain' }} /> : null }
+            <button className="menu-toggle-button" onClick={handleClarifaiAnalysis} style={{ marginLeft: '10px' }}>
+              {selectedImage ? <img src={clarifaiIcon} alt="Clarifai" style={{ width: '20px', height: '20px', objectFit: 'contain' }} /> : null }
             </button>
 
             {/* gpt analysis */}
@@ -491,7 +423,7 @@ const Analysis = () => {
 
             {/* aiy by google analysis */}
             <button className="menu-toggle-button" onClick={handleAIYAnalysis} style={{ marginLeft: '10px' }}>
-              <FcGoogle size={20} />
+              {selectedImage ? <FcGoogle size={20} /> : null}
             </button>
 
             {/* toggle between first and second sections */}
@@ -876,7 +808,8 @@ const Analysis = () => {
                       </code>
                     </Box>
                   )}
-                  {analysisResult.length > 0 && (
+
+                  {clarifaiResults && (
                     <Box sx={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -890,7 +823,7 @@ const Analysis = () => {
                     }}>
                       <Typography style={{ marginBottom: '10px' }} variant='h4'>record.clarifaiConfidence.concepts</Typography>
                       <code style={{ whiteSpace: 'pre-wrap' }}>
-                        {JSON.stringify(analysisResult, null, 2)}
+                        {JSON.stringify(clarifaiResults, null, 2)}
                       </code>
                     </Box>
                   )}
