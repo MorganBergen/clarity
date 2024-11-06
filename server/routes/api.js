@@ -1,17 +1,25 @@
+/**
+ * 
+ */
+
 import express from 'express';
 import cors from 'cors';
 import axios from 'axios';
 import bodyParser from 'body-parser';
 import OpenAI from 'openai';
 import PocketBase from 'pocketbase';
-
 import dotenv from 'dotenv';
 
 dotenv.config();
 
+
+//  initialize express router object, used to define routes for the api
+//  the router is created from express's router class
+//  it's like a mini application that can handle http requests, 
+//  think of it as a traffic controller that directs incoming requests to the right handler functions
 const router = express.Router();
 
-const openai = new OpenAI({ 
+const openai = new OpenAI({
   organization: process.env.ORGANIZATION_ID,
   project: process.env.PROJECT_ID,
   apiKey: process.env.OPENAI_API_KEY,
@@ -19,11 +27,67 @@ const openai = new OpenAI({
 
 const usdaApiKey = process.env.USDA_API_KEY;
 
+const clarifaiApiKey = process.env.CLARIFAI_API_KEY;
+
 const pb = new PocketBase('http://127.0.0.1:8090');
 
 // example route
 router.get('/', (req, res) => {
   res.send('API is working');
+});
+
+router.get('/test-python', async (req, res) => {
+  try {
+    const response = await axios.get('http://127.0.0.1:5002/hello');
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error calling python service:', error.message);
+    res.status(500).json({
+      error: 'Failed to call python service',
+      details: error.message
+    });
+  }
+});
+
+
+/**
+ *  @summary    
+ *  @description 
+ *  
+ * router.post  defines a route that handles post http requests
+ * '/api/aiy/analyze' is the path of the route
+ * 
+ * 
+ */
+router.post('/aiy', async (req, res) => {
+
+  console.log('router.post /api/aiy');
+
+  try {
+
+    const { image } = req.body;
+
+    console.log('Forwarding request to the python service on port 5002');
+    
+    //  forwarding the request to the python service
+    const response = await axios.post('http://127.0.0.1:5002/analyze', {
+      image: image
+    });
+
+    if (response.data.error) {
+      throw new Error(response.data.error);
+    }
+
+    //  send the response from the python service back to the client
+    res.json(response.data);
+
+  } catch (error) {
+    console.error('Error in aiy analysis:', error);
+    res.status(500).json({
+      error: 'Failed to perform aiy analysis',
+      details: error.message
+    });
+  }
 });
 
 //  route for usda api call, currently just testing console logs
@@ -46,7 +110,7 @@ router.get('/usda', async (req, res) => {
     // Filter for basic foods matching the query
     const basicFoods = data.foods.filter(food => {
       return food.description.toLowerCase().includes(query.toLowerCase()) &&
-             food.dataType === 'Survey (FNDDS)';
+        food.dataType === 'Survey (FNDDS)';
     });
 
     if (basicFoods.length === 0) {
@@ -105,7 +169,7 @@ router.get('/conditions', async (req, res) => {
 
 //  gpt analysis route
 router.post('/gpt/analyze-gpt', async (req, res) => {
-  
+
   try {
     const { imageId, imageBase64, clarifaiConfidence } = req.body;
 
@@ -140,11 +204,86 @@ router.post('/gpt/analyze-gpt', async (req, res) => {
 
   } catch (error) {
     console.error('Error in GPT analysis:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Failed to perform GPT analysis',
-      details: error.message 
+      details: error.message
     });
   }
+});
+
+router.post('/clarifai/analyze', async (req, res) => {
+  
+  try { 
+
+    const { imageId, imageBase64 } = req.body;
+
+    const raw = JSON.stringify({
+      "user_app_id": {
+        "user_id": "clarifai",
+        "app_id": "main"
+      },
+      "inputs": [
+        {
+          "data": {
+            "image": {
+              "base64": imageBase64
+            }
+          }
+        }
+      ]
+    });
+
+    const request_options = {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Authorization': `Key ${clarifaiApiKey}`, 'Content-Type': 'application/json' },
+      body: raw
+    };
+
+    const response = await fetch(
+      "https://api.clarifai.com/v2/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs",
+      request_options
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      console.error('Clarifai api error', result);
+      throw new Error(`Clarifai api request failed: ${result.status?.description || 'Unknown error'}`);
+    }
+
+    if (!result.outputs?.[0]?.data?.concepts) {
+      throw new Error('Invalid response format from clarifai api');
+    }
+
+    const standard = {
+      clarifaiConfidence: JSON.stringify({
+        model_info: {
+          model_name: result.outputs[0].model.id,
+          model_type: result.outputs[0].model.model_type_id,
+          creator: result.outputs[0].model.creator,
+          documentation_url: "https://old-docs.clarifai.com/guide/api-guide/api-overview"
+        },
+        predictions: result.outputs[0].data.concepts.map(concept => ({
+          food_item: concept.name,
+          confidence: concept.value
+        }))
+      })
+    };
+
+    await pb.collection('food').update(imageId, {
+      clarifaiConfidence: standard.clarifaiConfidence
+    });
+
+    res.status(200).json({ success: true });
+    
+  } catch (error) {
+    console.error('Error in clarifai analysis:', error);
+    res.status(500).json({
+      error: 'Failed to perform clarifai analysis',
+      details: error.message
+    });
+  }
+
 });
 
 export default router;

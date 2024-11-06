@@ -10,7 +10,6 @@ import { MdOutlineLightMode } from "react-icons/md";
 import { MdDarkMode } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { GoHomeFill } from "react-icons/go";
-
 import { IoBarChart } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoDocument } from "react-icons/io5";
@@ -25,6 +24,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { Box } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -44,6 +44,31 @@ const MainDashboard = () => {
     document.documentElement.setAttribute('data-theme', newTheme);
     setDarkMode(!darkMode);
   };
+
+  const theme = createTheme({
+    components: {
+      MuiListItemText: {
+        styleOverrides: {
+          primary: {
+            fontSize: '12px',
+            color: '#414141',
+          },
+        },
+      },
+      MuiListItemButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: '10px',
+            '&:hover': {
+              backgroundColor: 'rgba(233, 234, 236, 0.8)',
+            },
+          },
+        },
+      },
+    },
+  },
+  );
+
 
   const mainItems = [
     { text: 'Dashboard', icon: <GoHomeFill color="#414141" /> },
@@ -105,14 +130,13 @@ const MainDashboard = () => {
       const record = await pb.collection('food').getOne(id);
       const imageUrl = `http://127.0.0.1:8090/api/files/food/${id}/${record.item[0]}`;
       console.log('Fetched image URL:', imageUrl);
-      // You can set the image URL to state if needed
     } catch (error) {
       console.error('Error fetching image:', error);
     }
   };
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
     <CssBaseline />
       <Box sx={{ display: 'flex' }}>
         <AppBar sx={{ backgroundColor: 'white', boxShadow: 'none' }}>
@@ -204,7 +228,12 @@ const MainDashboard = () => {
 
             <List sx={{ marginTop: 'auto', padding: 0, marginBottom: '0px' }}>
               {bottomItems.map(({ text, icon }) => (
-                <ListItemButton button={text.toString()} key={text} component={Link} to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
+                <ListItemButton
+                  button={text.toString()}
+                  key={text}
+                  component={Link}
+                  to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}
+                >
                   {icon}
                   {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="drawer-items" />}
                 </ListItemButton>
@@ -486,105 +515,11 @@ const MainDashboard = () => {
                 <Typography variant="body2">Behenic Acid</Typography>
               </ListItemText>
             </Box>
-
-
-
-
           </Box>
-
-
         </Box>
       </Box>
-      </>
-    
+      </ThemeProvider>
   );
 };
 
 export default MainDashboard;
-
-/*
-Vitamins, Protein, Carbohydrates, Fatty Acids, Fats, Minerals, Other
-
-            ### Proteins
-- 20g Protein
-- 0g Casein
-- 0g Serum Protein
-- 0.1g Nucleotides
-- **46%**
-
-### Vitamins
-- Vitamin A
-- Vitamin D
-- Vitamin E
-- Vitamin C
-- Vitamin B1
-- Vitamin B12
-- Vitamin PP
-- Vitamin B2
-- Vitamin B6
-- Vitamin B9
-- Biotin
-- Pantothenic Acid
-- **71%**
-
-### Minerals
-- Calcium
-- Phosphorus
-- Magnesium
-- Sodium
-- Potassium
-- Chloride
-- Iron
-- Zinc
-- Copper
-- Manganese
-- Fluoride
-- Selenium
-- Chromium
-- Iodine
-- **63%**
-
-### Fats
-- 9g Fat
-- 3g Saturated Fat
-- 4g Monounsaturated Fat
-- 0g Polyunsaturated Fat
-- 0g Trans Fats
-- **29%**
-
-### Other
-- 5g Fiber
-- 0g Silica
-- 0% Alcohol
-- 0mg Caffeine
-- 0g pH
-- **17%**
-
-### Fatty Acids
-- Butyric Acid
-- Caprylic Acid
-- Lauric Acid
-- Omega-3
-- Omega-6
-- Omega-9
-- Palmitic Acid
-- Myristic Acid
-- Stearic Acid
-- Gamma-Linolenic Acid
-- Nervonic Acid
-- Behenic Acid
-- **34%**
-
-### Carbohydrates
-- Carbohydrates
-- Sugars
-- Sucrose
-- Glucose
-- Fructose
-- Lactose
-- Maltose
-- Maltodextrin
-- Starch
-- Polyols
-- **58%**
-            */

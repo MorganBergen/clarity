@@ -31,17 +31,31 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 | 3 - mac machine | `https://github.com/pocketbase/pocketbase/releases/download/v0.22.22/pocketbase_0.22.22_darwin_amd64.zip` | `./clarity/backend/pocketbase` |
 | 4       | `unzip pocketbase_<version>_<platform>_<arch>.zip` | `./clarity/backend/pocketbase` |
 | 5       | `chmod +x pocketbase` | `./clarity/backend/pocketbase` |
+| 6       | `touch .env` | `./clarity/server` |
+| 7       |  `pip install -r requirements.txt` | `./clarity/server/services/aiy` |
+
+
+contact me for the environment variables
+
+```
+ORGANIZATION_ID=
+PROJECT_ID=
+OPENAI_API_KEY=
+USDA_API_KEY=
+CLARIFAI_API_KEY=
+```
 
 </details>
 
 <details><summary>Run the Application</summary>
 <br> 
 
-| steps   | command     | location to execute command |
-|:--------|:------------|:----------------------------|
-| terminal 1       | `cd ./clarity/server` |  `./clarity/server` |
-| terminal 2       | `cd ./clarity/backend/pocketbase` |  `./clarity/backend/pocketbase` |
-| terminal 3       | `cd ./clarity/client` |  `./clarity/client` |
+| steps            | command                | location to execute command     |
+|:-----------------|:-----------------------|:--------------------------------|
+| terminal 1       | `npm run dev`          |  `./clarity/server`             |
+| terminal 2       | `python server.py`     | `./clarity/server/services/aiy` |
+| terminal 3       | `./pocketbase serve`   |  `./clarity/backend/pocketbase` |
+| terminal 4       | `npm start`            |  `./clarity/client`             |
 
 </details>
 
@@ -61,7 +75,21 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 server is running on port 5001
 ```
 
-####  `./pocketbase serve` - terminal 2
+####  `python server/services/aiy/server.py` - terminal 2
+
+```bash
+Model loaded successfully
+ * Serving Flask app 'server' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+WARNING:werkzeug: * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+INFO:werkzeug: * Running on http://192.168.0.204:5002/ (Press CTRL+C to quit)
+```
+
+####  `./pocketbase serve` - terminal 3
 
 ```bash
 2024/09/19 11:04:40 Server started at http://127.0.0.1:8090
@@ -69,7 +97,7 @@ server is running on port 5001
 └─ Admin UI: http://127.0.0.1:8090/_/
 ```
 
-####  `npm start` - terminal 3
+####  `npm start` - terminal 4
 
 
 ```bash
@@ -178,10 +206,33 @@ react components to the redux store, enabling them to read state and dispatch ac
 
 **Click to view the documentation**
 
-1.  [clarifai - `model: food-item-recognition`](https://old-docs.clarifai.com/guide/v7.1/api-guide/api-overview)
-2.  [openai - `model: gpt-4o-mini`](https://platform.openai.com/docs/overview)
-3.  [usda - `api: FoodData Central REST api`](https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1)
-4.  [aiy](https://www.kaggle.com/models/google/aiy/tfLite/vision-classifier-food-v1)
+1.  [clarifai - `model: food-item-recognition`](https://old-docs.clarifai.com/guide/api-guide/api-overview)
+2.  [clarifai - `api-reference`](https://docs.clarifai.com/api-reference)
+3.  [openai - `model: gpt-4o-mini`](https://platform.openai.com/docs/overview)
+4.  [usda - `api: FoodData Central REST api`](https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1)
+5.  [aiy](https://www.kaggle.com/models/google/aiy/tfLite/vision-classifier-food-v1)
+6.  [openfoodfacts - `api: Open Food Facts`](https://world.openfoodfacts.org/files/api-documentation.html) <- NOT IMPLEMENTED
+
+
+```JSON
+{
+    "model_info": {
+        model_name: "",
+        model_type: "",
+        creator: "",
+        documentation_url: "",        
+    },
+
+    "predictions": [
+        {
+            "food_item": "food_item",
+            "confidence_value": 0.99
+        }
+    ]
+}
+
+
+```
 
 </details>
 

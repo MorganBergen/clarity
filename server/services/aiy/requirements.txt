@@ -1,0 +1,12 @@
+flask
+werkzeug
+flask-cors
+python-dotenv
+tensorflow
+tensorflow-hub
+numpy
+pandas
+opencv-python
+scikit-image
+kaggle
+kagglehub
