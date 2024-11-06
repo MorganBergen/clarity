@@ -34,20 +34,15 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 | 6       | `touch .env` | `./clarity/server` |
 | 7       |  `pip install -r requirements.txt` | `./clarity/server/services/aiy` |
 
-include `.env` with the following variables in `./clarity/server` directory
 
-```.env
+contact me for the environment variables
+
+```
 ORGANIZATION_ID=
 PROJECT_ID=
 OPENAI_API_KEY=
 USDA_API_KEY=
 CLARIFAI_API_KEY=
-```
-
-install pip packages
-
-```bash
-pip install -r ./clarity/server/services/aiy/requirements.txt
 ```
 
 </details>
