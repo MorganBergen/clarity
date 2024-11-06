@@ -31,6 +31,8 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 | 3 - mac machine | `https://github.com/pocketbase/pocketbase/releases/download/v0.22.22/pocketbase_0.22.22_darwin_amd64.zip` | `./clarity/backend/pocketbase` |
 | 4       | `unzip pocketbase_<version>_<platform>_<arch>.zip` | `./clarity/backend/pocketbase` |
 | 5       | `chmod +x pocketbase` | `./clarity/backend/pocketbase` |
+| 6       | `touch .env` | `./clarity/server` |
+| 7       |  `pip install -r requirements.txt` | `./clarity/server/services/aiy` |
 
 include `.env` with the following variables in `./clarity/server` directory
 
@@ -42,18 +44,23 @@ USDA_API_KEY=
 CLARIFAI_API_KEY=
 ```
 
+install pip packages
 
+```bash
+pip install -r ./clarity/server/services/aiy/requirements.txt
+```
 
 </details>
 
 <details><summary>Run the Application</summary>
 <br> 
 
-| steps   | command     | location to execute command |
-|:--------|:------------|:----------------------------|
-| terminal 1       | `cd ./clarity/server` |  `./clarity/server` |
-| terminal 2       | `cd ./clarity/backend/pocketbase` |  `./clarity/backend/pocketbase` |
-| terminal 3       | `cd ./clarity/client` |  `./clarity/client` |
+| steps            | command                | location to execute command     |
+|:-----------------|:-----------------------|:--------------------------------|
+| terminal 1       | `npm run dev`          |  `./clarity/server`             |
+| terminal 2       | `python server.py`     | `./clarity/server/services/aiy` |
+| terminal 3       | `./pocketbase serve`   |  `./clarity/backend/pocketbase` |
+| terminal 4       | `npm start`            |  `./clarity/client`             |
 
 </details>
 
