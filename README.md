@@ -192,10 +192,33 @@ react components to the redux store, enabling them to read state and dispatch ac
 
 **Click to view the documentation**
 
-1.  [clarifai - `model: food-item-recognition`](https://old-docs.clarifai.com/guide/v7.1/api-guide/api-overview)
-2.  [openai - `model: gpt-4o-mini`](https://platform.openai.com/docs/overview)
-3.  [usda - `api: FoodData Central REST api`](https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1)
-4.  [aiy](https://www.kaggle.com/models/google/aiy/tfLite/vision-classifier-food-v1)
+1.  [clarifai - `model: food-item-recognition`](https://old-docs.clarifai.com/guide/api-guide/api-overview)
+2.  [clarifai - `api-reference`](https://docs.clarifai.com/api-reference)
+3.  [openai - `model: gpt-4o-mini`](https://platform.openai.com/docs/overview)
+4.  [usda - `api: FoodData Central REST api`](https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1)
+5.  [aiy](https://www.kaggle.com/models/google/aiy/tfLite/vision-classifier-food-v1)
+6.  [openfoodfacts - `api: Open Food Facts`](https://world.openfoodfacts.org/files/api-documentation.html) <- NOT IMPLEMENTED
+
+
+```JSON
+{
+    "model_info": {
+        model_name: "",
+        model_type: "",
+        creator: "",
+        documentation_url: "",        
+    },
+
+    "predictions": [
+        {
+            "food_item": "food_item",
+            "confidence_value": 0.99
+        }
+    ]
+}
+
+
+```
 
 </details>
 
