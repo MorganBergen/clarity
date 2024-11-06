@@ -61,7 +61,21 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 server is running on port 5001
 ```
 
-####  `./pocketbase serve` - terminal 2
+####  `python server/services/aiy/server.py` - terminal 2
+
+```bash
+Model loaded successfully
+ * Serving Flask app 'server' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+WARNING:werkzeug: * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+INFO:werkzeug: * Running on http://192.168.0.204:5002/ (Press CTRL+C to quit)
+```
+
+####  `./pocketbase serve` - terminal 3
 
 ```bash
 2024/09/19 11:04:40 Server started at http://127.0.0.1:8090
@@ -69,7 +83,7 @@ server is running on port 5001
 └─ Admin UI: http://127.0.0.1:8090/_/
 ```
 
-####  `npm start` - terminal 3
+####  `npm start` - terminal 4
 
 
 ```bash
