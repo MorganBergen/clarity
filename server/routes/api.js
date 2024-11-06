@@ -1,17 +1,25 @@
+/**
+ * 
+ */
+
 import express from 'express';
 import cors from 'cors';
 import axios from 'axios';
 import bodyParser from 'body-parser';
 import OpenAI from 'openai';
 import PocketBase from 'pocketbase';
-
 import dotenv from 'dotenv';
 
 dotenv.config();
 
+
+//  initialize express router object, used to define routes for the api
+//  the router is created from express's router class
+//  it's like a mini application that can handle http requests, 
+//  think of it as a traffic controller that directs incoming requests to the right handler functions
 const router = express.Router();
 
-const openai = new OpenAI({ 
+const openai = new OpenAI({
   organization: process.env.ORGANIZATION_ID,
   project: process.env.PROJECT_ID,
   apiKey: process.env.OPENAI_API_KEY,
@@ -39,6 +47,47 @@ router.get('/test-python', async (req, res) => {
   }
 });
 
+
+/**
+ *  @summary    
+ *  @description 
+ *  
+ * router.post  defines a route that handles post http requests
+ * '/api/aiy/analyze' is the path of the route
+ * 
+ * 
+ */
+router.post('/aiy', async (req, res) => {
+
+  console.log('router.post /api/aiy');
+
+  try {
+
+    const { image } = req.body;
+
+    console.log('Forwarding request to the python service on port 5002');
+    
+    //  forwarding the request to the python service
+    const response = await axios.post('http://127.0.0.1:5002/analyze', {
+      image: image
+    });
+
+    if (response.data.error) {
+      throw new Error(response.data.error);
+    }
+
+    //  send the response from the python service back to the client
+    res.json(response.data);
+
+  } catch (error) {
+    console.error('Error in aiy analysis:', error);
+    res.status(500).json({
+      error: 'Failed to perform aiy analysis',
+      details: error.message
+    });
+  }
+});
+
 //  route for usda api call, currently just testing console logs
 router.get('/usda', async (req, res) => {
   const query = req.query.q;
@@ -59,7 +108,7 @@ router.get('/usda', async (req, res) => {
     // Filter for basic foods matching the query
     const basicFoods = data.foods.filter(food => {
       return food.description.toLowerCase().includes(query.toLowerCase()) &&
-             food.dataType === 'Survey (FNDDS)';
+        food.dataType === 'Survey (FNDDS)';
     });
 
     if (basicFoods.length === 0) {
@@ -118,7 +167,7 @@ router.get('/conditions', async (req, res) => {
 
 //  gpt analysis route
 router.post('/gpt/analyze-gpt', async (req, res) => {
-  
+
   try {
     const { imageId, imageBase64, clarifaiConfidence } = req.body;
 
@@ -153,9 +202,9 @@ router.post('/gpt/analyze-gpt', async (req, res) => {
 
   } catch (error) {
     console.error('Error in GPT analysis:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Failed to perform GPT analysis',
-      details: error.message 
+      details: error.message
     });
   }
 });
