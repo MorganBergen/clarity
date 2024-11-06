@@ -27,6 +27,8 @@ const openai = new OpenAI({
 
 const usdaApiKey = process.env.USDA_API_KEY;
 
+const clarifaiApiKey = process.env.CLARIFAI_API_KEY;
+
 const pb = new PocketBase('http://127.0.0.1:8090');
 
 // example route
@@ -207,6 +209,81 @@ router.post('/gpt/analyze-gpt', async (req, res) => {
       details: error.message
     });
   }
+});
+
+router.post('/clarifai/analyze', async (req, res) => {
+  
+  try { 
+
+    const { imageId, imageBase64 } = req.body;
+
+    const raw = JSON.stringify({
+      "user_app_id": {
+        "user_id": "clarifai",
+        "app_id": "main"
+      },
+      "inputs": [
+        {
+          "data": {
+            "image": {
+              "base64": imageBase64
+            }
+          }
+        }
+      ]
+    });
+
+    const request_options = {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Authorization': `Key ${clarifaiApiKey}`, 'Content-Type': 'application/json' },
+      body: raw
+    };
+
+    const response = await fetch(
+      "https://api.clarifai.com/v2/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs",
+      request_options
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      console.error('Clarifai api error', result);
+      throw new Error(`Clarifai api request failed: ${result.status?.description || 'Unknown error'}`);
+    }
+
+    if (!result.outputs?.[0]?.data?.concepts) {
+      throw new Error('Invalid response format from clarifai api');
+    }
+
+    const standard = {
+      clarifaiConfidence: JSON.stringify({
+        model_info: {
+          model_name: result.outputs[0].model.id,
+          model_type: result.outputs[0].model.model_type_id,
+          creator: result.outputs[0].model.creator,
+          documentation_url: "https://old-docs.clarifai.com/guide/api-guide/api-overview"
+        },
+        predictions: result.outputs[0].data.concepts.map(concept => ({
+          food_item: concept.name,
+          confidence: concept.value
+        }))
+      })
+    };
+
+    await pb.collection('food').update(imageId, {
+      clarifaiConfidence: standard.clarifaiConfidence
+    });
+
+    res.status(200).json({ success: true });
+    
+  } catch (error) {
+    console.error('Error in clarifai analysis:', error);
+    res.status(500).json({
+      error: 'Failed to perform clarifai analysis',
+      details: error.message
+    });
+  }
+
 });
 
 export default router;
