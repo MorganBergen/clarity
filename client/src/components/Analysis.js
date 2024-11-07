@@ -29,15 +29,197 @@ import { FcGoogle } from "react-icons/fc";
 import clarifaiIcon from './clarifai.svg';
 import gptIcon from './openai-dark.svg';
 import usdaIcon from './usda-logo-color.svg';
+import blueGrey from '@mui/material/colors/blueGrey';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
+
+
+const a = blueGrey[50];
+
+
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: blueGrey[50],  //  color in rgb(65, 65, 65)
+      light: blueGrey[100],
+      dark: blueGrey[700],
+    },
+    secondary: {
+      main: blueGrey[400],
+      light: blueGrey[300],
+      dark: blueGrey[700],
+    },
+    background: {
+      default: blueGrey[50],
+      paper: blueGrey[100],
+    },
+    text: {
+      primary: blueGrey[50],
+      secondary: blueGrey[400],
+    }
+  },
+  // Rest of your existing theme configuration
+  typography: {
+    fontFamily: 'Roboto, sans-serif',
+    h3: {
+      fontSize: '25px',
+      fontWeight: 500,
+      color: blueGrey[900],
+    },
+    h4: {
+      fontSize: '24px',
+      fontWeight: 500,
+      color: blueGrey[900],
+    },
+    body1: {
+      fontSize: '15px',
+      color: blueGrey[700],
+    },
+    body2: {
+      fontSize: '12px',
+      color: blueGrey[400],
+    }
+  },
+  components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'white',
+          boxShadow: 'none',
+          border: 'none',
+        }
+      }
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          border: 'none',
+          backgroundColor: 'transparent',
+        }
+      }
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '10px',
+          '&:hover': {
+            backgroundColor: 'rgba(233, 234, 236, 0.8)',
+          }
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: '5px',
+          fontSize: '12px',
+          padding: '6px 16px',
+        }
+      }
+    },
+  }
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#414141',
+      light: '#6d6d6d',
+      dark: '#2d2d2d',
+    },
+    secondary: {
+      main: '#9c9c9c',
+      light: '#cfcfcf',
+      dark: '#6d6d6d',
+    },
+    background: {
+      default: '#121212', // Dark background
+      paper: 'rgba(18, 18, 18, 0.8)', // Dark paper background
+    },
+    text: {
+      primary: '#ffffff', // Light text for dark mode
+      secondary: '#9c9c9c',
+    }
+  },
+  // Rest of the configuration remains the same as lightTheme
+  typography: {
+    fontFamily: 'Roboto, sans-serif',
+    h3: {
+      fontSize: '30px',
+      fontWeight: 500,
+      color: '', // Updated for dark mode
+    },
+    h4: {
+      fontSize: '24px',
+      fontWeight: 500,
+      color: '#ffffff', // Updated for dark mode
+    },
+    body1: {
+      fontSize: '15px',
+      color: 'rgba(255, 255, 255, 0.7)', // Updated for dark mode
+    },
+    body2: {
+      fontSize: '12px',
+      color: '#9c9c9c',
+    }
+  },
+  components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#121212', // Dark background
+          boxShadow: 'none',
+          border: 'none',
+        }
+      }
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          border: 'none',
+          backgroundColor: 'rgba(18, 18, 18, 0.8)', // Dark background
+        }
+      }
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '10px',
+          '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.08)', // Dark mode hover
+          }
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: '5px',
+          fontSize: '12px',
+          padding: '6px 16px',
+        }
+      }
+    },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'transparent',
+        }
+      }
+    }
+  }
+});
 
 const Analysis = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [buttonText, setButtonText] = useState('Upload');
-  const [uploadIcon, setUploadIcon] = useState(<IoMdAttach />);
+  const [uploadIcon, setUploadIcon] = useState(<IoMdAttach color={blueGrey[900]} />);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [fileName, setFileName] = useState(null);
   const [fileSize, setFileSize] = useState(null);
@@ -50,42 +232,19 @@ const Analysis = () => {
   const [usdaResults, setUSDAResults] = useState(null);
   const [aiyResults, setAIYResults] = useState(null);
   const [clarifaiResults, setClarifaiResults] = useState([]);
-
-  const theme = createTheme({
-    components: {
-      MuiListItemText: {
-        styleOverrides: {
-          primary: {
-            fontSize: '12px',
-            color: '#414141',
-          },
-        },
-      },
-      MuiListItemButton: {
-        styleOverrides: {
-          root: {
-            borderRadius: '10px',
-            '&:hover': {
-              backgroundColor: 'rgba(233, 234, 236, 0.8)',
-            },
-          },
-        },
-      },
-    },
-  },
-  );
+  const [theme, setTheme] = useState(lightTheme);
 
   const mainItems = [
-    { text: 'Dashboard', icon: <GoHomeFill color="#414141" /> },
-    { text: 'Analysis', icon: <IoBarChart color="#414141" /> },
-    { text: 'Logging', icon: <FaCalendarAlt color="#414141" /> },
-    { text: 'Reports', icon: <IoDocument color="#414141" /> },
+    { text: 'Dashboard', icon: <GoHomeFill color={blueGrey[900]} /> },
+    { text: 'Analysis', icon: <IoBarChart color={blueGrey[900]} /> },
+    { text: 'Logging', icon: <FaCalendarAlt color={blueGrey[900]} /> },
+    { text: 'Reports', icon: <IoDocument color={blueGrey[900]} /> },
     { text: buttonText, icon: uploadIcon },
   ];
 
   const bottomItems = [
-    { text: 'Settings', icon: <IoSettingsSharp color="#414141" /> },
-    { text: 'Sign Out', icon: <TbLogout2 color="#414141" /> },
+    { text: 'Settings', icon: <IoSettingsSharp color={blueGrey[900]} /> },
+    { text: 'Sign Out', icon: <TbLogout2 color={blueGrey[900]} /> },
   ];
 
   const toggleSection = () => {
@@ -96,8 +255,10 @@ const Analysis = () => {
     setDrawerOpen(!drawerOpen);
   };
 
+
   const toggleTheme = () => {
     setDarkMode(!darkMode);
+    setTheme(darkMode ? lightTheme : darkTheme);
   };
 
   const handleFileChange = (event) => {
@@ -108,7 +269,7 @@ const Analysis = () => {
       setFileSize((file.size / 1024).toFixed(2) + ' KB');
       setPreviewUrl(URL.createObjectURL(file)); // Create a preview URL
       setButtonText('Submit');
-      setUploadIcon(<CloudUploadIcon />);
+      setUploadIcon(<CloudUploadIcon color={blueGrey[900]} />);
     } else {
       alert('Please select a valid image file (.img, .jpeg, .jpg, .heic)');
     }
@@ -303,26 +464,6 @@ const Analysis = () => {
     }
   };
 
-  /*
-  const testPythonService = async () => {
-    try {
-
-      const response = await fetch('http://localhost:5001/api/test-python');
-
-      if (!response.ok) {
-        throw new Error('Failed to call python service');
-      }
-
-      const data = await response.json();
-
-      console.log('Python service response:', data);
-
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  }
-  */
-
   const handleAIYAnalysis = async () => {
     if (!selectedImage) return;
 
@@ -395,14 +536,13 @@ const Analysis = () => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
-        <AppBar sx={{ backgroundColor: 'white', boxShadow: 'none', border: 'none' }}>
+        <AppBar>
           <Toolbar>
-
             <button className="menu-toggle-button" style={{ marginLeft: '-10px' }} onClick={toggleDrawer}>
               {drawerOpen ? <TbLayoutSidebarLeftCollapseFilled size={20} /> : <TbLayoutSidebarLeftExpandFilled size={20} />}
             </button>
 
-            <Typography className="title-text" noWrap component="div" sx={{ flexGrow: 1 }}>
+            <Typography variant="h3" noWrap component="div" sx={{ flexGrow: 1, marginLeft: '10px' }}>
               Clarity
             </Typography>
 
@@ -440,6 +580,7 @@ const Analysis = () => {
             <button className="menu-toggle-button" onClick={toggleTheme} style={{ marginLeft: '10px' }}>
               {darkMode ? <MdOutlineLightMode size={20} /> : <MdDarkMode size={20} />}
             </button>
+
             <button className="menu-toggle-button" style={{ marginLeft: '10px' }} >
               <FaUser size={15} />
             </button>
