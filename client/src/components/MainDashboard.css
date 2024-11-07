@@ -1,14 +1,15 @@
+[data-theme='dark'] {
+  --primary-color: green;
+  --background-color: black;
+  --text-color: white;
+}heighthi
+
+
 .MuiAppBar-root .title-text {
   color: #414141; 
   font-size: 24px;
   font-family: 'Roboto', sans-serif;
   margin-left: 15px;
-}
-
-[data-theme='dark'] {
-  --primary-color: green;
-  --background-color: black;
-  --text-color: white;
 }
 
 .preview-image {
@@ -55,4 +56,67 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+}
+
+:root {
+  /* Colors */
+  --color-primary: #414141;
+  --color-secondary: #9c9c9c;
+  --color-background: #ffffff;
+  --color-surface: rgba(233, 234, 236, 0.5);
+  --color-text-primary: rgba(46, 46, 46, 0.7);
+  --color-text-secondary: rgb(156, 156, 156);
+  
+  /* Typography */
+  --font-family: 'Roboto', sans-serif;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 24px;
+  --font-size-xl: 32px;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* Effects */
+  --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 30px rgba(134, 134, 134, 0.155);
+  --blur-effect: blur(10px);
+  --border-radius-sm: 5px;
+  --border-radius-md: 10px;
+  --border-radius-lg: 15px;
+}
+
+/* Common component styles */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: var(--blur-effect);
+  -webkit-backdrop-filter: var(--blur-effect);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: var(--shadow-md);
+}
+
+.button {
+  height: 30px;
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-xs);
+  border-radius: var(--border-radius-sm);
+  background: rgba(70, 70, 70, 0.078);
+  color: var(--color-text-secondary);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:hover {
+  background: rgba(183, 183, 183, 0.362);
+}
+
+.button:active {
+  background: rgba(174, 174, 174, 0.492);
 }
