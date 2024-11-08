@@ -33,10 +33,6 @@ import blueGrey from '@mui/material/colors/blueGrey';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
-
-const a = blueGrey[50];
-
-
 const lightTheme = createTheme({
   palette: {
     mode: 'light',
@@ -231,7 +227,7 @@ const Analysis = () => {
   const [gptResults, setGPTResults] = useState(null);
   const [usdaResults, setUSDAResults] = useState(null);
   const [aiyResults, setAIYResults] = useState(null);
-  const [clarifaiResults, setClarifaiResults] = useState([]);
+  const [clarifaiResults, setClarifaiResults] = useState(null);
   const [theme, setTheme] = useState(lightTheme);
 
   const mainItems = [

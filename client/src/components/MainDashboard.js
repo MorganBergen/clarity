@@ -25,8 +25,189 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { Box } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import blueGrey from '@mui/material/colors/blueGrey';
+import grey from '@mui/material/colors/grey';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
+
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: grey[50],  
+      light: grey[100],
+      dark: grey[700],
+    },
+    secondary: {
+      main: grey[400],
+      light: grey[300],
+      dark: grey[700],
+    },
+    background: {
+      default: grey[50],
+      paper: grey[100],
+    },
+    text: {
+      primary: grey[50],
+      secondary: grey[400],
+    }
+  },
+  typography: {
+    fontFamily: 'Roboto, sans-serif',
+    h3: {
+      fontSize: '25px',
+      fontWeight: 500,
+      color: grey[900],
+    },
+    h4: {
+      fontSize: '24px',
+      fontWeight: 500,
+      color: grey[900],
+    },
+    body1: {
+      fontSize: '15px',
+      color: grey[700],
+    },
+    body2: {
+      fontSize: '12px',
+      color: grey[400],
+    }
+  },
+  components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          boxShadow: 'none',
+          border: 'none',
+        }
+      }
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          border: 'none',
+        }
+      }
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '10px',
+          '&:hover': {
+            backgroundColor: 'rgba(233, 234, 236, 0.8)',
+          }
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: '5px',
+          fontSize: '12px',
+          padding: '6px 16px',
+        }
+      }
+    },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          
+        }
+      }
+    }
+  }
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: grey[900],
+      light: grey[800],
+      dark: grey[700],
+    },
+    secondary: {
+      main: grey[400],
+      light: grey[300],
+      dark: grey[700],
+    },
+    background: {
+      default: grey[900],
+      paper: 'rgba(18, 18, 18, 0.8)', // Dark paper background
+    },
+    text: {
+      primary: grey[50],
+      secondary: grey[400],
+    }
+  },
+  // Rest of the configuration remains the same as lightTheme
+  typography: {
+    fontFamily: 'Roboto, sans-serif',
+    h3: {
+      fontSize: '25px',
+      fontWeight: 500,
+      color: grey[50], 
+    },
+    h4: {
+      fontSize: '24px',
+      fontWeight: 500,
+      color: grey[50],
+    },
+    body1: {
+      fontSize: '15px',
+      color: grey[50],
+    },
+    body2: {
+      fontSize: '12px',
+      color: grey[400],
+    }
+  },
+  components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          boxShadow: 'none',
+          border: 'none',
+        }
+      }
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          border: 'none',
+        }
+      }
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '10px',
+          '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.08)', // Dark mode hover
+          }
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: '5px',
+          fontSize: '12px',
+          padding: '6px 16px',
+        }
+      }
+    },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          
+        }
+      }
+    }
+  }
+});
 
 const MainDashboard = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -38,37 +219,12 @@ const MainDashboard = () => {
   const { userId } = useContext(UserContext);
   const [uploadIcon, setUploadIcon] = useState(<IoMdAttach />);
   const [darkMode, setDarkMode] = useState(false);
-  
+  const [theme, setTheme] = useState(lightTheme);
+    
   const toggleTheme = () => {
-    const newTheme = darkMode ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
     setDarkMode(!darkMode);
+    setTheme(darkMode ? lightTheme : darkTheme);
   };
-
-  const theme = createTheme({
-    components: {
-      MuiListItemText: {
-        styleOverrides: {
-          primary: {
-            fontSize: '12px',
-            color: '#414141',
-          },
-        },
-      },
-      MuiListItemButton: {
-        styleOverrides: {
-          root: {
-            borderRadius: '10px',
-            '&:hover': {
-              backgroundColor: 'rgba(233, 234, 236, 0.8)',
-            },
-          },
-        },
-      },
-    },
-  },
-  );
-
 
   const mainItems = [
     { text: 'Dashboard', icon: <GoHomeFill color="#414141" /> },
@@ -139,15 +295,16 @@ const MainDashboard = () => {
     <ThemeProvider theme={theme}>
     <CssBaseline />
       <Box sx={{ display: 'flex' }}>
-        <AppBar sx={{ backgroundColor: 'white', boxShadow: 'none' }}>
+        <AppBar>
           <Toolbar>
             <button className="menu-toggle-button" style={{ marginLeft: '-10px' }} onClick={toggleDrawer}>
               {drawerOpen ? <TbLayoutSidebarLeftCollapseFilled size={20} /> : <TbLayoutSidebarLeftExpandFilled size={20} />}
             </button>
-            <Typography className="title-text" noWrap component="div" sx={{ flexGrow: 1 }}>
+            <Typography variant="h3" noWrap component="div" sx={{ flexGrow: 1, marginLeft: '10px' }}>
               Clarity
             </Typography>
-            <button className="menu-toggle-button" onClick={toggleTheme}>
+            {/* toggle theme */}
+            <button className="menu-toggle-button" onClick={toggleTheme} style={{ marginLeft: '10px' }}>
               {darkMode ? <MdOutlineLightMode size={20} /> : <MdDarkMode size={20} />}
             </button>
             <button className="menu-toggle-button" style={{ marginLeft: '10px' }} >
