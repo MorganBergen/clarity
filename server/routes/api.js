@@ -12,7 +12,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-
 //  initialize express router object, used to define routes for the api
 //  the router is created from express's router class
 //  it's like a mini application that can handle http requests, 
