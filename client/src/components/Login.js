@@ -5,6 +5,11 @@ import { signIn } from '../pocketbaseService';
 import { UserContext } from '../context/UserContext';
 import PocketBase from 'pocketbase';
 
+// Material UI imports
+import IconButton from '@mui/material/IconButton';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+
 const pb = new PocketBase('http://127.0.0.1:8090');
 
 const Login = () => {
@@ -14,17 +19,18 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUserId } = useContext(UserContext);
 
+  const [isDarkMode, setIsDarkMode] = useState(false); // Dark mode toggle state
+
   const handleSubmit = async (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
     setError('');
 
     if (!email || !password) {
       setError('Please enter both email and password.');
       return;
-    } 
+    }
 
     try {
-
       const { user } = await signIn(email, password);
 
       setUserId(user);
@@ -34,46 +40,23 @@ const Login = () => {
       if (questionnaireRecord.userId === user) {
         navigate('/MainDashboard');
       }
-      
     } catch (err) {
-      
       if (err.message.includes("The requested resource wasn't found.")) {
-        
         navigate('/Dashboard');
-
       } else if (err.message.includes("Failed to authenticate.")) {
-        
         setError(`Login failed. Please check your credentials and try again. ${err}`);
-
       } else {
-
         setError(`Login failed. ${err}`);
-
       }
-      
     }
   };
 
-  /*
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setError('');
-    if (!email || !password) {
-      setError('Please enter both email and password.');
-      return;
-    }
-    try {
-      const { user } = await signIn(email, password);
-      setUserId(user);
-      navigate('/Dashboard');
-    } catch (err) {
-      setError(`Login failed. Please check your credentials and try again. ${err}`);
-    }
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
   };
-  */
 
   return (
-    <div className="login-wrapper">
+    <div className={`login-wrapper ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       <Container fluid>
         <Row className="justify-content-md-center mt-5">
           <Col xs={12} md={6} className="text-column">
@@ -117,6 +100,17 @@ const Login = () => {
           </Col>
         </Row>
       </Container>
+    <div>
+     {/* Theme toggle button */}
+     <IconButton
+        className="theme-toggle-btn"
+        color="inherit"
+        onClick={toggleTheme}
+        aria-label="toggle dark mode"
+      >
+        {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
+      </IconButton>
+      </div>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -13,26 +14,29 @@ import Settings from './components/Settings';
 import Logging from './components/Logging';
 import Reports from './components/Reports';
 import { UserProvider } from './context/UserContext';
+import { ThemeProvider } from './context/ThemeContext';  // Import the ThemeProvider
 
 function App() {
   return (
     <Provider store={store}> 
-        <UserProvider>
+      <UserProvider>
+        <ThemeProvider>  {/* Wrap the app with the ThemeProvider */}
           <Router>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/MainDashboard" element={<MainDashboard />} />
-            <Route path="/_/#/auth/confirm-verification/:token" element={<EmailVerification />} />
-            <Route path="/Analysis" element={<Analysis />} />
-            <Route path="/Settings" element={<Settings />} />
-            <Route path="/Logging" element={<Logging />} />
-            <Route path="/Reports" element={<Reports />} />
-          </Routes>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/MainDashboard" element={<MainDashboard />} />
+              <Route path="/_/#/auth/confirm-verification/:token" element={<EmailVerification />} />
+              <Route path="/Analysis" element={<Analysis />} />
+              <Route path="/Settings" element={<Settings />} />
+              <Route path="/Logging" element={<Logging />} />
+              <Route path="/Reports" element={<Reports />} />
+            </Routes>
           </Router>
-        </UserProvider>
+        </ThemeProvider>
+      </UserProvider>
     </Provider>
   );
 }
