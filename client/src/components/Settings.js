@@ -1,25 +1,239 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Drawer, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Container } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import AssessmentIcon from '@mui/icons-material/Assessment';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import ReportIcon from '@mui/icons-material/Report';
-import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import PocketBase from 'pocketbase';
+import {
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  Typography,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Container,
+  TextField,
+  Button,
+  createTheme,
+  ThemeProvider,
+} from '@mui/material';
+import {
+  Menu as MenuIcon,
+  MenuOpen as MenuOpenIcon,
+  Brightness4 as Brightness4Icon,
+  Brightness7 as Brightness7Icon,
+  AccountCircle,
+  Dashboard as DashboardIcon,
+  Assessment as AssessmentIcon,
+  CalendarMonth as CalendarMonthIcon,
+  Report as ReportIcon,
+  Settings as SettingsIcon,
+  Logout as LogoutIcon,
+  CloudUpload as CloudUploadIcon,
+  Attachment as AttachmentIcon,
+} from '@mui/icons-material';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
 import { UserContext } from '../context/UserContext';
+import PocketBase from 'pocketbase';
 import './MainDashboard.css';
-import AttachmentIcon from '@mui/icons-material/Attachment';
-import { TextField, Button } from '@mui/material';
+
+// React Icons
+import { TbLayoutSidebarLeftCollapseFilled, TbLayoutSidebarLeftExpandFilled } from "react-icons/tb";
+import { MdOutlineLightMode, MdDarkMode } from "react-icons/md";
+import { FaUser, FaCalendarAlt } from "react-icons/fa";
+import { GoHomeFill } from "react-icons/go";
+import { IoBarChart, IoDocument, IoMdAttach, IoSettingsSharp, IoAlbums } from "react-icons/io5";
+import { TbLogout2 } from "react-icons/tb";
+import { BiSolidToggleLeft, BiSolidToggleRight } from "react-icons/bi";
+import { FcGoogle } from "react-icons/fc";
+
+// Custom Icons
+import clarifaiIcon from './clarifai.svg';
+import gptIcon from './openai-dark.svg';
+import usdaIcon from './usda-logo-color.svg';
+
+// Colors
+import blueGrey from '@mui/material/colors/blueGrey';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
+
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: blueGrey[50],  //  color in rgb(65, 65, 65)
+      light: blueGrey[100],
+      dark: blueGrey[700],
+    },
+    secondary: {
+      main: blueGrey[400],
+      light: blueGrey[300],
+      dark: blueGrey[700],
+    },
+    background: {
+      default: blueGrey[50],
+      paper: blueGrey[100],
+    },
+    text: {
+      primary: blueGrey[50],
+      secondary: blueGrey[400],
+    }
+  },
+  // Rest of your existing theme configuration
+  typography: {
+    fontFamily: 'Roboto, sans-serif',
+    h3: {
+      fontSize: '25px',
+      fontWeight: 500,
+      color: blueGrey[900],
+    },
+    h4: {
+      fontSize: '24px',
+      fontWeight: 500,
+      color: blueGrey[900],
+    },
+    body1: {
+      fontSize: '15px',
+      color: blueGrey[700],
+    },
+    body2: {
+      fontSize: '12px',
+      color: blueGrey[400],
+    }
+  },
+  components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'white',
+          boxShadow: 'none',
+          border: 'none',
+        }
+      }
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          border: 'none',
+          backgroundColor: 'transparent',
+        }
+      }
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '10px',
+          '&:hover': {
+            backgroundColor: 'rgba(233, 234, 236, 0.8)',
+          }
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: '5px',
+          fontSize: '12px',
+          padding: '6px 16px',
+        }
+      }
+    },
+  }
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#414141',
+      light: '#6d6d6d',
+      dark: '#2d2d2d',
+    },
+    secondary: {
+      main: '#9c9c9c',
+      light: '#cfcfcf',
+      dark: '#6d6d6d',
+    },
+    background: {
+      default: '#121212', // Dark background
+      paper: 'rgba(18, 18, 18, 0.8)', // Dark paper background
+    },
+    text: {
+      primary: '#ffffff', // Light text for dark mode
+      secondary: '#9c9c9c',
+    }
+  },
+  // Rest of the configuration remains the same as lightTheme
+  typography: {
+    fontFamily: 'Roboto, sans-serif',
+    h3: {
+      fontSize: '30px',
+      fontWeight: 500,
+      color: '', // Updated for dark mode
+    },
+    h4: {
+      fontSize: '24px',
+      fontWeight: 500,
+      color: '#ffffff', // Updated for dark mode
+    },
+    body1: {
+      fontSize: '15px',
+      color: 'rgba(255, 255, 255, 0.7)', // Updated for dark mode
+    },
+    body2: {
+      fontSize: '12px',
+      color: '#9c9c9c',
+    }
+  },
+  components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#121212', // Dark background
+          boxShadow: 'none',
+          border: 'none',
+        }
+      }
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          border: 'none',
+          backgroundColor: 'rgba(18, 18, 18, 0.8)', // Dark background
+        }
+      }
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '10px',
+          '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.08)', // Dark mode hover
+          }
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: '5px',
+          fontSize: '12px',
+          padding: '6px 16px',
+        }
+      }
+    },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'transparent',
+        }
+      }
+    }
+  }
+});
 
 const Settings = () => {
 
@@ -32,7 +246,18 @@ const Settings = () => {
   const [userData, setUserData] = useState(null);
   const [questionnaireData, setQuestionnaireData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-
+  const [fileSize, setFileSize] = useState(null);
+  const [itemData, setItemData] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [showFirstSection, setShowFirstSection] = useState(null);
+  const [imageID, setImageID] = useState(null);
+  const [gptResults, setGPTResults] = useState(null);
+  const [usdaResults, setUSDAResults] = useState(null);
+  const [aiyResults, setAIYResults] = useState(null);
+  const [clarifaiResults, setClarifaiResults] = useState(null);
+  const [theme, setTheme] = useState(lightTheme);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [fileName, setFileName] = useState(null);
   const handleUserDataChange = async (e) => {
 
     const { name, value } = e.target;
@@ -54,16 +279,16 @@ const Settings = () => {
   };
 
   const mainItems = [
-    { text: 'Dashboard', icon: <DashboardIcon /> },
-    { text: 'Analysis', icon: <AssessmentIcon /> },
-    { text: 'Logging', icon: <CalendarMonthIcon /> },
-    { text: 'Reports', icon: <ReportIcon /> },
-    { text: buttonText, icon: uploadIcon }, // Use dynamic text and icon
+    { text: 'Dashboard', icon: <GoHomeFill color={blueGrey[900]} /> },
+    { text: 'Analysis', icon: <IoBarChart color={blueGrey[900]} /> },
+    { text: 'Logging', icon: <FaCalendarAlt color={blueGrey[900]} /> },
+    { text: 'Reports', icon: <IoDocument color={blueGrey[900]} /> },
+    { text: buttonText, icon: uploadIcon },
   ];
 
   const bottomItems = [
-    { text: 'Settings', icon: <SettingsIcon /> },
-    { text: 'Sign Out', icon: <LogoutIcon /> },
+    { text: 'Settings', icon: <IoSettingsSharp color={blueGrey[900]} /> },
+    { text: 'Sign Out', icon: <TbLogout2 color={blueGrey[900]} /> },
   ];
 
   useEffect(() => {
@@ -89,12 +314,18 @@ const Settings = () => {
     fetchUserData();
   }, [userId]);
 
+
+  const toggleSection = () => {
+    setShowFirstSection(!showFirstSection);
+  };
+
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
+    setTheme(darkMode ? lightTheme : darkTheme);
   };
 
   const handleFileChange = (event) => {
@@ -128,8 +359,6 @@ const Settings = () => {
     }
   };
 
-  
-
   const fetchImage = async (id) => {
     try {
       const record = await pb.collection('food').getOne(id);
@@ -141,72 +370,115 @@ const Settings = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <AppBar sx={{ backgroundColor: 'white', boxShadow: 'none', borderBottom: '1px solid #E0E0E0' }}>
-        <Toolbar>
-          <IconButton edge="start" color="primary" onClick={toggleDrawer}>
-            {drawerOpen ? <MenuOpenIcon /> : <MenuIcon />}
-          </IconButton>
-          <Typography className="title-text" variant="h6" noWrap component="div" sx={{ color: 'black', flexGrow: 1 }}>
-            Clarity app
-          </Typography>
-          <IconButton onClick={toggleTheme} color="primary">
-            {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
-          <IconButton edge="end" color="primary">
-            <AccountCircle />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerOpen ? 240 : 60,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
-            width: drawerOpen ? 240 : 60,
-            boxSizing: 'border-box',
-            marginTop: '64px',
-            height: 'calc(100% - 64px)',
-          },
-        }}
-      >
-        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-          <List className="main-list">
-            {mainItems.map(({ text, icon }) => (
-              <ListItem
-                button={text.toString()}
-                key={text}
-                onClick={text === 'Upload' ? () => document.getElementById('file-input').click() : (text === 'Submit' ? handleUpload : null)}
-                component={((text !== 'Upload' && text !== 'Submit') ? Link : 'div')}
-                to={text !== 'Upload' ? `/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}` : undefined}
-              >
-                {icon}
-                {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="page-text-color" />}
-              </ListItem>
-            ))}
-          </List>
-          <input
-            id="file-input"
-            type="file"
-            accept=".img,.jpeg,.jpg,.heic"
-            onChange={(event) => {
-              handleFileChange(event);
-            }}
-            style={{ display: 'none' }}
-          />
+    <ThemeProvider theme={theme}>
+     <Box sx={{ display: 'flex' }}>
+        <AppBar>
+          <Toolbar>
+            <button className="menu-toggle-button" style={{ marginLeft: '-10px' }} onClick={toggleDrawer}>
+              {drawerOpen ? <TbLayoutSidebarLeftCollapseFilled size={20} /> : <TbLayoutSidebarLeftExpandFilled size={20} />}
+            </button>
 
-          <List className="bottom-list" sx={{ marginTop: 'auto' }}>
-            {bottomItems.map(({ text, icon }) => (
-              <ListItem button={text.toString()} key={text} component={Link} to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}>
-                {icon}
-                {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="page-text-color" />}
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
-      <Container sx={{ display: 'flex', marginTop: '64px', marginLeft: drawerOpen ? '10px' : '10px', alignItems: 'left', height: '100vh' }}>
+            <Typography variant="h3" noWrap component="div" sx={{ flexGrow: 1, marginLeft: '10px' }}>
+              Clarity
+            </Typography>
+
+            {/* toggle theme */}
+            <button className="menu-toggle-button" onClick={toggleTheme} style={{ marginLeft: '10px' }}>
+              {darkMode ? <MdOutlineLightMode size={20} /> : <MdDarkMode size={20} />}
+            </button>
+
+            <button className="menu-toggle-button" style={{ marginLeft: '10px' }} >
+              <FaUser size={15} />
+            </button>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          variant="permanent"
+          sx={{
+            width: drawerOpen ? 150 : 60,
+            flexShrink: 0,
+            [`& .MuiDrawer-paper`]: {
+              width: drawerOpen ? 150 : 60,
+              boxSizing: 'border-box',
+              marginTop: '64px',
+              height: 'calc(100% - 64px)',
+              border: 'none',
+            },
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              marginLeft: '10px',
+              marginBottom: '10px',
+              height: '100%',
+              borderRadius: '10px',
+              backgroundColor: 'rgba(233, 234, 236, 0.5)',
+            }}>
+
+            <List
+              sx={{
+                padding: 0,
+                '& .MuiListItemButton-root:first-of-type': {
+                  marginTop: '0px',
+                },
+              }}
+            >
+              {mainItems.map(({ text, icon }) => (
+                <ListItemButton
+                  key={text}
+                  onClick={() => {
+                    if (text === 'Upload') {
+                      document.getElementById('file-input').click();
+                    } else if (text === 'Submit' && selectedFile) {
+                      handleUpload();
+                    }
+                  }}
+                  component={((text === 'Upload' || text === 'Submit') ? 'div' : Link)}
+                  to={((text !== 'Upload' && text !== 'Submit') ? `/${text === 'Dashboard' ? 'MainDashboard' : text.toLowerCase().replace(' ', '-')}` : undefined)}
+                >
+                  {icon}
+                  {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} />}
+                </ListItemButton>
+              ))}
+
+              <input
+                id="file-input"
+                type="file"
+                accept=".img,.jpeg,.jpg,.heic"
+                onChange={(event) => {
+                  handleFileChange(event);
+                }}
+                style={{ display: 'none' }}
+              />
+
+            </List>
+
+            {previewUrl && (
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
+                <img src={previewUrl} alt="Preview" style={{ width: '100px', height: 'auto', borderRadius: '4px' }} />
+                <Typography variant="body2">{fileName}</Typography>
+                <Typography variant="body2">{fileSize}</Typography>
+              </Box>
+            )}
+
+            <List sx={{ marginTop: 'auto', padding: 0, marginBottom: '0px' }}>
+              {bottomItems.map(({ text, icon }) => (
+                <ListItemButton
+                  button={text.toString()}
+                  key={text}
+                  component={Link}
+                  to={`/${text === 'Sign Out' ? '' : text.toLowerCase().replace(' ', '-')}`}
+                >
+                  {icon}
+                  {drawerOpen && <ListItemText sx={{ marginLeft: '10px' }} primary={text} className="drawer-items" />}
+                </ListItemButton>
+              ))}
+            </List>
+          </Box>
+        </Drawer>
+  <Container sx={{ display: 'flex', marginTop: '64px', marginLeft: drawerOpen ? '10px' : '10px', alignItems: 'left', height: '100vh' }}>
 
       {userData && (
       <Box sx={{ padding: 2 }}>
@@ -266,6 +538,7 @@ const Settings = () => {
       
       </Container>
     </Box>
+    </ThemeProvider>
   );
 };
 
