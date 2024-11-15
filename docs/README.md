@@ -24,27 +24,24 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 
 | steps   | command     | location to execute command |
 |:--------|:------------|:----------------------------|
-| 1       | `npm install` | `./clarity/server`        |
-| 2       | `npm install` | `./clarity/client`        |
-| 3 - linux machine      | `wget https://github.com/pocketbase/pocketbase/releases/download/v0.23.0-rc3/pocketbase_0.23.0-rc3_linux_amd64.zip` | `./clarity/backend/pocketbase` |
-| 3 - windows machine      | `https://github.com/pocketbase/pocketbase/releases/download/v0.22.22/pocketbase_0.22.22_windows_arm64.zip` | `./clarity/backend/pocketbase` |
-| 3 - mac machine | `https://github.com/pocketbase/pocketbase/releases/download/v0.22.22/pocketbase_0.22.22_darwin_amd64.zip` | `./clarity/backend/pocketbase` |
-| 4       | `unzip pocketbase_<version>_<platform>_<arch>.zip` | `./clarity/backend/pocketbase` |
-| 5       | `chmod +x pocketbase` | `./clarity/backend/pocketbase` |
-| 6       | `touch .env` | `./clarity/server` |
-| 7       |  `pip install -r requirements.txt` | `./clarity/server/services/aiy` |
+| 1       | <code>npm install</code> | <code>./clarity/server</code>        |
+| 2       | <code>npm install</code> | <code>./clarity/client</code>        |
+| 3 - linux machine      | <code>wget https://github.com/pocketbase/pocketbase/releases/download/v0.23.0-rc3/pocketbase_0.23.0-rc3_linux_amd64.zip</code> | <code>./clarity/backend/pocketbase</code> |
+| 3 - windows machine      | <code>https://github.com/pocketbase/pocketbase/releases/download/v0.22.22/pocketbase_0.22.22_windows_arm64.zip</code> | <code>./clarity/backend/pocketbase</code> |
+| 3 - mac machine | <code>https://github.com/pocketbase/pocketbase/releases/download/v0.22.22/pocketbase_0.22.22_darwin_amd64.zip</code> | <code>./clarity/backend/pocketbase</code> |
+| 4       | <code>unzip pocketbase_<version>_<platform>_<arch>.zip</code> | <code>./clarity/backend/pocketbase</code> |
+| 5       | <code>chmod +x pocketbase</code> | <code>./clarity/backend/pocketbase</code> |
+| 6       | <code>touch .env</code> | <code>./clarity/server</code> |
+| 7       | <code>pip install -r requirements.txt</code> | <code>./clarity/server/services/aiy</code> |
 
 
-contact me for the environment variables
+contact me for the following environment variables
 
-```
-ORGANIZATION_ID=
-PROJECT_ID=
-OPENAI_API_KEY=
-USDA_API_KEY=
-CLARIFAI_API_KEY=
-```
-
+<code>ORGANIZATION_ID=</code>
+<code>PROJECT_ID=</code>
+<code>OPENAI_API_KEY=</code>
+<code>USDA_API_KEY=</code>
+<code>CLARIFAI_API_KEY=</code>
 </details>
 
 <details><summary>Run the Application</summary>
@@ -52,16 +49,15 @@ CLARIFAI_API_KEY=
 
 | steps            | command                | location to execute command     |
 |:-----------------|:-----------------------|:--------------------------------|
-| terminal 1       | `npm run dev`          |  `./clarity/server`             |
-| terminal 2       | `python server.py`     | `./clarity/server/services/aiy` |
-| terminal 3       | `./pocketbase serve`   |  `./clarity/backend/pocketbase` |
-| terminal 4       | `npm start`            |  `./clarity/client`             |
-
+| terminal 1       | <code>npm run dev</code>          |  <code>./clarity/server</code>             |
+| terminal 2       | <code>python server.py</code>     | <code>./clarity/server/services/aiy</code> |
+| terminal 3       | <code>./pocketbase serve</code>   |  <code>./clarity/backend/pocketbase</code> |
+| terminal 4       | <code>npm start</code>            |  <code>./clarity/client</code>             |
 </details>
 
 <details><summary>Output from successfully running the Application</summary>
 
-####  `npm run dev`  - terminal 1
+####  <code>npm run dev</code>  - terminal 1
 
 ```bash
 > clarity-backend@1.0.0 dev
@@ -75,7 +71,7 @@ CLARIFAI_API_KEY=
 server is running on port 5001
 ```
 
-####  `python server/services/aiy/server.py` - terminal 2
+####  <code>python server/services/aiy/server.py</code> - terminal 2
 
 ```bash
 Model loaded successfully
@@ -89,7 +85,7 @@ WARNING:werkzeug: * Running on all addresses.
 INFO:werkzeug: * Running on http://192.168.0.204:5002/ (Press CTRL+C to quit)
 ```
 
-####  `./pocketbase serve` - terminal 3
+####  <code>./pocketbase serve</code> - terminal 3
 
 ```bash
 2024/09/19 11:04:40 Server started at http://127.0.0.1:8090
@@ -97,7 +93,7 @@ INFO:werkzeug: * Running on http://192.168.0.204:5002/ (Press CTRL+C to quit)
 └─ Admin UI: http://127.0.0.1:8090/_/
 ```
 
-####  `npm start` - terminal 4
+####  <code>npm start</code> - terminal 4
 
 
 ```bash
@@ -116,19 +112,17 @@ webpack compiled successfully
 
 </details>
 
-
-
 <details><summary><code>Package.json</code> and Dependency Overview</summary>
 
 <br>
 
-`package.json` provides metadata, dependencies, scripts, configuration, engines, versioning, and repository information for the project.  
+<code>package.json</code> provides metadata, dependencies, scripts, configuration, engines, versioning, and repository information for the project.  
 
-metadata contains the `name`, `version`, `description`, `main`, `scripts`, `keywords`, `author`, `dependencies`, `devDependencies`, and `license` of the project
+metadata contains the <code>name</code>, <code>version</code>, <code>description</code>, <code>main</code>, <code>scripts</code>, <code>keywords</code>, <code>author</code>, <code>dependencies</code>, <code>devDependencies</code>, and <code>license</code> of the project
 
-when cloning the project and running `npm install`, the dependencies are automatically installed and this ensures that the project has all the necessary libraries to run correctly.
+when cloning the project and running <code>npm install</code>, the dependencies are automatically installed and this ensures that the project has all the necessary libraries to run correctly.
 
-the scripts define custom commands for the project, such as `start`, `build`, `test`, `dev`, by running `npm run <script>` in the terminal.
+the scripts define custom commands for the project, such as `start`, `build`, `test`, `dev`, by running `npm run <script**>**` in the terminal.
 
 `npm start` runs the application in development mode, meaning that the application will run on `localhost:3000` and any changes made to the code will be reflected in the browser.
 
