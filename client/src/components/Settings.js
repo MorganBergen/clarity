@@ -62,7 +62,7 @@ const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: blueGrey[50],  //  color in rgb(65, 65, 65)
+      main: blueGrey[100],  //  color in rgb(65, 65, 65)
       light: blueGrey[100],
       dark: blueGrey[700],
     },
@@ -140,6 +140,34 @@ const lightTheme = createTheme({
         }
       }
     },
+    
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            '& .MuiInputBase-input': {
+              color: blueGrey[400], // Text color inside the input
+            },
+            '& .MuiInputLabel-root': {
+              color: blueGrey[700], // Label color
+              '&.Mui-focused': {
+                color: blueGrey[900], // Label color when focused
+              },
+            },
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: blueGrey[900], // Default border color
+              },
+              '&:hover fieldset': {
+                
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: blueGrey[900], // Border color when focused
+              },
+            },
+          },
+        },
+      },
+    
   }
 });
 
