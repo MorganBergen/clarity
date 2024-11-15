@@ -18,9 +18,9 @@ Advanced ML for Nutritional Analysis and Healthcare Management
 
 ##  Getting Started
 
-<details><summary>Install Dependencies using <code>Bash</code> or <code>Zsh</code></summary>
+####  Install Dependencies using <code>Bash</code> or <code>Zsh</code>
 
-####  command line instructions 
+<h4>command line instructions</h4>
 
 | steps   | command     | location to execute command |
 |:--------|:------------|:----------------------------|
@@ -42,7 +42,7 @@ contact me for the following environment variables
 <code>OPENAI_API_KEY=</code>
 <code>USDA_API_KEY=</code>
 <code>CLARIFAI_API_KEY=</code>
-</details>
+
 
 <details><summary>Run the Application</summary>
 <br> 
