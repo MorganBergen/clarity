@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Drawer, List, ListItemText, Typography, AppBar, Toolbar, ListItemButton } from '@mui/material';
 import PocketBase from 'pocketbase';
@@ -79,6 +79,7 @@ const lightTheme = createTheme({
         root: {
           boxShadow: 'none',
           border: 'none',
+          backgroundColor: 'white',
         }
       }
     },
@@ -134,7 +135,7 @@ const darkTheme = createTheme({
     },
     background: {
       default: grey[900],
-      paper: 'rgba(18, 18, 18, 0.8)', // Dark paper background
+      paper: 'black', // Dark paper background
     },
     text: {
       primary: grey[50],
@@ -169,6 +170,7 @@ const darkTheme = createTheme({
         root: {
           boxShadow: 'none',
           border: 'none',
+          backgroundColor: '#000000',
         }
       }
     },
@@ -217,7 +219,7 @@ const MainDashboard = () => {
   const [fileName, setFileName] = useState(null);
   const [fileSize, setFileSize] = useState(null);
   const { userId } = useContext(UserContext);
-  const [uploadIcon, setUploadIcon] = useState(<IoMdAttach />);
+  const [uploadIcon, setUploadIcon] = useState(<IoMdAttach color="#414141" />);
   const [darkMode, setDarkMode] = useState(false);
   const [theme, setTheme] = useState(lightTheme);
     
@@ -225,6 +227,10 @@ const MainDashboard = () => {
     setDarkMode(!darkMode);
     setTheme(darkMode ? lightTheme : darkTheme);
   };
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', darkMode);
+  }, [darkMode]);
 
   const mainItems = [
     { text: 'Dashboard', icon: <GoHomeFill color="#414141" /> },
@@ -323,6 +329,7 @@ const MainDashboard = () => {
               marginTop: '64px',
               height: 'calc(100% - 64px)',
               border: 'none',
+              backgroundColor: 'white',
             },
           }}
         >
