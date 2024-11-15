@@ -1,0 +1,18 @@
+# Use an official Node.js runtime as a parent image
+FROM node:18
+
+# Set the working directory
+WORKDIR /app
+
+# Copy package files and install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy the frontend source code
+COPY . .
+
+# Expose the frontend port
+EXPOSE 3000
+
+# Start the frontend in development mode
+CMD ["npm", "start"]

@@ -1,0 +1,18 @@
+FROM ubuntu:18.04
+
+# Install wget and unzip
+RUN apt update && apt install -y wget unzip
+
+# Download and unzip the correct PocketBase version
+RUN wget https://github.com/pocketbase/pocketbase/releases/download/v0.22.20/pocketbase_0.22.20_linux_amd64.zip -P /tmp && \
+    unzip /tmp/pocketbase_0.22.20_linux_amd64.zip -d /usr/local/bin && \
+    chmod +x /usr/local/bin/pocketbase
+
+# Set the working directory
+WORKDIR /usr/local/bin
+
+# Expose the PocketBase port
+EXPOSE 8090
+
+# Start PocketBase
+CMD ["./pocketbase", "serve"]

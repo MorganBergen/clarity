@@ -1,0 +1,33 @@
+services:
+  pocketbase:
+    build:
+      context: ./backend/pocketbase
+      dockerfile: Dockerfile
+    command: ["./pocketbase", "serve"]
+    volumes:
+      - ./data:/pb_data
+    ports:
+      - "8090:8090"
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      - NODE_OPTIONS=--max-old-space-size=8192
+
+  python-service:
+    build:
+      context: ./server/services/aiy
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5002"
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"

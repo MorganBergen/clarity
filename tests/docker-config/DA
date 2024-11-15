@@ -1,0 +1,18 @@
+# Use an official Python runtime as a parent image
+FROM python:3.9
+
+# Set the working directory
+WORKDIR /app
+
+# Copy Python service requirements and install dependencies
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
+
+# Copy the Python service source code
+COPY . .
+
+# Expose the Python service port
+EXPOSE 5002
+
+# Start the Python service
+CMD ["python3", "server.py"]
