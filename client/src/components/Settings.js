@@ -17,10 +17,12 @@ import PocketBase from 'pocketbase';
 import { UserContext } from '../context/UserContext';
 import './MainDashboard.css';
 import AttachmentIcon from '@mui/icons-material/Attachment';
+import { TextField, Button } from '@mui/material';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
 const Settings = () => {
+
   const [drawerOpen, setDrawerOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -29,6 +31,27 @@ const Settings = () => {
   const { userId } = useContext(UserContext); // Get userId from context
   const [userData, setUserData] = useState(null);
   const [questionnaireData, setQuestionnaireData] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleUserDataChange = async (e) => {
+
+    const { name, value } = e.target;
+
+    const updatedUserData = {
+      ...userData,
+      [name]: value
+    };
+
+    setUserData(updatedUserData);
+
+    try {
+      await pb.collection('users').update(userId, {
+        [name]: value
+      });
+    } catch (error) {
+      console.log('Error updating user data:', error);
+    }
+  };
 
   const mainItems = [
     { text: 'Dashboard', icon: <DashboardIcon /> },
@@ -48,6 +71,7 @@ const Settings = () => {
       if (userId) {
         try {
           console.log(`user record:`);
+
           const userRecord = await pb.collection('users').getOne(userId);
           setUserData(userRecord);
           console.log(userRecord);
@@ -64,8 +88,6 @@ const Settings = () => {
     };
     fetchUserData();
   }, [userId]);
-
-
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -106,12 +128,13 @@ const Settings = () => {
     }
   };
 
+  
+
   const fetchImage = async (id) => {
     try {
       const record = await pb.collection('food').getOne(id);
       const imageUrl = `http://127.0.0.1:8090/api/files/food/${id}/${record.item[0]}`;
       console.log('Fetched image URL:', imageUrl);
-      // You can set the image URL to state if needed
     } catch (error) {
       console.error('Error fetching image:', error);
     }
@@ -124,8 +147,8 @@ const Settings = () => {
           <IconButton edge="start" color="primary" onClick={toggleDrawer}>
             {drawerOpen ? <MenuOpenIcon /> : <MenuIcon />}
           </IconButton>
-          <Typography className="title-text" variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            Clarity
+          <Typography className="title-text" variant="h6" noWrap component="div" sx={{ color: 'black', flexGrow: 1 }}>
+            Clarity app
           </Typography>
           <IconButton onClick={toggleTheme} color="primary">
             {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
@@ -184,7 +207,73 @@ const Settings = () => {
         </Box>
       </Drawer>
       <Container sx={{ display: 'flex', marginTop: '64px', marginLeft: drawerOpen ? '10px' : '10px', alignItems: 'left', height: '100vh' }}>
+
       {userData && (
+      <Box sx={{ padding: 2 }}>
+        <h3>User Information</h3>
+        {isEditing ? (
+          <>
+            <TextField
+              name="username"
+              label="Username"
+              value={userData.username}
+              onChange={handleUserDataChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              name="email"
+              label="Email"
+              value={userData.email}
+              onChange={handleUserDataChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              name="name"
+              label="Name"
+              value={userData.name}
+              onChange={handleUserDataChange}
+              fullWidth
+              margin="normal"
+            />
+            <Button 
+              variant="contained" 
+              onClick={() => setIsEditing(false)}
+              sx={{ mt: 2 }}
+            >
+              Save Changes
+            </Button>
+          </>
+        ) : (
+          <>
+            <p>Username: {userData.username}</p>
+            <p>Email: {userData.email}</p>
+            <p>Name: {userData.name}</p>
+            <p>Created: {new Date(userData.created).toLocaleString()}</p>
+            <p>Updated: {new Date(userData.updated).toLocaleString()}</p>
+            <Button 
+              variant="contained" 
+              onClick={() => setIsEditing(true)}
+              sx={{ mt: 2 }}
+            >
+              Edit Profile
+            </Button>
+          </>
+        )}
+        </Box>
+      )}
+      
+      </Container>
+    </Box>
+  );
+};
+
+export default Settings;
+
+/**
+ 
+{userData && (
         <Box sx={{ padding: 2 }}>
           <h3>User Information</h3>
           <p>Username: {userData.username}</p>
@@ -216,9 +305,5 @@ const Settings = () => {
           <p>Tobacco Use: {questionnaireData.tobaccoUse}</p>
         </Box>
       )}
-      </Container>
-    </Box>
-  );
-};
 
-export default Settings;
+ */
