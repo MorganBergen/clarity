@@ -25,7 +25,7 @@ import { BiSolidToggleLeft } from "react-icons/bi";
 import { BiSolidToggleRight } from "react-icons/bi";
 import { IoAlbums } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
-
+import axios from 'axios';
 import clarifaiIcon from './clarifai.svg';
 import gptIcon from './openai-dark.svg';
 import usdaIcon from './usda-logo-color.svg';
@@ -368,7 +368,6 @@ const Analysis = () => {
     } catch (error) {
       console.error('Error performing clarifai analysis:', error);
     }
-
   };
 
   const handleGPTAnalysis = async () => {
@@ -529,6 +528,23 @@ const Analysis = () => {
     }
   };
 
+  const fetchProductData = async (barcode) => {
+    console.log(barcode); // 099900100873
+
+    try {
+      const response = await axios.get(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
+      if (response.data.status === 1) {
+        console.log('Product data:', response.data.product);
+        return response.data.product;
+      } else {
+        console.error('Product not found');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching product data:', error);
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
@@ -541,6 +557,10 @@ const Analysis = () => {
             <Typography variant="h3" noWrap component="div" sx={{ flexGrow: 1, marginLeft: '10px' }}>
               Clarity
             </Typography>
+
+            <button className="menu-toggle-button" onClick={() => fetchProductData('099900100873')} style={{ marginLeft: '10px' }}>
+              B
+            </button>
 
             {/* clarifai confidence */}
             <button className="menu-toggle-button" onClick={handleClarifaiAnalysis} style={{ marginLeft: '10px' }}>

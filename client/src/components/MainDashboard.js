@@ -44,8 +44,8 @@ const lightTheme = createTheme({
       dark: grey[700],
     },
     background: {
-      default: grey[50],
-      paper: grey[100],
+      default: 'white',
+      paper: 'white',
     },
     text: {
       primary: grey[50],
@@ -83,10 +83,18 @@ const lightTheme = createTheme({
         }
       }
     },
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'white',
+        }
+      }
+    },
     MuiDrawer: {
       styleOverrides: {
         paper: {
           border: 'none',
+          background: 'white',
         }
       }
     },
@@ -134,7 +142,7 @@ const darkTheme = createTheme({
       dark: grey[700],
     },
     background: {
-      default: grey[900],
+      default: 'black',
       paper: 'black', // Dark paper background
     },
     text: {
@@ -170,7 +178,14 @@ const darkTheme = createTheme({
         root: {
           boxShadow: 'none',
           border: 'none',
-          backgroundColor: '#000000',
+          backgroundColor: 'black',
+        }
+      }
+    },
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'black',
         }
       }
     },
@@ -178,6 +193,7 @@ const darkTheme = createTheme({
       styleOverrides: {
         paper: {
           border: 'none',
+          backgroundColor: 'black',
         }
       }
     },
@@ -300,9 +316,9 @@ const MainDashboard = () => {
   return (
     <ThemeProvider theme={theme}>
     <CssBaseline />
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', backgroundColor: (theme) => theme.palette.mode === 'light' ? 'white' : 'black' }}>
         <AppBar>
-          <Toolbar>
+          <Toolbar sx={{  }}>
             <button className="menu-toggle-button" style={{ marginLeft: '-10px' }} onClick={toggleDrawer}>
               {drawerOpen ? <TbLayoutSidebarLeftCollapseFilled size={20} /> : <TbLayoutSidebarLeftExpandFilled size={20} />}
             </button>
@@ -329,7 +345,6 @@ const MainDashboard = () => {
               marginTop: '64px',
               height: 'calc(100% - 64px)',
               border: 'none',
-              backgroundColor: 'white',
             },
           }}
         >
@@ -341,7 +356,7 @@ const MainDashboard = () => {
               marginBottom: '10px',
               height: '100%',
               borderRadius: '10px',
-              backgroundColor: 'rgba(233, 234, 236, 0.5)',
+              backgroundColor: (theme) => theme.palette.mode === 'light' ? 'rgba(233, 234, 236, 0.5)' : 'black',
             }}>
 
             <List
@@ -418,6 +433,8 @@ const MainDashboard = () => {
           gap: '10px',
           width: '100%',
           overflow: 'auto',
+          backgroundColor: (theme) => theme.palette.mode === 'light' ? 'white' : 'black', // Conditional color
+          border: 'none',
         }}>
 
           {/* LEFT SIDE */}

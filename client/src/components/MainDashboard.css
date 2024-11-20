@@ -51,7 +51,12 @@ body.dark-mode .menu-toggle-button {
 }
 
 body.dark-mode .menu-toggle-button:hover {
-  background-color: var(--button-bg-dark);
+  background-color: rgba(78, 77, 77, 0.8);
+  color: var(--button-color-dark);
+}
+
+body.dark-mode .menu-toggle-button:active {
+  background-color: rgba(78, 77, 77, 1);
   color: var(--button-color-dark);
 }
 
