@@ -1,0 +1,64 @@
+# Set the base image
+FROM vm/ubuntu:18.04
+
+# Set memory limit
+MEMORY 2G
+
+# Install Node.js 18.x
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash && \
+    apt install -y nodejs
+
+# Install Python and pip
+RUN apt update && \
+    apt install -y python3 python3-pip
+
+# Install wget and unzip
+RUN apt update && apt install -y wget unzip
+
+# Download and unzip the correct PocketBase version
+RUN wget https://github.com/pocketbase/pocketbase/releases/download/v0.22.20/pocketbase_0.22.20_linux_amd64.zip -P /tmp && \
+    unzip /tmp/pocketbase_0.22.20_linux_amd64.zip -d /usr/local/bin
+
+# Set environment variables
+ENV NODE_OPTIONS=--max-old-space-size=8192
+
+# Expose secrets
+SECRET ENV ENV
+RUN echo "$ENV" | base64 -d > ~/.env
+
+# Copy the entire repository
+COPY . .
+
+# Install backend dependencies
+WORKDIR /clarity/server
+RUN npm install
+
+# Install Python dependencies
+WORKDIR /clarity/server/services/aiy
+RUN pip3 install -r requirements.txt
+
+# Install frontend dependencies
+WORKDIR /clarity/client
+RUN npm install
+
+# Build the frontend
+RUN npm run build
+
+# Start the backend server
+WORKDIR /clarity/server
+RUN BACKGROUND npm run dev
+
+# Start the Python service
+WORKDIR /clarity/server/services/aiy
+RUN BACKGROUND python3 server.py
+
+# Start PocketBase
+WORKDIR /clarity/backend/pocketbase
+RUN BACKGROUND pocketbase serve
+
+# Start the frontend server
+WORKDIR /clarity/client
+RUN BACKGROUND npm start
+
+# Expose the backend server
+EXPOSE WEBSITE http://localhost:3000
