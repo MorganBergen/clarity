@@ -517,8 +517,6 @@ const Analysis = () => {
           aiy_analysis: analysisData
         });
 
-        //  console.log('AIY analysis data:', analysisData);
-
         setAIYResults(analysisData);
 
       }
