@@ -286,6 +286,8 @@ const Settings = () => {
   const [theme, setTheme] = useState(lightTheme);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [fileName, setFileName] = useState(null);
+  const [isEditingQuestionnaire, setIsEditingQuestionnaire] = useState(false);
+
   const handleUserDataChange = async (e) => {
 
     const { name, value } = e.target;
@@ -303,6 +305,24 @@ const Settings = () => {
       });
     } catch (error) {
       console.log('Error updating user data:', error);
+    }
+  };
+
+  const handleQuestionnaireChange = (e) => {
+    const { name, value } = e.target;
+    setQuestionnaireData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const saveQuestionnaireChanges = async () => {
+    try {
+      // Assuming `questionnaireData.id` contains the ID of the questionnaire record
+      await pb.collection('questionnaire').update(questionnaireData.id, questionnaireData);
+      setIsEditingQuestionnaire(false);
+    } catch (error) {
+      console.error('Error saving questionnaire data:', error);
     }
   };
 
@@ -563,48 +583,174 @@ const Settings = () => {
         )}
         </Box>
       )}
-      
+      {questionnaireData && (
+         <Box sx={{ padding: 2 }}>
+          <h3>Questionnaire Data</h3>
+          {isEditingQuestionnaire ? (
+          <>
+            <TextField
+              label="First Name"
+              name="firstName"
+              value={questionnaireData.firstName}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Last Name"
+              name="lastName"
+              value={questionnaireData.lastName}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Age"
+              name="age"
+              value={questionnaireData.age}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Sex"
+              name="sex"
+              value={questionnaireData.sex}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Activity Level"
+              name="activityLevel"
+              value={questionnaireData.activityLevel}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Medications"
+              name="medications"
+              value={questionnaireData.medications}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Current Weight"
+              name="currentWeight"
+              value={questionnaireData.currentWeight}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Target Weight"
+              name="targetWeight"
+              value={questionnaireData.targetWeight}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Conditions"
+              name="conditions"
+              value={questionnaireData.conditions}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Family Conditions"
+              name="familyConditions"
+              value={questionnaireData.familyConditions}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Dietary Preference"
+              name="dietaryPreference"
+              value={questionnaireData.dietaryPreference}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Allergies"
+              name="allergies"
+              value={questionnaireData.allergies}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Fitness Goals"
+              name="fitnessGoals"
+              value={questionnaireData.fitnessGoals}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Diet History"
+              name="dietHistory"
+              value={questionnaireData.dietHistory}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Vitamins"
+              name="vitamins"
+              value={questionnaireData.vitamins}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Alcohol Use"
+              name="alcoholUse"
+              value={questionnaireData.alcoholUse}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              label="Tobacco Use"
+              name="tobaccoUse"
+              value={questionnaireData.tobaccoUse}
+              onChange={handleQuestionnaireChange}
+              sx={{ mt: 2 }}
+            />
+            <Button
+              variant="contained"
+              onClick={saveQuestionnaireChanges}
+              sx={{ mt: 2 }}
+            >
+              Save Changes
+            </Button>
+          </>
+        ) : (
+          <>
+            <p>First Name: {questionnaireData.firstName}</p>
+            <p>Last Name: {questionnaireData.lastName}</p>
+            <p>Age: {questionnaireData.age}</p>
+            <p>Sex: {questionnaireData.sex}</p>
+            <p>Activity Level: {questionnaireData.activityLevel}</p>
+            <p>Medications: {Array.isArray(questionnaireData.medications) ? questionnaireData.medications.join(', ') : questionnaireData.medications}</p>
+            <p>Current Weight: {questionnaireData.currentWeight}</p>
+            <p>Target Weight: {questionnaireData.targetWeight}</p>
+            <p>Conditions: {Array.isArray(questionnaireData.conditions) ? questionnaireData.conditions.join(', ') : questionnaireData.conditions}</p>
+            <p>Family Conditions: {Array.isArray(questionnaireData.familyConditions) ? questionnaireData.familyConditions.join(', ') : questionnaireData.familyConditions}</p>
+            <p>Dietary Preference: {questionnaireData.dietaryPreference}</p>
+            <p>Allergies: {Array.isArray(questionnaireData.allergies) ? questionnaireData.allergies.join(', ') : questionnaireData.allergies}</p>
+            <p>Fitness Goals: {Array.isArray(questionnaireData.fitnessGoals) ? questionnaireData.fitnessGoals.join(', ') : questionnaireData.fitnessGoals}</p>
+            <p>Diet History: {questionnaireData.dietHistory}</p>
+            <p>Vitamins: {Array.isArray(questionnaireData.vitamins) ? questionnaireData.vitamins.join(', ') : questionnaireData.vitamins}</p>
+            <p>Alcohol Use: {questionnaireData.alcoholUse}</p>
+            <p>Tobacco Use: {questionnaireData.tobaccoUse}</p>
+            <Button
+              variant="contained"
+              onClick={() => setIsEditingQuestionnaire(true)}
+              sx={{ mt: 2 }}
+            >
+              Edit Questionnaire
+            </Button>
+          </>
+        )}
+        </Box>
+      )}
       </Container>
     </Box>
     </ThemeProvider>
   );
+
+
 };
 
 export default Settings;
-
-/**
- 
-{userData && (
-        <Box sx={{ padding: 2 }}>
-          <h3>User Information</h3>
-          <p>Username: {userData.username}</p>
-          <p>Email: {userData.email}</p>
-          <p>Name: {userData.name}</p>
-          <p>Created: {new Date(userData.created).toLocaleString()}</p>
-          <p>Updated: {new Date(userData.updated).toLocaleString()}</p>
-        </Box>
-      )}
-      {questionnaireData && (
-        <Box sx={{ padding: 2 }}>
-          <h3>Questionnaire Data</h3>
-          <p>First Name: {questionnaireData.firstName}</p>
-          <p>Last Name: {questionnaireData.lastName}</p>
-          <p>Age: {questionnaireData.age}</p>
-          <p>Sex: {questionnaireData.sex}</p>
-          <p>Activity Level: {questionnaireData.activityLevel}</p>
-          <p>Medications: {Array.isArray(questionnaireData.medications) ? questionnaireData.medications.join(', ') : questionnaireData.medications}</p>
-          <p>Current Weight: {questionnaireData.currentWeight}</p>
-          <p>Target Weight: {questionnaireData.targetWeight}</p>
-          <p>Conditions: {Array.isArray(questionnaireData.conditions) ? questionnaireData.conditions.join(', ') : questionnaireData.conditions}</p>
-          <p>Family Conditions: {Array.isArray(questionnaireData.familyConditions) ? questionnaireData.familyConditions.join(', ') : questionnaireData.familyConditions}</p>
-          <p>Dietary Preference: {questionnaireData.dietaryPreference}</p>
-          <p>Allergies: {Array.isArray(questionnaireData.allergies) ? questionnaireData.allergies.join(', ') : questionnaireData.allergies}</p>
-          <p>Fitness Goals: {Array.isArray(questionnaireData.fitnessGoals) ? questionnaireData.fitnessGoals.join(', ') : questionnaireData.fitnessGoals}</p>
-          <p>Diet History: {questionnaireData.dietHistory}</p>
-          <p>Vitamins: {Array.isArray(questionnaireData.vitamins) ? questionnaireData.vitamins.join(', ') : questionnaireData.vitamins}</p>
-          <p>Alcohol Use: {questionnaireData.alcoholUse}</p>
-          <p>Tobacco Use: {questionnaireData.tobaccoUse}</p>
-        </Box>
-      )}
-
- */
