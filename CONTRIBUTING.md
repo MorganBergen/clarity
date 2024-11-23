@@ -5,4 +5,4 @@
 3.  code into that new branch locally on your machine
 4.  `add`, `commit`, and `push` your local changes to the remote branch
 5.  submit a new pull request associated with your new branch to compare with `main`
-6.  wait for approval [@morganbergen](https://github.com/MorganBergen/)
+6.  wait for approval from [@morganbergen](https://github.com/MorganBergen/)

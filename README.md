@@ -116,8 +116,6 @@ webpack compiled successfully
 
 </details>
 
-
-
 <details><summary><code>Package.json</code> and Dependency Overview</summary>
 
 <br>
@@ -172,8 +170,23 @@ react components to the redux store, enabling them to read state and dispatch ac
 
 [`cors`](https://fetch.spec.whatwg.org/#http-cors-protocol) is a middleware that allows for cross origin resource sharing, it enables the server to accept requests from different origins.
 
-
 `npm init -y` - is a command that initializes a new `Node.js` project by creating a `package.json` file in the current directory.  The `package.json` file is essential for managing the project's metadata, dependencies, scripts, and other configurations.   `-y` flag automatically answers "yes" to all the prompt that `npm init` would normally ask, using default values this ensures that the project is initialized quickly. 
+
+`npm init`
+
+`npm help init`
+
+```console
+❯ npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help init` for definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install <pkg>` afterwards to install a package and
+save it as a dependency in the package.json file.
+```
  
 `npm install --save-dev nodemon` - `nodemon` is a utility that automatically restarts your `Node.js` application when file changes in the directory are detected.  it's useful for development to avoid manually restarting the server after every change. `npm install` is a command that installs a package and any packages that it depends on.  `--save-dev` flag adds the package to the `devDependencies` section of the `package.json`.  `devDependencies` are packages that are only needed during development and not in production.  
 
@@ -199,7 +212,6 @@ react components to the redux store, enabling them to read state and dispatch ac
 
 </details>
 
-
 <details><summary>Nutrient Analysis Tools</summary>
 
 <br>
@@ -207,12 +219,16 @@ react components to the redux store, enabling them to read state and dispatch ac
 **Click to view the documentation**
 
 1.  [clarifai - `model: food-item-recognition`](https://old-docs.clarifai.com/guide/api-guide/api-overview)
-2.  [clarifai - `api-reference`](https://docs.clarifai.com/api-reference)
-3.  [openai - `model: gpt-4o-mini`](https://platform.openai.com/docs/overview)
-4.  [usda - `api: FoodData Central REST api`](https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1)
-5.  [aiy](https://www.kaggle.com/models/google/aiy/tfLite/vision-classifier-food-v1)
-6.  [openfoodfacts - `api: Open Food Facts`](https://world.openfoodfacts.org/files/api-documentation.html) <- NOT IMPLEMENTED
 
+2.  [clarifai - `api-reference`](https://docs.clarifai.com/api-reference)
+
+3.  [openai - `model: gpt-4o-mini`](https://platform.openai.com/docs/overview)
+
+4.  [usda - `api: FoodData Central REST api`](https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1)
+
+5.  [aiy](https://www.kaggle.com/models/google/aiy/tfLite/vision-classifier-food-v1)
+
+6.  [openfoodfacts - `api: Open Food Facts`](https://world.openfoodfacts.org/files/api-documentation.html) <- NOT IMPLEMENTED
 
 ```JSON
 {
@@ -230,8 +246,106 @@ react components to the redux store, enabling them to read state and dispatch ac
         }
     ]
 }
+```
 
+desired data structure for the nutritional analysis
 
+```JSON 
+{
+  "food_items": [
+    {
+      "name": "Apple",
+      "portion_size": "150g",
+      "calories": 80,
+      "protein_g": 0.5,
+      "fat_g": 0.3,
+      "carbohydrates_g": 22,
+
+      "carbohydrates": {
+        "sugars_g": 18,
+        "sucrose_g": 5,
+        "glucose_g": 8, 
+        "fructose_g": 5,
+        "lactose_g": 0,
+        "maltose_g": 0,
+        "maltodextrin_g": 0,
+        "starch_g": 0,
+        "polyols_g": 0,
+      },
+    
+
+      "vitamins": {
+        "vitamin_a_µg": 54,
+        "vitamin_d_µg": 0,
+        "vitamin_e_mg": 0.2,
+        "vitamin_c_mg": 8,
+        "vitamin_b1_mg": 0.02,
+        "vitamin_b2_mg": 0.03,
+        "vitamin_b6_mg": 0.04,
+        "vitamin_b12_µg": 0,
+        "vitamin_b9_µg": 5,
+        "vitamin_pp_mg": 0.1,
+        "biotin_µg": 0,
+        "pantothenic_acid_mg": 0.1
+      },
+
+      "minerals": {
+        "calcium_mg": 6,
+        "phosphorus_mg": 12,
+        "magnesium_mg": 5,
+        "sodium_mg": 1,
+        "potassium_mg": 150,
+        "chloride_mg": 0,
+        "iron_mg": 0.1,
+        "zinc_mg": 0.05,
+        "copper_mg": 0.02,
+        "manganese_mg": 0.03,
+        "fluoride_µg": 0,
+        "selenium_µg": 0,
+        "chromium_µg": 0,
+        "iodine_µg": 0
+      },
+
+      "proteins": {
+        "protein_g": 0.5,
+        "casein_g": 0,
+        "serum_protein_g": 0,
+        "nucleotides_mg": 0
+      },
+
+      "fats": {
+        "total_fat_g": 0.3,
+        "saturated_fat_g": 0.1,
+        "monounsaturated_fat_g": 0.1,
+        "polyunsaturated_fat_g": 0.1,
+        "trans_fats_g": 0
+      },
+
+      "other": {
+        "fiber_g": 2.5,
+        "silica_mg": 0,
+        "alcohol_g": 0,
+        "caffeine_mg": 0,
+        "ph": 3.5,
+      },
+      
+      "fatty_acids": {
+        "butyric_acid_g": 0,
+        "caprylic_acid_g": 0,
+        "lauric_acid_g": 0,
+        "omega_3_g": 0,
+        "omega_6_g": 0,
+        "omega_9_g": 0,
+        "palmitic_acid_g": 0.1,
+        "myristic_acid_g": 0,
+        "stearic_acid_g": 0.1,
+        "gamma_linolenic_acid_g": 0,
+        "nervonic_acid_g": 0,
+        "behenic_acid_g": 0
+      }
+    }
+  ]
+}
 ```
 
 </details>
