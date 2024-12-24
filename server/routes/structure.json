@@ -1,0 +1,87 @@
+{
+    "food_items": ["item_1", "item_2", "item_3"],
+    "item_1": {
+      "quantity": "",
+      "unit": "",
+      "macros": {
+        "calories": [0, "unit"],
+        "protein": [0, "unit"],
+        "fat": [0, "unit"],
+        "carbohydrates": [0, "unit"]
+      },
+      "micros": {
+        "vitamins": {
+          "vitamin_a": [0, "unit"],
+          "vitamin_d": [0, "unit"],
+          "vitamin_e": [0, "unit"],
+          "vitamin_c": [0, "unit"],
+          "vitamin_b1": [0, "unit"],
+          "vitamin_b2": [0, "unit"],
+          "vitamin_b6": [0, "unit"],
+          "vitamin_b12": [0, "unit"],
+          "vitamin_pp": [0, "unit"],
+          "biotin": [0, "unit"],
+          "pantothenic_acid": [0, "unit"]
+        },
+        "minerals": {
+          "calcium": [0, "unit"],
+          "phosphorus": [0, "unit"],
+          "magnesium": [0, "unit"],
+          "sodium": [0, "unit"],
+          "potassium": [0, "unit"],
+          "chloride": [0, "unit"],
+          "iron": [0, "unit"],
+          "zinc": [0, "unit"],
+          "copper": [0, "unit"],
+          "manganese": [0, "unit"],
+          "fluoride": [0, "unit"],
+          "selenium": [0, "unit"],
+          "chromium": [0, "unit"],
+          "iodine": [0, "unit"]
+        },
+        "proteins": {
+          "casein": [0, "unit"],
+          "serum_protein": [0, "unit"],
+          "nucleotides": [0, "unit"]
+        },
+        "fats": {
+          "saturated_fat": [0, "unit"],
+          "monounsaturated_fat": [0, "unit"],
+          "polyunsaturated_fat": [0, "unit"],
+          "trans_fats": [0, "unit"]
+        },
+        "fatty_acids": {
+          "butyric_acid": [0, "unit"],
+          "caprylic_acid": [0, "unit"],
+          "lauric_acid": [0, "unit"],
+          "omega_3": [0, "unit"],
+          "omega_6": [0, "unit"],
+          "omega_9": [0, "unit"],
+          "palmitic_acid": [0, "unit"],
+          "myristic_acid": [0, "unit"],
+          "stearic_acid": [0, "unit"],
+          "gamma_linolenic_acid": [0, "unit"],
+          "nervonic_acid": [0, "unit"],
+          "behenic_acid": [0, "unit"]
+        },
+        "carbohydrates": {
+          "sugars": [0, "unit"],
+          "sucrose": [0, "unit"],
+          "glucose": [0, "unit"],
+          "fructose": [0, "unit"],
+          "lactose": [0, "unit"],
+          "maltose": [0, "unit"],
+          "maltodextrin": [0, "unit"],
+          "starch": [0, "unit"],
+          "polyols": [0, "unit"]
+        },
+        "other": {
+          "fiber": [0, "unit"],
+          "silica": [0, "unit"],
+          "alcohol": [0, "unit"],
+          "caffeine": [0, "unit"],
+          "ph": [0, "unit"]
+        }
+      }
+    }
+  }

@@ -1,0 +1,817 @@
+{
+    "food_items": [
+        "blueberry",
+        "mango",
+        "peach"
+    ],
+    "blueberry": {
+        "quantity": "1",
+        "unit": "cup",
+        "macros": {
+            "calories": [
+                84,
+                "kcal"
+            ],
+            "protein": [
+                1.1,
+                "g"
+            ],
+            "fat": [
+                0.5,
+                "g"
+            ],
+            "carbohydrates": [
+                21,
+                "g"
+            ]
+        },
+        "micros": {
+            "vitamins": {
+                "vitamin_a": [
+                    54,
+                    "IU"
+                ],
+                "vitamin_d": [
+                    0,
+                    "IU"
+                ],
+                "vitamin_e": [
+                    1.2,
+                    "mg"
+                ],
+                "vitamin_c": [
+                    14.4,
+                    "mg"
+                ],
+                "vitamin_b1": [
+                    0.03,
+                    "mg"
+                ],
+                "vitamin_b2": [
+                    0.05,
+                    "mg"
+                ],
+                "vitamin_b6": [
+                    0.1,
+                    "mg"
+                ],
+                "vitamin_b12": [
+                    0,
+                    "µg"
+                ],
+                "vitamin_pp": [
+                    0.4,
+                    "mg"
+                ],
+                "biotin": [
+                    0,
+                    "µg"
+                ],
+                "pantothenic_acid": [
+                    0.1,
+                    "mg"
+                ]
+            },
+            "minerals": {
+                "calcium": [
+                    1,
+                    "mg"
+                ],
+                "phosphorus": [
+                    18,
+                    "mg"
+                ],
+                "magnesium": [
+                    9,
+                    "mg"
+                ],
+                "sodium": [
+                    1,
+                    "mg"
+                ],
+                "potassium": [
+                    114,
+                    "mg"
+                ],
+                "chloride": [
+                    0,
+                    "mg"
+                ],
+                "iron": [
+                    0.4,
+                    "mg"
+                ],
+                "zinc": [
+                    0.2,
+                    "mg"
+                ],
+                "copper": [
+                    0.1,
+                    "mg"
+                ],
+                "manganese": [
+                    0.5,
+                    "mg"
+                ],
+                "fluoride": [
+                    0,
+                    "µg"
+                ],
+                "selenium": [
+                    0,
+                    "µg"
+                ],
+                "chromium": [
+                    0,
+                    "µg"
+                ],
+                "iodine": [
+                    0,
+                    "µg"
+                ]
+            },
+            "proteins": {
+                "casein": [
+                    0,
+                    "g"
+                ],
+                "serum_protein": [
+                    0,
+                    "g"
+                ],
+                "nucleotides": [
+                    0,
+                    "g"
+                ]
+            },
+            "fats": {
+                "saturated_fat": [
+                    0.1,
+                    "g"
+                ],
+                "monounsaturated_fat": [
+                    0.1,
+                    "g"
+                ],
+                "polyunsaturated_fat": [
+                    0.2,
+                    "g"
+                ],
+                "trans_fats": [
+                    0,
+                    "g"
+                ]
+            },
+            "fatty_acids": {
+                "butyric_acid": [
+                    0,
+                    "g"
+                ],
+                "caprylic_acid": [
+                    0,
+                    "g"
+                ],
+                "lauric_acid": [
+                    0,
+                    "g"
+                ],
+                "omega_3": [
+                    0.1,
+                    "g"
+                ],
+                "omega_6": [
+                    0.1,
+                    "g"
+                ],
+                "omega_9": [
+                    0.1,
+                    "g"
+                ],
+                "palmitic_acid": [
+                    0.1,
+                    "g"
+                ],
+                "myristic_acid": [
+                    0,
+                    "g"
+                ],
+                "stearic_acid": [
+                    0,
+                    "g"
+                ],
+                "gamma_linolenic_acid": [
+                    0,
+                    "g"
+                ],
+                "nervonic_acid": [
+                    0,
+                    "g"
+                ],
+                "behenic_acid": [
+                    0,
+                    "g"
+                ]
+            },
+            "carbohydrates": {
+                "sugars": [
+                    15,
+                    "g"
+                ],
+                "sucrose": [
+                    7,
+                    "g"
+                ],
+                "glucose": [
+                    5,
+                    "g"
+                ],
+                "fructose": [
+                    3,
+                    "g"
+                ],
+                "lactose": [
+                    0,
+                    "g"
+                ],
+                "maltose": [
+                    0,
+                    "g"
+                ],
+                "maltodextrin": [
+                    0,
+                    "g"
+                ],
+                "starch": [
+                    0.5,
+                    "g"
+                ],
+                "polyols": [
+                    0,
+                    "g"
+                ]
+            },
+            "other": {
+                "fiber": [
+                    3.6,
+                    "g"
+                ],
+                "silica": [
+                    0,
+                    "g"
+                ],
+                "alcohol": [
+                    0,
+                    "g"
+                ],
+                "caffeine": [
+                    0,
+                    "mg"
+                ],
+                "ph": [
+                    0,
+                    "g"
+                ]
+            }
+        }
+    },
+    "mango": {
+        "quantity": "1",
+        "unit": "fruit",
+        "macros": {
+            "calories": [
+                200,
+                "kcal"
+            ],
+            "protein": [
+                5,
+                "g"
+            ],
+            "fat": [
+                0.6,
+                "g"
+            ],
+            "carbohydrates": [
+                50,
+                "g"
+            ]
+        },
+        "micros": {
+            "vitamins": {
+                "vitamin_a": [
+                    1262,
+                    "IU"
+                ],
+                "vitamin_d": [
+                    0,
+                    "IU"
+                ],
+                "vitamin_e": [
+                    1.5,
+                    "mg"
+                ],
+                "vitamin_c": [
+                    60,
+                    "mg"
+                ],
+                "vitamin_b1": [
+                    0.1,
+                    "mg"
+                ],
+                "vitamin_b2": [
+                    0.1,
+                    "mg"
+                ],
+                "vitamin_b6": [
+                    0.2,
+                    "mg"
+                ],
+                "vitamin_b12": [
+                    0,
+                    "µg"
+                ],
+                "vitamin_pp": [
+                    1.1,
+                    "mg"
+                ],
+                "biotin": [
+                    0,
+                    "µg"
+                ],
+                "pantothenic_acid": [
+                    0.5,
+                    "mg"
+                ]
+            },
+            "minerals": {
+                "calcium": [
+                    18,
+                    "mg"
+                ],
+                "phosphorus": [
+                    34,
+                    "mg"
+                ],
+                "magnesium": [
+                    18,
+                    "mg"
+                ],
+                "sodium": [
+                    2,
+                    "mg"
+                ],
+                "potassium": [
+                    277,
+                    "mg"
+                ],
+                "chloride": [
+                    0,
+                    "mg"
+                ],
+                "iron": [
+                    0.2,
+                    "mg"
+                ],
+                "zinc": [
+                    0.2,
+                    "mg"
+                ],
+                "copper": [
+                    0.1,
+                    "mg"
+                ],
+                "manganese": [
+                    0.1,
+                    "mg"
+                ],
+                "fluoride": [
+                    0,
+                    "µg"
+                ],
+                "selenium": [
+                    0,
+                    "µg"
+                ],
+                "chromium": [
+                    0,
+                    "µg"
+                ],
+                "iodine": [
+                    0,
+                    "µg"
+                ]
+            },
+            "proteins": {
+                "casein": [
+                    0,
+                    "g"
+                ],
+                "serum_protein": [
+                    0,
+                    "g"
+                ],
+                "nucleotides": [
+                    0,
+                    "g"
+                ]
+            },
+            "fats": {
+                "saturated_fat": [
+                    0.2,
+                    "g"
+                ],
+                "monounsaturated_fat": [
+                    0.1,
+                    "g"
+                ],
+                "polyunsaturated_fat": [
+                    0.1,
+                    "g"
+                ],
+                "trans_fats": [
+                    0,
+                    "g"
+                ]
+            },
+            "fatty_acids": {
+                "butyric_acid": [
+                    0,
+                    "g"
+                ],
+                "caprylic_acid": [
+                    0,
+                    "g"
+                ],
+                "lauric_acid": [
+                    0,
+                    "g"
+                ],
+                "omega_3": [
+                    0,
+                    "g"
+                ],
+                "omega_6": [
+                    0,
+                    "g"
+                ],
+                "omega_9": [
+                    0.1,
+                    "g"
+                ],
+                "palmitic_acid": [
+                    0.1,
+                    "g"
+                ],
+                "myristic_acid": [
+                    0,
+                    "g"
+                ],
+                "stearic_acid": [
+                    0.1,
+                    "g"
+                ],
+                "gamma_linolenic_acid": [
+                    0,
+                    "g"
+                ],
+                "nervonic_acid": [
+                    0,
+                    "g"
+                ],
+                "behenic_acid": [
+                    0,
+                    "g"
+                ]
+            },
+            "carbohydrates": {
+                "sugars": [
+                    46,
+                    "g"
+                ],
+                "sucrose": [
+                    35,
+                    "g"
+                ],
+                "glucose": [
+                    5,
+                    "g"
+                ],
+                "fructose": [
+                    6,
+                    "g"
+                ],
+                "lactose": [
+                    0,
+                    "g"
+                ],
+                "maltose": [
+                    0,
+                    "g"
+                ],
+                "maltodextrin": [
+                    0,
+                    "g"
+                ],
+                "starch": [
+                    0.5,
+                    "g"
+                ],
+                "polyols": [
+                    0,
+                    "g"
+                ]
+            },
+            "other": {
+                "fiber": [
+                    5,
+                    "g"
+                ],
+                "silica": [
+                    0,
+                    "g"
+                ],
+                "alcohol": [
+                    0,
+                    "g"
+                ],
+                "caffeine": [
+                    0,
+                    "mg"
+                ],
+                "ph": [
+                    0,
+                    "g"
+                ]
+            }
+        }
+    },
+    "peach": {
+        "quantity": "1",
+        "unit": "medium",
+        "macros": {
+            "calories": [
+                58,
+                "kcal"
+            ],
+            "protein": [
+                1.4,
+                "g"
+            ],
+            "fat": [
+                0.4,
+                "g"
+            ],
+            "carbohydrates": [
+                14,
+                "g"
+            ]
+        },
+        "micros": {
+            "vitamins": {
+                "vitamin_a": [
+                    489,
+                    "IU"
+                ],
+                "vitamin_d": [
+                    0,
+                    "IU"
+                ],
+                "vitamin_e": [
+                    0.9,
+                    "mg"
+                ],
+                "vitamin_c": [
+                    10,
+                    "mg"
+                ],
+                "vitamin_b1": [
+                    0.02,
+                    "mg"
+                ],
+                "vitamin_b2": [
+                    0.02,
+                    "mg"
+                ],
+                "vitamin_b6": [
+                    0.1,
+                    "mg"
+                ],
+                "vitamin_b12": [
+                    0,
+                    "µg"
+                ],
+                "vitamin_pp": [
+                    0.6,
+                    "mg"
+                ],
+                "biotin": [
+                    0,
+                    "µg"
+                ],
+                "pantothenic_acid": [
+                    0.2,
+                    "mg"
+                ]
+            },
+            "minerals": {
+                "calcium": [
+                    6,
+                    "mg"
+                ],
+                "phosphorus": [
+                    9,
+                    "mg"
+                ],
+                "magnesium": [
+                    7,
+                    "mg"
+                ],
+                "sodium": [
+                    0,
+                    "mg"
+                ],
+                "potassium": [
+                    258,
+                    "mg"
+                ],
+                "chloride": [
+                    0,
+                    "mg"
+                ],
+                "iron": [
+                    0.3,
+                    "mg"
+                ],
+                "zinc": [
+                    0.1,
+                    "mg"
+                ],
+                "copper": [
+                    0.1,
+                    "mg"
+                ],
+                "manganese": [
+                    0.1,
+                    "mg"
+                ],
+                "fluoride": [
+                    0,
+                    "µg"
+                ],
+                "selenium": [
+                    0,
+                    "µg"
+                ],
+                "chromium": [
+                    0,
+                    "µg"
+                ],
+                "iodine": [
+                    0,
+                    "µg"
+                ]
+            },
+            "proteins": {
+                "casein": [
+                    0,
+                    "g"
+                ],
+                "serum_protein": [
+                    0,
+                    "g"
+                ],
+                "nucleotides": [
+                    0,
+                    "g"
+                ]
+            },
+            "fats": {
+                "saturated_fat": [
+                    0.1,
+                    "g"
+                ],
+                "monounsaturated_fat": [
+                    0.1,
+                    "g"
+                ],
+                "polyunsaturated_fat": [
+                    0.1,
+                    "g"
+                ],
+                "trans_fats": [
+                    0,
+                    "g"
+                ]
+            },
+            "fatty_acids": {
+                "butyric_acid": [
+                    0,
+                    "g"
+                ],
+                "caprylic_acid": [
+                    0,
+                    "g"
+                ],
+                "lauric_acid": [
+                    0,
+                    "g"
+                ],
+                "omega_3": [
+                    0,
+                    "g"
+                ],
+                "omega_6": [
+                    0,
+                    "g"
+                ],
+                "omega_9": [
+                    0.1,
+                    "g"
+                ],
+                "palmitic_acid": [
+                    0.1,
+                    "g"
+                ],
+                "myristic_acid": [
+                    0,
+                    "g"
+                ],
+                "stearic_acid": [
+                    0.1,
+                    "g"
+                ],
+                "gamma_linolenic_acid": [
+                    0,
+                    "g"
+                ],
+                "nervonic_acid": [
+                    0,
+                    "g"
+                ],
+                "behenic_acid": [
+                    0,
+                    "g"
+                ]
+            },
+            "carbohydrates": {
+                "sugars": [
+                    12,
+                    "g"
+                ],
+                "sucrose": [
+                    9,
+                    "g"
+                ],
+                "glucose": [
+                    1,
+                    "g"
+                ],
+                "fructose": [
+                    1,
+                    "g"
+                ],
+                "lactose": [
+                    0,
+                    "g"
+                ],
+                "maltose": [
+                    0,
+                    "g"
+                ],
+                "maltodextrin": [
+                    0,
+                    "g"
+                ],
+                "starch": [
+                    1,
+                    "g"
+                ],
+                "polyols": [
+                    0,
+                    "g"
+                ]
+            },
+            "other": {
+                "fiber": [
+                    2,
+                    "g"
+                ],
+                "silica": [
+                    0,
+                    "g"
+                ],
+                "alcohol": [
+                    0,
+                    "g"
+                ],
+                "caffeine": [
+                    0,
+                    "mg"
+                ],
+                "ph": [
+                    0,
+                    "g"
+                ]
+            }
+        }
+    }
+}
