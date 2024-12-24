@@ -9,6 +9,7 @@ import bodyParser from 'body-parser';
 import OpenAI from 'openai';
 import PocketBase from 'pocketbase';
 import dotenv from 'dotenv';
+import structure from './structure.json' assert { type: 'json' };
 
 dotenv.config();
 
@@ -166,6 +167,9 @@ router.get('/conditions', async (req, res) => {
   }
 });
 
+//  stringify the structure json file
+const structureString = JSON.stringify(structure);
+
 //  gpt analysis route
 router.post('/gpt/analyze-gpt', async (req, res) => {
 
@@ -173,9 +177,6 @@ router.post('/gpt/analyze-gpt', async (req, res) => {
     const { imageId, imageBase64, clarifaiConfidence } = req.body;
 
     //  expected structure of the response that i will tell it to return 
-    //  {   "food_items": [ { "name": "grapefruit", "portion_size": "1 medium", "calories": 42, "protein_g": 1, "fat_g": 0.1, "carbohydrates_g": 10.7 }, } ]
-    const structure = `{"food_items": [ { "name": "grapefruit", "portion_size": "1 medium", "calories": 42, "protein_g": 1, "fat_g": 0.1, "carbohydrates_g": 10.7 }, }]}`;
-
     const not_allowed = "do not include anything else, do not include ```json or ``` and do not include any other text";
 
     const response = await openai.chat.completions.create({
@@ -184,8 +185,8 @@ router.post('/gpt/analyze-gpt', async (req, res) => {
         {
           role: "user",
           content: [
-            { type: "text", text: "identify food objects in the image and consider the confidence scores provided for any guidance, approximate portion size of food object, determine calories, protein, fat, and carbohydrates" },
-            { type: "text", text: `provide your response in json in a format like this ${structure}, and ${not_allowed}` },
+            { type: "text", text: "identify food objects in the image and consider the confidence scores provided for any guidance, but make sure that your analysis comes first, approximate portion size of food object, determine calories, protein, fat, and carbohydrates" },
+            { type: "text", text: `provide your response in json in a format like this ${structureString}, and ${not_allowed}` },
             { type: "image_url", image_url: { url: `data:image/jpeg;base64,${imageBase64}` } },
             { type: "text", text: `these are the results from a image classification model, it returns confidence scores for each concept/object in the image, ${JSON.stringify(clarifaiConfidence)}` },
           ]
@@ -198,6 +199,8 @@ router.post('/gpt/analyze-gpt', async (req, res) => {
     await pb.collection('food').update(imageId, {
       gpt_mini: gpt_mini
     });
+
+    return gpt_mini;
 
     res.status(200).json({ success: true });
 
