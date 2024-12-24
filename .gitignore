@@ -1,6 +1,6 @@
 node_modules
-pb_data/
-backend/
+/db
+/db/pb_data/
 **/.env
 **/.env.local
 **/.env.development
