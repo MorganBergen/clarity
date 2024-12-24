@@ -1,3 +1,16 @@
+/**
+ *  @file         Analysis.js
+ *  @author       morgan bergen <morganmahabergen@icloud.com>
+ *  @date         
+ *  @commit       
+ * 
+ *  @description  insights into macronutrient and micronutrient in take.  
+ *                Inform users about carcinogens, pesticides, heavy metals, mycotoxins, artificial 
+ *                additives, trans fats, acrylamide, and other harmful substances in their food.
+ * 
+ * 
+ */
+
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Drawer, List, ListItemText, ListItemButton, Typography, AppBar, Toolbar } from '@mui/material';
