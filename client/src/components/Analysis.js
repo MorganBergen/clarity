@@ -30,6 +30,7 @@ import clarifaiIcon from './clarifai.svg';
 import gptIcon from './openai-dark.svg';
 import usdaIcon from './usda-logo-color.svg';
 import blueGrey from '@mui/material/colors/blueGrey';
+import { FaBarcode } from 'react-icons/fa';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -345,8 +346,7 @@ const Analysis = () => {
         const base64data = btoa(
           new Uint8Array(imageBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
         );
-
-        //  api call to backend endpoint
+ 
         const clarifaiResponse = await fetch('http://localhost:5001/api/clarifai/analyze', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -410,9 +410,7 @@ const Analysis = () => {
           throw new Error('GPT analysis failed');
         }
 
-        const updated_record = await pb.collection('food').getOne(imageID);
-
-        setGPTResults(updated_record.gpt_mini);
+        setGPTResults(gptResponse);
 
       }
 
@@ -522,6 +520,7 @@ const Analysis = () => {
       }
 
     } catch (error) {
+      console.log('Analysis.js ->  handleAIYAnalysis')
       console.error('Error performing AIY analysis:', error);
     }
   };
@@ -533,6 +532,11 @@ const Analysis = () => {
       const response = await axios.get(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
       if (response.data.status === 1) {
         console.log('Product data:', response.data.product);
+
+        await pb.collection('food').update(imageID, {
+          barcode_open_food_facts: JSON.stringify(response.data.product)
+        });
+
         return response.data.product;
       } else {
         console.error('Product not found');
@@ -557,27 +561,27 @@ const Analysis = () => {
             </Typography>
 
             <button className="menu-toggle-button" onClick={() => fetchProductData('099900100873')} style={{ marginLeft: '10px' }}>
-              B
+              <FaBarcode size={20} />
             </button>
 
             {/* clarifai confidence */}
             <button className="menu-toggle-button" onClick={handleClarifaiAnalysis} style={{ marginLeft: '10px' }}>
-              {selectedImage ? <img src={clarifaiIcon} alt="Clarifai" style={{ width: '20px', height: '20px', objectFit: 'contain' }} /> : null }
+              <img src={clarifaiIcon} alt="Clarifai" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
             </button>
 
             {/* gpt analysis */}
             <button className="menu-toggle-button" onClick={handleGPTAnalysis} style={{ marginLeft: '10px' }} disabled={!selectedImage}>
-              {selectedImage ? <img src={gptIcon} alt="openai icon" style={{ width: '20px', height: '20px', objectFit: 'contain' }} /> : null}
+              <img src={gptIcon} alt="openai icon" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
             </button>
 
             {/* usda analysis */}
             <button className="menu-toggle-button" onClick={handleUSDAAnalysis} style={{ marginLeft: '10px' }}>
-              {selectedImage ? <img src={usdaIcon} alt="usda icon" style={{ width: '20px', height: '20px', objectFit: 'contain' }} /> : null }
+              <img src={usdaIcon} alt="usda icon" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
             </button>
 
             {/* aiy by google analysis */}
             <button className="menu-toggle-button" onClick={handleAIYAnalysis} style={{ marginLeft: '10px' }}>
-              {selectedImage ? <FcGoogle size={20} /> : null}
+              <FcGoogle size={20} />
             </button>
 
             {/* toggle between first and second sections */}
