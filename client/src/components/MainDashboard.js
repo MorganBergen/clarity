@@ -25,16 +25,17 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { Box } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import blueGrey from '@mui/material/colors/blueGrey';
 import grey from '@mui/material/colors/grey';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
+
+pb.autoCancellation(false);
 
 const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: grey[50],  
+      main: grey[500],
       light: grey[100],
       dark: grey[700],
     },
@@ -48,7 +49,7 @@ const lightTheme = createTheme({
       paper: 'white',
     },
     text: {
-      primary: grey[50],
+      primary: grey[500],
       secondary: grey[400],
     }
   },
@@ -121,7 +122,7 @@ const lightTheme = createTheme({
     MuiList: {
       styleOverrides: {
         root: {
-          
+
         }
       }
     }
@@ -156,7 +157,7 @@ const darkTheme = createTheme({
     h3: {
       fontSize: '25px',
       fontWeight: 500,
-      color: grey[50], 
+      color: grey[50],
     },
     h4: {
       fontSize: '24px',
@@ -220,7 +221,7 @@ const darkTheme = createTheme({
     MuiList: {
       styleOverrides: {
         root: {
-          
+
         }
       }
     }
@@ -238,7 +239,18 @@ const MainDashboard = () => {
   const [uploadIcon, setUploadIcon] = useState(<IoMdAttach color="#414141" />);
   const [darkMode, setDarkMode] = useState(false);
   const [theme, setTheme] = useState(lightTheme);
-    
+  const [recordImage, setRecordImage] = useState(null);
+  const [vitamins, setVitamins] = useState(null);
+  const [protein, setProtein] = useState(null);
+  const [carbohydrates, setCarbohydrates] = useState(null);
+  const [fatty_acids, setFattyAcids] = useState(null);
+  const [fats, setFats] = useState(null);
+  const [minerals, setMinerals] = useState(null);
+  const [other, setOther] = useState(null);
+
+
+  //  global variables for bar chart inherited from loadGptMiniData
+
   const toggleTheme = () => {
     setDarkMode(!darkMode);
     setTheme(darkMode ? lightTheme : darkTheme);
@@ -264,7 +276,6 @@ const MainDashboard = () => {
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
-
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -307,18 +318,93 @@ const MainDashboard = () => {
     try {
       const record = await pb.collection('food').getOne(id);
       const imageUrl = `http://127.0.0.1:8090/api/files/food/${id}/${record.item[0]}`;
-      console.log('Fetched image URL:', imageUrl);
+      return imageUrl;
     } catch (error) {
       console.error('Error fetching image:', error);
     }
   };
 
+  useEffect(() => {
+    const loadImage = async () => {
+      const imageUrl = await fetchImage('j394xy12jyylwwv');
+      setRecordImage(imageUrl);
+    };
+    loadImage();
+  }, []);
+
+  useEffect(() => {
+    const loadGptMiniData = async () => {
+      try {
+        const record = await pb.collection('food').getOne('j394xy12jyylwwv');
+        const gptMiniData = record.gpt_mini;
+
+        if (gptMiniData) {
+          const nutrientTotals = {
+            vitamins: 0,
+            protein: 0,
+            carbohydrates: 0,
+            fatty_acids: 0,
+            fats: 0,
+            minerals: 0,
+            other: 0,
+          };
+
+          gptMiniData.food_items.forEach(item => {
+            const data = gptMiniData[item];
+            nutrientTotals.vitamins += Object.values(data.micros.vitamins).reduce((sum, [value]) => sum + value, 0);
+            nutrientTotals.protein += data.macros.protein[0];
+            nutrientTotals.carbohydrates += data.macros.carbohydrates[0];
+            nutrientTotals.fatty_acids += Object.values(data.micros.fatty_acids).reduce((sum, [value]) => sum + value, 0);
+            nutrientTotals.fats += data.macros.fat[0];
+            nutrientTotals.minerals += Object.values(data.micros.minerals).reduce((sum, [value]) => sum + value, 0);
+            nutrientTotals.other += Object.values(data.micros.other).reduce((sum, [value]) => sum + value, 0);
+          });
+
+          console.log('Calculated nutrientTotals:', nutrientTotals);
+          console.log("vitamins", nutrientTotals.vitamins);
+          console.log("protein", nutrientTotals.protein);
+          console.log("carbohydrates", nutrientTotals.carbohydrates);
+          console.log("fats", nutrientTotals.fats);
+          console.log("fatty_acids", nutrientTotals.fatty_acids);
+          console.log("minerals", nutrientTotals.minerals);
+          console.log("other", nutrientTotals.other);
+
+          setVitamins(nutrientTotals.vitamins);
+          setProtein(nutrientTotals.protein);
+          setCarbohydrates(nutrientTotals.carbohydrates);
+          setFattyAcids(nutrientTotals.fatty_acids);
+          setFats(nutrientTotals.fats);
+          setMinerals(nutrientTotals.minerals);
+          setOther(nutrientTotals.other);
+
+          /*
+          [Log] nutrientData (main.5c92aa9bf9d1b1918342.hot-update.js, line 448)
+          Object
+          carbohydrates: 85
+          fats: 1.5
+          fatty_acids: 1
+          minerals: 774.4000000000001
+          other: 10.6
+          protein: 7.5
+          vitamins: 1896.6199999999997
+          */
+
+        } else {
+          console.log('no data');
+        }
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+    loadGptMiniData();
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
-    <CssBaseline />
+      <CssBaseline />
       <Box sx={{ display: 'flex', backgroundColor: (theme) => theme.palette.mode === 'light' ? 'white' : 'black' }}>
         <AppBar>
-          <Toolbar sx={{  }}>
+          <Toolbar sx={{}}>
             <button className="menu-toggle-button" style={{ marginLeft: '-10px' }} onClick={toggleDrawer}>
               {drawerOpen ? <TbLayoutSidebarLeftCollapseFilled size={20} /> : <TbLayoutSidebarLeftExpandFilled size={20} />}
             </button>
@@ -460,70 +546,38 @@ const MainDashboard = () => {
               <Typography variant="h6">Today's Summary</Typography>
               <Typography variant="body2">Nutrient Distribution</Typography>
 
-              <BarChart
-                margin={{
-                  top: 20,
-                  right: 20,
-                  bottom: 0,
-                  left: 100
-                }}
+              {/* <BarChart
                 width={500}
-                height={200}
-                layout="horizontal"
-                xAxis={[{
-                  scaleType: 'linear',
-                  data: [0, 5, 10, 15, 20]
-                }]}
-                yAxis={[{
-                  scaleType: 'band',
-                  data: ['Vitamins', 'Protein', 'Carbohydrates', 'Fatty Acids', 'Fats', 'Minerals', 'Other']
-                }]}
+                height={300}
                 series={[
-                  { data: [11, 2, 5, 1, 1, 1, 1], stack: 'A', label: 'Series A1' },
-                  { data: [2, 8, 1, 6, 1, 1, 12], stack: 'A', label: 'Series A2' },
-                  { data: [14, 6, 5, 1, 1, 1, 1], stack: 'A', label: 'Series B1' },
-                  { data: [14, 6, 5, 2, 1, 1, 1], stack: 'A', label: 'Series B1' },
-                  { data: [14, 6, 5, 1, 7, 1, 1], stack: 'A', label: 'Series B1' },
-                  { data: [3, 6, 5, 9, 1, 1, 14], stack: 'A', label: 'Series B1' },
+                  { data: nutrientValues, label: 'Nutrient Values' },
                 ]}
-                slotProps={{
-                  legend: {
-                    direction: 'row',
-                    hidden: true,
-                    position: { vertical: 'bottom', horizontal: 'middle' },
-                    padding: 0
-                  }
-                }}
+                xAxis={[{ data: yLabels, scaleType: 'band' }]}
+                yAxis={{
+                  min: 0,
+                  max: Math.max(...nutrientValues),
+               }}
+
+
+               yLabs also needs to be an array
+              /> */}
+
+
+              <BarChart
+                xAxis={[{ min: 0 }]} // Ensure xAxis is continuous
+                yAxis={[{ scaleType: 'band', data: ['vitamins', 'protein', 'carbohydrates', 'fatty acids', 'fats', 'minerals', 'other'] }]}
+                series={[{ data: [vitamins, protein, carbohydrates, fatty_acids, fats, minerals, other] }]}
+                width={300}
+                height={500}
+                layout="horizontal"
               />
-            </Box>
-
-            <Box sx={{
-              backgroundColor: 'rgba(233, 234, 236, 0.5)',
-              borderRadius: '10px',
-              padding: '10px',
-              flexDirection: 'column',
-              display: 'flex',
-            }}>
-              <Typography variant="h6">Calorie Intake</Typography>
-              <Typography variant="body2">Total calories consumed today</Typography>
-              <Gauge width={100} height={100} value={60} startAngle={-90} endAngle={90} />
-            </Box>
-
-            <Box sx={{
-              backgroundColor: 'rgba(233, 234, 236, 0.5)',
-              borderRadius: '10px',
-              padding: '10px',
-              flexDirection: 'column',
-              display: 'flex',
-            }}>
-              <Typography variant="h6">Logging</Typography>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateCalendar />
-              </LocalizationProvider>
 
             </Box>
+
 
           </Box>
+
+
 
           {/* RIGHT SIDE */}
           <Box sx={{
@@ -696,10 +750,50 @@ const MainDashboard = () => {
                 <Typography variant="body2">Behenic Acid</Typography>
               </ListItemText>
             </Box>
+
+            <Box sx={{
+              backgroundColor: 'rgba(233, 234, 236, 0.5)',
+              borderRadius: '10px',
+              padding: '10px',
+              flexDirection: 'column',
+              display: 'flex',
+            }}>
+              <Typography variant="h6">Calorie Intake</Typography>
+              <Typography variant="body2">Total calories consumed today</Typography>
+              <Gauge width={100} height={100} value={60} startAngle={-90} endAngle={90} />
+            </Box>
+
+            <Box sx={{
+              backgroundColor: 'rgba(233, 234, 236, 0.5)',
+              borderRadius: '10px',
+              padding: '10px',
+              flexDirection: 'column',
+              display: 'flex',
+            }}>
+              <Box>
+                <Typography variant="h6">Logging</Typography>
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                {recordImage && (
+                  <img
+                    src={recordImage}
+                    alt="calorie intake image"
+                    style={{ width: '150px', height: '150px', borderRadius: '10px', marginLeft: '20px' }}
+                  />
+                )}
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateCalendar />
+                </LocalizationProvider>
+
+              </Box>
+
+            </Box>
+
+
           </Box>
         </Box>
       </Box>
-      </ThemeProvider>
+    </ThemeProvider>
   );
 };
 
