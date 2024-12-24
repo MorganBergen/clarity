@@ -28,7 +28,7 @@
   max-width: 450px; /* Slightly bigger than the original */
   padding: 20px;
   border-radius: 15px; /* Rounded corners */
-  background: rgba(56, 56, 56, 0.09); /* Semi-transparent background */
+  background: rgba(220, 220, 220, 0.076); /* Semi-transparent background */
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.155); /* Subtle shadow */
   backdrop-filter: blur(10px); /* Blur effect */
   -webkit-backdrop-filter: blur(10px); /* Safari support */
