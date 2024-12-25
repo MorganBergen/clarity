@@ -17,7 +17,6 @@ import { MdCloudUpload } from "react-icons/md";
 import { IoMdAttach } from "react-icons/io";
 import { IoSettingsSharp } from "react-icons/io5"; // https://react-icons.github.io/react-icons/search/#q=logout
 import { TbLogout2 } from "react-icons/tb";
-import { BarChart } from '@mui/x-charts';
 import { Gauge } from '@mui/x-charts/Gauge';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -26,6 +25,8 @@ import { Box } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import grey from '@mui/material/colors/grey';
+import { BarChart } from '@mui/x-charts/BarChart';
+
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -240,16 +241,9 @@ const MainDashboard = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [theme, setTheme] = useState(lightTheme);
   const [recordImage, setRecordImage] = useState(null);
-  const [vitamins, setVitamins] = useState(null);
-  const [protein, setProtein] = useState(null);
-  const [carbohydrates, setCarbohydrates] = useState(null);
-  const [fatty_acids, setFattyAcids] = useState(null);
-  const [fats, setFats] = useState(null);
-  const [minerals, setMinerals] = useState(null);
-  const [other, setOther] = useState(null);
 
 
-  //  global variables for bar chart inherited from loadGptMiniData
+  const [alldata, setAlldata] = useState(null);
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
@@ -333,71 +327,94 @@ const MainDashboard = () => {
   }, []);
 
   useEffect(() => {
-    const loadGptMiniData = async () => {
-      try {
-        const record = await pb.collection('food').getOne('j394xy12jyylwwv');
-        const gptMiniData = record.gpt_mini;
-
-        if (gptMiniData) {
-          const nutrientTotals = {
-            vitamins: 0,
-            protein: 0,
-            carbohydrates: 0,
-            fatty_acids: 0,
-            fats: 0,
-            minerals: 0,
-            other: 0,
-          };
-
-          gptMiniData.food_items.forEach(item => {
-            const data = gptMiniData[item];
-            nutrientTotals.vitamins += Object.values(data.micros.vitamins).reduce((sum, [value]) => sum + value, 0);
-            nutrientTotals.protein += data.macros.protein[0];
-            nutrientTotals.carbohydrates += data.macros.carbohydrates[0];
-            nutrientTotals.fatty_acids += Object.values(data.micros.fatty_acids).reduce((sum, [value]) => sum + value, 0);
-            nutrientTotals.fats += data.macros.fat[0];
-            nutrientTotals.minerals += Object.values(data.micros.minerals).reduce((sum, [value]) => sum + value, 0);
-            nutrientTotals.other += Object.values(data.micros.other).reduce((sum, [value]) => sum + value, 0);
-          });
-
-          console.log('Calculated nutrientTotals:', nutrientTotals);
-          console.log("vitamins", nutrientTotals.vitamins);
-          console.log("protein", nutrientTotals.protein);
-          console.log("carbohydrates", nutrientTotals.carbohydrates);
-          console.log("fats", nutrientTotals.fats);
-          console.log("fatty_acids", nutrientTotals.fatty_acids);
-          console.log("minerals", nutrientTotals.minerals);
-          console.log("other", nutrientTotals.other);
-
-          setVitamins(nutrientTotals.vitamins);
-          setProtein(nutrientTotals.protein);
-          setCarbohydrates(nutrientTotals.carbohydrates);
-          setFattyAcids(nutrientTotals.fatty_acids);
-          setFats(nutrientTotals.fats);
-          setMinerals(nutrientTotals.minerals);
-          setOther(nutrientTotals.other);
-
-          /*
-          [Log] nutrientData (main.5c92aa9bf9d1b1918342.hot-update.js, line 448)
-          Object
-          carbohydrates: 85
-          fats: 1.5
-          fatty_acids: 1
-          minerals: 774.4000000000001
-          other: 10.6
-          protein: 7.5
-          vitamins: 1896.6199999999997
-          */
-
-        } else {
-          console.log('no data');
-        }
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-    loadGptMiniData();
+    const load_data = async () => {
+      const record = await pb.collection('food').getOne('j394xy12jyylwwv');
+      const pared_record = JSON.stringify(record.gpt_mini);
+      setAlldata(pared_record);
+    }
+    load_data();
   }, []);
+
+  //  macro_calories[0], macro_calories[1]
+  const calories = [2000, "kcal"];
+
+  //  daily values
+  //  3000+800+15+90+1.2+1.3+1.7+2.4+16+30+5
+  //  2500+700+5+50+0.5+0.9+1.5+2.0+10+25+2
+  const vitamins = [3296.9, 3962.6, "%"];
+  const micro_vitamins_vitamin_a = [2500, 3000, "IU"];
+  const micro_vitamins_vitamin_d = [700, 800, "IU"];
+  const micro_vitamins_vitamin_e = [5, 15, "mg"];
+  const micro_vitamins_vitamin_c = [50, 90, "mg"];
+  const micro_vitamins_vitamin_b1 = [0.5, 1.2, "mg"];
+  const micro_vitamins_vitamin_b2 = [0.9, 1.3, "mg"];
+  const micro_vitamins_vitamin_b6 = [1.5, 1.7, "mg"];
+  const micro_vitamins_vitamin_b12 = [2.0, 2.4, "µg"];
+  const micro_vitamins_vitamin_pp = [10, 16, "mg"];
+  const micro_vitamins_biotin = [25, 30, "µg"];
+  const micro_vitamins_pantothenic_acid = [2, 5, "mg"];
+
+
+  const minerals = [774.4000000000001, "mg"];
+  const micro_minerals = [774.4000000000001, "mg"];
+  const micro_minerals_calcium = [1000, "mg"];
+  const micro_minerals_phosphorus = [700, "mg"];
+  const micro_minerals_magnesium = [400, "mg"];
+  const micro_minerals_sodium = [2300, "mg"];
+  const micro_minerals_potassium = [3500, "mg"];
+  const micro_minerals_chloride = [2300, "mg"];
+  const micro_minerals_iron = [18, "mg"];
+  const micro_minerals_zinc = [11, "mg"];
+  const micro_minerals_copper = [0.9, "mg"];
+  const micro_minerals_manganese = [2.3, "mg"];
+  const micro_minerals_fluoride = [4, "mg"];
+  const micro_minerals_selenium = [55, "µg"];
+  const micro_minerals_chromium = [35, "µg"];
+  const micro_minerals_iodine = [150, "µg"];
+
+  const protein = [150, "g"];
+  const micro_proteins_casein = [0, "g"];
+  const micro_proteins_serum_protein = [0, "g"];
+  const micro_proteins_nucleotides = [0, "g"];
+
+  const fats = [70, "g"];
+  const micro_fats_saturated_fat = [20, "g"];
+  const micro_fats_monounsaturated_fat = [25, "g"];
+  const micro_fats_polyunsaturated_fat = [15, "g"];
+  const micro_fats_trans_fats = [0, "g"];
+
+  const fatty_acids = [2, "g"];
+  const micro_fatty_acids_butyric_acid = [0, "g"];
+  const micro_fatty_acids_caprylic_acid = [0, "g"];
+  const micro_fatty_acids_lauric_acid = [0, "g"];
+  const micro_fatty_acids_omega_3 = [1.6, "g"];
+  const micro_fatty_acids_omega_6 = [17, "g"];
+  const micro_fatty_acids_omega_9 = [0, "g"];
+  const micro_fatty_acids_palmitic_acid = [0, "g"];
+  const micro_fatty_acids_myristic_acid = [0, "g"];
+  const micro_fatty_acids_stearic_acid = [0, "g"];
+  const micro_fatty_acids_gamma_linolenic_acid = [0, "g"];
+  const micro_fatty_acids_nervonic_acid = [0, "g"];
+  const micro_fatty_acids_behenic_acid = [0, "g"];
+
+  const carbohydrates = [250, "g"];
+  const micro_carbohydrates_sugars = [230, "g"];
+  const micro_carbohydrates_sucrose = [50, "g"];
+  const micro_carbohydrates_glucose = [30, "g"];
+  const micro_carbohydrates_fructose = [20, "g"];
+  const micro_carbohydrates_lactose = [0, "g"];
+  const micro_carbohydrates_maltose = [0, "g"];
+  const micro_carbohydrates_maltodextrin = [0, "g"];
+  const micro_carbohydrates_starch = [50, "g"];
+  const micro_carbohydrates_polyols = [0, "g"];
+
+  const other = [10.6, "g"];
+  const micro_other_fiber = [30, "g"];
+  const micro_other_silica = [0.8, "g"];
+  const micro_other_alcohol = [0, "g"];
+  const micro_other_caffeine = [150, "mg"];
+  const micro_other_ph = [0, "g"];
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -536,48 +553,122 @@ const MainDashboard = () => {
             <Box sx={{
               backgroundColor: 'rgba(233, 234, 236, 0.5)',
               borderRadius: '10px',
+              border: '1px solid #e0e0e0',
               padding: '10px',
-              flexDirection: 'column',
+              flexDirection: 'column  ',
               display: 'flex',
-              height: '350px',
+              height: 'auto',
+              width: '100%',
               overflow: 'visible',
             }}>
-
               <Typography variant="h6">Today's Summary</Typography>
               <Typography variant="body2">Nutrient Distribution</Typography>
+              <Box padding={0}>
+                <BarChart
+                  seriesType="band"
+                  xAxis={[{
+                    width: 100,
+                    type: 'linear',
+                    min: 0,
+                    max: 16,
+                    title: 'Nutrient Distribution',
+                    label: 'daily value total',
+                    labelFontSize: 10,
+                    tickLabelPlacement: 'middle',
+                    tickSize: 5,
+                    tickInterval: 'auto',
+                  }]}
+                  yAxis={[{
+                    scaleType: 'band',
+                    tickLabelPlacement: 'middle',
+                    tickSize: 5,
+                    tickInterval: 'auto',
+                    data: ['vitamins', 'protein', 'carbohydrates', 'fatty acids', 'fats', 'minerals', 'other'],
+                  }]}
+                  margin={{ left: 80 }}
+                  sx={{
+                    border: '0px solid #e0e0e0',
+                    borderRadius: '10px',
+                    color: '#FFFFFF',
+                    margin: '10px',
+                  }}
+                  borderRadius={5}
+                  width={750}
+                  height={500}
+                  layout="horizontal"
+                  slotProps={{ legend: { hidden: true } }}
+                  series={[
+                    { data: [1, 0, 0, 0, 0, 0, 0], stack: 'stack', label: 'vitamin a', color: '#E0F2E9' },
+                    { data: [1, 0, 0, 0, 0, 0, 0], stack: 'stack', label: 'vitamin d', color: '#C3E4D0' },
+                    { data: [1, 0, 0, 0, 0, 0, 0], stack: 'stack', label: 'vitamin e', color: '#A4D5B7' },
+                    { data: [1, 0, 0, 0, 0, 0, 0], stack: 'stack', label: 'vitamin c', color: '#85C79D' },
+                    { data: [1, 0, 0, 0, 0, 0, 0], stack: 'stack', label: 'vitamin b1', color: '#67B984' },
+                    { data: [1, 0, 0, 0, 0, 0, 0], stack: 'stack', label: 'vitamin b12', color: '#4AAA6B' },
+                    { data: [1, 0, 0, 0, 0, 0, 0], stack: 'stack', label: 'vitamin pp', color: '#2F9B52' },
+                    { data: [1, 0, 0, 0, 0, 0, 0], stack: 'stack', label: 'vitamin b2', color: '#178B3A' },
+                    { data: [1, 0, 0, 0, 0, 0, 0], stack: 'stack', label: 'vitamin b6', color: '#007921' },
+                    { data: [1, 0, 0, 0, 0, 0, 0], stack: 'stack', label: 'vitamin b9', color: '#006618' },
+                    { data: [1, 0, 0, 0, 0, 0, 0], stack: 'stack', label: 'biotin', color: '#004D10' },
+                    { data: [1, 0, 0, 0, 0, 0, 0], stack: 'stack', label: 'pantothenic acid', color: '#00330A' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'calcium', color: '#E0FFF8' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'phosphorus', color: '#BEFFF0' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'magnesium', color: '#A2FFEA' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'sodium', color: '#7AFFE1' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'potassium', color: '#47FFD6' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'chloride', color: '#0EFBC6' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'iron', color: '#00E6C8' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'zinc', color: '#00CCB1' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'copper', color: '#00AD96' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'manganese', color: '#008B8B' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'fluoride', color: '#005F5F' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'selenium', color: '#004B49' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'chromium', color: '#2F4F4F' },
+                    { data: [0, 0, 0, 0, 0, 1, 0], stack: 'stack', label: 'iodine', color: '#36454F' },
+                    { data: [0, 1, 0, 0, 0, 0, 0], stack: 'stack', label: 'protein', color: '#0D47A1' },
+                    { data: [0, 1, 0, 0, 0, 0, 0], stack: 'stack', label: 'casein', color: '#1565C0' },
+                    { data: [0, 1, 0, 0, 0, 0, 0], stack: 'stack', label: 'serum protein', color: '#42A5F5' },
+                    { data: [0, 1, 0, 0, 0, 0, 0], stack: 'stack', label: 'nucleotides', color: '#81D4FA' },
+                    { data: [0, 0, 0, 0, 1, 0, 0], stack: 'stack', label: 'fats', color: '#FF9595' },
+                    { data: [0, 0, 0, 0, 1, 0], stack: 'stack', label: 'saturated fat', color: '#FF6262' },
+                    { data: [0, 0, 0, 0, 1, 0], stack: 'stack', label: 'monounsaturated fat', color: '#FF0000' },
+                    { data: [0, 0, 0, 0, 1, 0], stack: 'stack', label: 'polyunsaturated fat', color: '#C00000' },
+                    { data: [0, 0, 0, 0, 1, 0], stack: 'stack', label: 'trans fats', color: '#7A0200' },
+                    { data: [0, 0, 0, 1, 0, 0], stack: 'stack', label: 'butyric acid', color: '#FFF3E0' },
+                    { data: [0, 0, 0, 1, 0, 0], stack: 'stack', label: 'caprylic acid', color: '#FFE0B2' },
+                    { data: [0, 0, 0, 1, 0, 0, 0], stack: 'stack', label: 'lauric acid', color: '#FFCC80' },
+                    { data: [0, 0, 0, 1, 0, 0, 0], stack: 'stack', label: 'omega 3', color: '#FFB74D' },
+                    { data: [0, 0, 0, 1, 0, 0, 0], stack: 'stack', label: 'omega 6', color: '#FFA726' },
+                    { data: [0, 0, 0, 1, 0, 0, 0], stack: 'stack', label: 'omega 9', color: '#FF9800' },
+                    { data: [0, 0, 0, 1, 0, 0, 0], stack: 'stack', label: 'palmitic acid', color: '#FB8C00' },
+                    { data: [0, 0, 0, 1, 0, 0, 0], stack: 'stack', label: 'myristic acid', color: '#F57C00' },
+                    { data: [0, 0, 0, 1, 0, 0, 0], stack: 'stack', label: 'stearic acid', color: '#EF6C00' },
+                    { data: [0, 0, 0, 1, 0, 0, 0], stack: 'stack', label: 'gamma linolenic acid', color: '#E65100' },
+                    { data: [0, 0, 0, 1, 0, 0, 0], stack: 'stack', label: 'nervonic acid', color: '#D84315' },
+                    { data: [0, 0, 0, 1, 0, 0, 0], stack: 'stack', label: 'behenic acid', color: '#BF360C' },
+                    { data: [0, 0, 1, 0, 0, 0, 0], stack: 'stack', label: 'carbohydrates', color: '#FDDEFF' },
+                    { data: [0, 0, 1, 0, 0, 0, 0], stack: 'stack', label: 'sugars', color: '#FABFFF' },
+                    { data: [0, 0, 1, 0, 0, 0, 0], stack: 'stack', label: 'sucrose', color: '#F7A1FF' },
+                    { data: [0, 0, 1, 0, 0, 0, 0], stack: 'stack', label: 'glucose', color: '#F47BFF' },
+                    { data: [0, 0, 1, 0, 0, 0, 0], stack: 'stack', label: 'fructose', color: '#DF57FB' },
+                    { data: [0, 0, 1, 0, 0, 0, 0], stack: 'stack', label: 'lactose', color: '#8945FF' },
+                    { data: [0, 0, 1, 0, 0, 0, 0], stack: 'stack', label: 'maltose', color: '#711FFF' },
+                    { data: [0, 0, 1, 0, 0, 0, 0], stack: 'stack', label: 'maltodextrin', color: '#5D00FE' },
+                    { data: [0, 0, 1, 0, 0, 0, 0], stack: 'stack', label: 'starch', color: '#4B0082' },
+                    { data: [0, 0, 1, 0, 0, 0, 0], stack: 'stack', label: 'polyols', color: '#330366' },
+                    { data: [0, 0, 0, 0, 0, 0, 1], stack: 'stack', label: 'fiber', color: '#FFFFFF' },
+                    { data: [0, 0, 0, 0, 0, 0, 1], stack: 'stack', label: 'silica', color: '#BFBFBF' },
+                    { data: [0, 0, 0, 0, 0, 0, 1], stack: 'stack', label: 'alcohol', color: '#999999' },
+                    { data: [0, 0, 0, 0, 0, 0, 1], stack: 'stack', label: 'caffeine', color: '#666666' },
+                    { data: [0, 0, 0, 0, 0, 0, 1], stack: 'stack', label: 'ph', color: '#373737' },
+                  ]}
+                  tooltip={{
+                    trigger: 'item',
+                  }}
+                />
 
-              {/* <BarChart
-                width={500}
-                height={300}
-                series={[
-                  { data: nutrientValues, label: 'Nutrient Values' },
-                ]}
-                xAxis={[{ data: yLabels, scaleType: 'band' }]}
-                yAxis={{
-                  min: 0,
-                  max: Math.max(...nutrientValues),
-               }}
-
-
-               yLabs also needs to be an array
-              /> */}
-
-
-              <BarChart
-                xAxis={[{ min: 0 }]} // Ensure xAxis is continuous
-                yAxis={[{ scaleType: 'band', data: ['vitamins', 'protein', 'carbohydrates', 'fatty acids', 'fats', 'minerals', 'other'] }]}
-                series={[{ data: [vitamins, protein, carbohydrates, fatty_acids, fats, minerals, other] }]}
-                width={300}
-                height={500}
-                layout="horizontal"
-              />
-
+              </Box>
             </Box>
-
-
           </Box>
-
-
 
           {/* RIGHT SIDE */}
           <Box sx={{

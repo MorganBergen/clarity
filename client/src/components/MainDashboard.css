@@ -80,3 +80,9 @@ body.dark-mode .menu-toggle-button:active {
 .button:active {
   background: rgba(174, 174, 174, 0.492);
 }
+
+.y-axis-label {
+  width: 300px;
+  overflow: visible;
+  white-space: nowrap;
+}
