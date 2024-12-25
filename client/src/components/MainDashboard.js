@@ -26,6 +26,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import grey from '@mui/material/colors/grey';
 import { BarChart } from '@mui/x-charts/BarChart';
+import { arc } from "d3-shape"
+import { scaleLinear } from "d3-scale"
 
 
 const pb = new PocketBase('http://127.0.0.1:8090');
@@ -415,7 +417,6 @@ const MainDashboard = () => {
   const micro_other_caffeine = [150, "mg"];
   const micro_other_ph = [0, "g"];
 
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -553,7 +554,7 @@ const MainDashboard = () => {
             <Box sx={{
               backgroundColor: 'rgba(233, 234, 236, 0.5)',
               borderRadius: '10px',
-              border: '1px solid #e0e0e0',
+              border: 'none',
               padding: '10px',
               flexDirection: 'column  ',
               display: 'flex',
@@ -561,8 +562,8 @@ const MainDashboard = () => {
               width: '100%',
               overflow: 'visible',
             }}>
-              <Typography variant="h6">Today's Summary</Typography>
-              <Typography variant="body2">Nutrient Distribution</Typography>
+              <Typography variant="h3">Today's Summary</Typography>
+              <Typography variant="body1">Nutrient Distribution</Typography>
               <Box padding={0}>
                 <BarChart
                   seriesType="band"
@@ -665,8 +666,58 @@ const MainDashboard = () => {
                     trigger: 'item',
                   }}
                 />
+              </Box>
+            </Box>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '10px',
+              width: '100%',
+            }}>
+              <Box sx={{
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                padding: '10px',
+                flexDirection: 'column',
+                display: 'flex',
+                width: '30%',
+              }}>
+                <Typography variant="h3">Calorie Intake</Typography>
+                <Typography variant="body1">Total</Typography>
+                <Typography sx={{ marginTop: 'auto', fontSize: '25px', color: '#008B8B' }}>1,500</Typography>
+
+                <Gauge width={100} height={100} value={75} startAngle={-90} endAngle={90} />
 
               </Box>
+
+              <Box sx={{
+                backgroundColor: 'rgba(233, 234, 236, 0.5)',
+                borderRadius: '10px',
+                padding: '10px',
+                flexDirection: 'column',
+                display: 'flex',
+                width: '100%'
+              }}>
+                <Box>
+                  <Typography variant="h6">Logging</Typography>
+                </Box>
+
+                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                  {recordImage && (
+                    <img
+                      src={recordImage}
+                      alt="calorie intake image"
+                      style={{ width: '150px', height: '150px', borderRadius: '10px', marginLeft: '20px' }}
+                    />
+                  )}
+
+
+
+                </Box>
+              </Box>
+
+
+
             </Box>
           </Box>
 
@@ -842,43 +893,6 @@ const MainDashboard = () => {
               </ListItemText>
             </Box>
 
-            <Box sx={{
-              backgroundColor: 'rgba(233, 234, 236, 0.5)',
-              borderRadius: '10px',
-              padding: '10px',
-              flexDirection: 'column',
-              display: 'flex',
-            }}>
-              <Typography variant="h6">Calorie Intake</Typography>
-              <Typography variant="body2">Total calories consumed today</Typography>
-              <Gauge width={100} height={100} value={60} startAngle={-90} endAngle={90} />
-            </Box>
-
-            <Box sx={{
-              backgroundColor: 'rgba(233, 234, 236, 0.5)',
-              borderRadius: '10px',
-              padding: '10px',
-              flexDirection: 'column',
-              display: 'flex',
-            }}>
-              <Box>
-                <Typography variant="h6">Logging</Typography>
-              </Box>
-              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                {recordImage && (
-                  <img
-                    src={recordImage}
-                    alt="calorie intake image"
-                    style={{ width: '150px', height: '150px', borderRadius: '10px', marginLeft: '20px' }}
-                  />
-                )}
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DateCalendar />
-                </LocalizationProvider>
-
-              </Box>
-
-            </Box>
 
 
           </Box>
