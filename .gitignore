@@ -9,4 +9,3 @@ node_modules
 **/.DS_Store
 **/.vscode
 tests/google/kaggle/kaggle.json
-run.sh
