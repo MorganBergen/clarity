@@ -1,4 +1,9 @@
-#  bash script to run application quickly
+ 
+#  @file        run.sh
+#  @author      morgan bergen <morganmahabergen@icloud.com>
+#  @date        2024-01-04
+#  @commit      #
+#  @description bash script to run application quickly
 #
 #  the plan is to eventually have the application containerized
 #  with commands from dockerfile, however the problem that we run into
