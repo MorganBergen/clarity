@@ -26,10 +26,8 @@
 #  pip install -r requirements.txt
 #  cd ../../
 #  touch .env
-#
-#
 
-#!/bin/bash
+!/bin/bash
 
 # Function to run a command in a new pane within the same iTerm window
 run_new_pane() {
