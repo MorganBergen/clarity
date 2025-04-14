@@ -2,6 +2,20 @@
 
 Advanced ML for Nutritional Analysis and Healthcare Management
 
+####  considerations
+
+1.  **user interface**  how users will consume and interact with the app
+2.  **routing** how users navigate between different parts of the app 
+3.  **data fetching**  where data lives and how to get it
+4.  **rendering**  when and where you render static or dynamic content
+5.  **integrations**  third party services and how to connect to them
+6.  **infrastructure**  where you deploy, store, and run application code
+7.  **performance**
+8.  **scalability**
+9.  **security**
+10.  **developer experience**
+
+
 ###  Table of Contents
 
 ---
